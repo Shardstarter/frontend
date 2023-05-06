@@ -14,9 +14,9 @@
       "react-app/jest"
     ]
   },
-  "engines" : { 
-    "node" : ">=16.0.0 <17.0.0",
-    "yarn" : "^1.22.19"
+  "engines": {
+    "node": ">=16.0.0 <17.0.0",
+    "yarn": "^1.22.19"
   },
   "babel": {
     "presets": [
@@ -47,7 +47,6 @@
     "@emotion/cache": "^11.5.0",
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
-    "@ericz1803/react-google-calendar": "^4.2.1",
     "@fullcalendar/daygrid": "^5.11.2",
     "@fullcalendar/interaction": "^5.11.2",
     "@fullcalendar/react": "^5.11.2",
@@ -65,10 +64,9 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "@walletconnect/web3-provider": "^1.7.7",
     "@web3-react/core": "^6.1.9",
     "@web3-react/injected-connector": "^6.0.7",
-    "@web3-react/walletconnect-connector": "6.2.4",
+    "@web3-react/walletconnect-connector": "^6.2.13",
     "add-to-calendar-button": "^1.13.2",
     "aos": "^2.3.4",
     "apexcharts": "^3.35.4",
@@ -122,7 +120,7 @@
     "react-rounded-image": "^2.0.14",
     "react-router": "^6.2.1",
     "react-router-dom": "^6.0.0-beta.0",
-    "react-scripts": "^4.0.3",
+    "react-scripts": "^5.0.1",
     "react-scroll": "^1.8.4",
     "react-simply-carousel": "^5.1.5",
     "react-spinners": "^0.11.0",
@@ -137,6 +135,7 @@
     "swipe-js-iso": "^2.1.5",
     "swiper": "6.8.4",
     "tslib": "^2.3.1",
+    "walletconnect": "^1.7.8",
     "web-vitals": "^1.0.1",
     "web3modal": "^1.9.7",
     "xhr2-cookies": "^1.1.0",

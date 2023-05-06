@@ -5,11 +5,18 @@ export const IDO_ADDRESS = {
   [process.env.REACT_APP_SHM2X_CHAINID]: '0x50826317f22c46753CC7cb91455Af69AfCEc907F', //Shardeum IDO
 };
 
-export const MAIN_STAKING_ADDRESS = {
+export const MAIN_STAKING_CONTRACT_ADDRESS = {
   [process.env.REACT_APP_ETHEREUM_CHAINID]: '',
-  [process.env.REACT_APP_BSC_CHAINID]: '0x28847a4C42D11E56b15BBA2Bb619889F4b3a97EC', //MGV token
+  [process.env.REACT_APP_BSC_CHAINID]: '0xD0083c0A852E13179F6dBeEC899B357E5dc3a062', //MGV token
   [process.env.REACT_APP_LOCALHOST_CHAINID]: '',
   [process.env.REACT_APP_SHM2X_CHAINID]: '0x6A9C7aaF517E615Ef113af92f0425fe487E9fb9B',  //Shardeum, SHMX token
+};
+
+export const MAIN_STAKING_TOKEN_ADDRESS = {
+  [process.env.REACT_APP_ETHEREUM_CHAINID]: '',
+  [process.env.REACT_APP_BSC_CHAINID]: '0x3405714e3714137ceb4B0ac90e1933d34C2af218', //MGV token
+  [process.env.REACT_APP_LOCALHOST_CHAINID]: '',
+  [process.env.REACT_APP_SHM2X_CHAINID]: '',  //Shardeum, SHMX token
 };
 
 export const LOCK_ADDRESS = {

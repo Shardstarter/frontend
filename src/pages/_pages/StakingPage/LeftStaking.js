@@ -1,23 +1,67 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import { Label } from 'components/_components/Label';
-import { Staking } from 'utils/_utils/Staking';
 
-const renderDetails = () => (
-  <Box sx={{ display: 'flex', rowGap: '30px', flexDirection: 'column', justifyContent: 'center' }}>
-    {Staking.details.map((detail, idx) => (
-      <Box key={idx} sx={{ display: 'flex' }}>
-        <img src={detail.imgUrl} alt={detail.imgUrl} width={80} height={80} />
-        <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '22px' }}>
-          <Label sx={{ minWidth: '75px' }} text={detail.label} />
-          {detail.value && <Label text={detail.value} sx={{ marginTop: '5px' }} />}
-        </Box>
-      </Box>
-    ))}
-  </Box>
-);
+import { useMainStakingStatus } from 'hooks/useMyStatus';
 
 function LeftStaking() {
+  const { tier, staked_amount, reward_amount } = useMainStakingStatus();
+
+  var Staking = {
+    icon: '_img/icon/solchicks_2.png',
+    label: {
+      value: tier,
+      size: 40
+    },
+    value: {
+      value: 'Your Current Tier',
+      color: 'green',
+      size: 20,
+      weight: 100
+    },
+    details: [
+      {
+        imgUrl: '_img/icon/coins.png',
+        label: {
+          value: staked_amount + ' $SHMX',
+          size: 24
+        },
+        value: {
+          value: 'Staked $SHMX',
+          size: 18,
+          weight: 100,
+          color: 'grey'
+        }
+      },
+      {
+        imgUrl: '_img/icon/shield.png',
+        label: {
+          value: 'Guaranteed Allocation',
+          size: 24
+        },
+        value: {
+          value: '50% of Pool Size',
+          size: 18,
+          weight: 100,
+          color: 'grey'
+        }
+      },
+      {
+        imgUrl: '_img/icon/clock.png',
+        label: {
+          value: 'Minimum Staking',
+          size: 24
+        },
+        value: {
+          value: 'Stake for 56 Days',
+          size: 18,
+          weight: 100,
+          color: 'grey'
+        }
+      }
+    ]
+  };
+
   return (
     <Box
       sx={{
@@ -38,7 +82,7 @@ function LeftStaking() {
           }
         }}
       >
-        <img src={Staking.icon} alt={Staking.iconUrl} width={120} height={120} />
+        <img src={Staking.icon} alt="tierlevel" width={120} height={120} />
         <Box
           sx={{
             display: 'flex',
@@ -53,7 +97,19 @@ function LeftStaking() {
           {Staking.value && <Label sx={{ marginTop: '10px' }} text={Staking.value} />}
         </Box>
       </Box>
-      <Box sx={{ marginTop: '42px' }}>{renderDetails()}</Box>
+      <Box sx={{ marginTop: '42px' }}>
+        <Box sx={{ display: 'flex', rowGap: '30px', flexDirection: 'column', justifyContent: 'center' }}>
+          {Staking.details.map((detail, idx) => (
+            <Box key={idx} sx={{ display: 'flex' }}>
+              <img src={detail.imgUrl} alt={detail.imgUrl} width={80} height={80} />
+              <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '22px' }}>
+                <Label sx={{ minWidth: '75px' }} text={detail.label} />
+                {detail.value && <Label text={detail.value} sx={{ marginTop: '5px' }} />}
+              </Box>
+            </Box>
+          ))}
+        </Box>
+      </Box>
     </Box>
   );
 }

@@ -76,7 +76,7 @@ const Background = () => {
                 hasFocus={true}
                 img={'_img/icon/shardstarter.png'}
               />
-              <SecondaryButton label="How to Invest" sx={{ width: '220px' }} />
+              <SecondaryButton label="How to Invest" sx={{ width: '220px' }} onClick={() => window.open('https://shardstarter-io.gitbook.io/shardstarter/the-tier-system')} />
             </Box>
           </Box>
           <Box>

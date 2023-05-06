@@ -107,7 +107,7 @@ export default function DashboardNavbar({ onOpenSidebar }) {
             <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
 
               {/* <LanguagePopover /> */}
-              <NetworkPopover />
+              {/* <NetworkPopover /> */}
               <AccountPopover />
             </Stack>
           </ToolbarStyle>

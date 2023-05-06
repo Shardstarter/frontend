@@ -6,6 +6,12 @@ import { PrimaryButton } from 'components/_components/Button';
 import { navItems } from 'utils/_utils/EntityFieldDefs';
 import { Label } from 'components/_components/Label';
 
+// import AccountPopover from 'layouts/dashboard/AccountPopover';
+import useActiveWeb3React from 'hooks/useActiveWeb3React';
+import { useWalletModal } from 'redrum-pancake-uikit';
+import useAuth from 'hooks/useAuth';
+import { useSelector } from 'react-redux';
+
 const Logo = () => (
   <Box maxWidth={318} height={64}>
     <Link to="/home">
@@ -15,6 +21,19 @@ const Logo = () => (
 );
 
 const Header = (props) => {
+  const { account } = useActiveWeb3React();
+  const network = useSelector((state) => state.network.chainId);
+  const auth = useAuth(network);
+  const { onPresentConnectModal, onPresentAccountModal } = useWalletModal(
+    // props.onClick(),
+    auth.login,
+    auth.logout,
+    (t) => t,
+    account,
+    Number(network)
+  );
+
+
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -39,8 +58,8 @@ const Header = (props) => {
               }}
               text={{
                 type: 'link',
-                value: item.toUpperCase(),
-                href: item,
+                value: item.text.toUpperCase(),
+                href: item.href,
                 size: 18,
                 weight: 100
               }}
@@ -51,7 +70,7 @@ const Header = (props) => {
         ))}
       </Box>
       <PrimaryButton
-        label="Connect Wallet"
+        label={account ? account.substring(0, 5) + '...' + account.substring(account.length - 4, account.length) : "Connect Wallet"}
         sx={{
           marginTop: '20px',
           padding: '8px',
@@ -60,6 +79,7 @@ const Header = (props) => {
         }}
         hasFocus={true}
       />
+      {/* <AccountPopover /> */}
     </Box>
   );
 
@@ -120,23 +140,36 @@ const Header = (props) => {
                   }}
                   text={{
                     type: 'link',
-                    value: item.toUpperCase(),
-                    href: item,
+                    value: item.text.toUpperCase(),
+                    href: item.href,
                     size: 18,
                     weight: 100
                   }}
                 />
               ))}
             </Box>
-            <PrimaryButton
-              label="Connect Wallet"
-              sx={{
-                padding: '8px',
-                display: { xs: 'none', md: 'block' },
-                width: '220px'
-              }}
-              hasFocus={true}
-            />
+            {account ?
+              <PrimaryButton
+                label={account.substring(0, 5) + '...' + account.substring(account.length - 4, account.length)}
+                sx={{
+                  padding: '8px',
+                  display: { xs: 'none', md: 'block' },
+                  width: '220px'
+                }}
+                hasFocus={true}
+                onClick={onPresentAccountModal}
+              /> :
+              <PrimaryButton
+                label="Connect Wallet"
+                sx={{
+                  padding: '8px',
+                  display: { xs: 'none', md: 'block' },
+                  width: '220px'
+                }}
+                hasFocus={true}
+                onClick={onPresentConnectModal}
+              />
+            }
           </Box>
         </Toolbar>
       </AppBar>

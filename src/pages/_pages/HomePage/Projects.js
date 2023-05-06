@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { Label } from 'components/_components/Label';
@@ -8,11 +9,49 @@ import { ProjectCard } from 'components/_components/Card';
 import Pagination from 'components/_components/Pagination';
 import FilterBar from 'components/_components/FilterBar';
 import { ProjectButtons, Fantasy, Solchicks, NetVRK, Bulkperks, Sidus } from 'utils/_utils/EntityFieldDefs';
+// my insert
+import useActiveWeb3React from 'hooks/useActiveWeb3React';
+import apis from 'services';
+import { getPools } from 'redux/slices/pools';
 
 const Projects = () => {
   const [activeId, setActiveId] = useState(0);
-  const [curId, setCurId] = useState(1);
-  const projects = [Fantasy, Solchicks, NetVRK, Bulkperks, Sidus, Fantasy];
+  const [curId, setCurId] = useState(0);
+  // const projects = [Fantasy, Solchicks, NetVRK, Bulkperks, Sidus, Fantasy];
+  const [projects, setProjects] = useState([]);
+
+  const dispatch = useDispatch();
+
+  const { account } = useActiveWeb3React();
+  const network = useSelector((state) => state.network.chainId);
+  const [tab, setTab] = useState(0);
+
+  useEffect(() => {
+    let unmounted = false;
+    (async () => {
+      await dispatch(getPools(network, tab, account));
+      const response = await apis.getDeals();
+
+      if (response.statusText === 'OK') {
+        const _pools = response.data.pools;
+        _pools.map((pool) => {
+          pool.privacy = pool?.whitelistable ? 'Private Deal' : 'Public Deal';
+          pool.tag = pool?.deal;
+
+          var startDateTime = new Date(pool.startDateTime)
+          var endDateTime = new Date(pool.endDateTime)
+          var nowDateTime = new Date();
+
+          if (nowDateTime < startDateTime) pool.status = 1; //upcoming
+          else if (nowDateTime <= endDateTime) pool.status = 2; //open
+          else if (nowDateTime > endDateTime) pool.status = 3; //completed
+        })
+        setProjects(_pools);
+      }
+
+    })();
+    return () => (unmounted = true);
+  }, [account, dispatch, network, tab]);
 
   return (
     <Box
@@ -134,9 +173,10 @@ const Projects = () => {
             }
           }}
         >
-          {projects.map((project, idx) => (
+          {projects.map((project, idx) =>
+            (activeId == 0 || project.status == activeId) &&
             <ProjectCard key={idx} project={project} />
-          ))}
+          )}
         </Box>
         <Box sx={{ marginTop: '80px', marginBottom: '30px' }}>
           <Pagination id={curId} setCurId={setCurId} />

@@ -75,7 +75,7 @@ export const Search = ({ value }) => {
   );
 };
 
-export const SubmitInput = ({ value, size, btnValue, sx }) => {
+export const SubmitInput = ({ label='$SHMX', value, size, btnValue, sx, onClick, onChangeValue, readOnly }) => {
   const [inputValue, setInputValue] = useState(value);
 
   return (
@@ -92,8 +92,9 @@ export const SubmitInput = ({ value, size, btnValue, sx }) => {
       }}
     >
       <input
+        type="number"
         value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
+        onChange={(e) => { if (!readOnly) { setInputValue(e.target.value); onChangeValue(e.target.value) } }}
         style={{
           display: 'flex',
           width: '100%',
@@ -117,7 +118,7 @@ export const SubmitInput = ({ value, size, btnValue, sx }) => {
           left: '30px'
         }}
       >
-        <Label text={{ value: '$SHMX', weight: 100, color: 'green' }} />
+        <Label text={{ value: label, weight: 100, color: 'green' }} />
       </Box>
       <PrimaryButton
         sx={{
@@ -135,6 +136,7 @@ export const SubmitInput = ({ value, size, btnValue, sx }) => {
         }}
         label={btnValue}
         hasFocus={true}
+        onClick={onClick}
       />
     </Box>
   );

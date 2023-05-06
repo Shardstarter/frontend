@@ -38,6 +38,7 @@ export const SecondaryButton = (props) => {
         color: '#fff',
         borderColor: '#02FF7B'
       }}
+      onClick={props.onClick}
     >
       {props.label}
     </Button>
@@ -48,8 +49,8 @@ export const IconButtonGroup = (props) => {
   return (
     <Box sx={props.sx}>
       {props.elements.map((element, idx) => (
-        <IconButton key={idx} onClick={() => (window.location.href = element.path)}>
-          <img src={element.img} width={props.size} />
+        <IconButton key={idx} onClick={() => (window.open(element.path))} >
+          <img src={element.img} width={props.size} title={element.path}/>
         </IconButton>
       ))}
     </Box>

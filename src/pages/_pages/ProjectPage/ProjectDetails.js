@@ -1,14 +1,7 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import { ProjectDetail } from 'utils/_utils/Projects';
 import { Label, Span } from 'components/_components/Label';
 import { IconButtonGroup } from 'components/_components/Button';
-
-const Logo = ({ size }) => (
-  <Box>
-    <img src={ProjectDetail.icon} alt={ProjectDetail.label} width={size} />
-  </Box>
-);
 
 const RenderObjArr = (obj) =>
   Object.entries(obj).map(([objKey, val], index) => (
@@ -22,7 +15,162 @@ const RenderObjArr = (obj) =>
     </Box>
   ));
 
-const ProjectDetails = () => {
+const ProjectDetails = ({ projectInfo }) => {
+  var componentInfo = {
+    icon: projectInfo.logo,
+    label: projectInfo.projectName,
+    img: '_img/icon/shardeum.png',
+    imgAlt: 'Shardeum',
+    text: {
+      value:
+        projectInfo.description,
+      size: 20,
+      color: 'grey',
+      weight: 100
+    },
+    social: [
+      {
+        img: '_img/icon/chain.png',
+        path: projectInfo.ipfs?.website
+      },
+      {
+        img: '_img/icon/twitter.png',
+        path: projectInfo.ipfs?.twitter
+      },
+      {
+        img: '_img/icon/telegram.png',
+        path: projectInfo.ipfs?.telegram
+      },
+      {
+        img: '_img/icon/reddit.png',
+        path: projectInfo.ipfs?.discord
+      },
+
+    ],
+    poolDetail: {
+      'Access Type': [
+        {
+          value: 'Levels',
+          color: 'grey'
+        }
+      ],
+      'Hard Cap': [
+        {
+          value: projectInfo.hardCap + ' SHM',
+          color: 'grey'
+        }
+      ],
+      'Swap Rate': [
+        {
+          value: '1 ' + projectInfo.projectName,
+          color: 'green'
+        },
+        {
+          value: ' = ',
+          color: 'grey'
+        },
+        {
+          value: 1 / projectInfo.presaleRate + ' SHM',
+          color: 'green'
+        },
+        {
+          value: ' | ',
+          color: 'grey'
+        },
+        {
+          value: projectInfo.presaleRate + ' ' + projectInfo.projectName,
+          color: 'green'
+        },
+        {
+          value: ' per ',
+          color: 'grey'
+        },
+        {
+          value: '1 SHM',
+          color: 'green'
+        }
+      ],
+      'Registration': [
+        {
+          value: ' ~ ' + new Date(projectInfo.startDateTime).toUTCString(),
+          color: 'grey'
+        },
+      ],
+      'Start/end': [
+        {
+          value: new Date(projectInfo.startDateTime).toDateString() + ' - ' + new Date(projectInfo.endDateTime).toDateString(),
+          color: 'grey'
+        }
+      ],
+
+      'FCFS Opens': [
+        {
+          value: new Date(projectInfo.endDateTime).toUTCString(),
+          color: 'grey'
+        }
+      ]
+    },
+    price: {
+      Listing: [
+        {
+          value: 1 / projectInfo.presaleRate + ' SHM (+0.00%)',
+          color: 'green'
+        }
+      ],
+      IDO: [
+        {
+          value: 1 / projectInfo.presaleRate + ' SHM',
+          color: 'green'
+        }
+      ]
+    },
+    token: {
+      Token: [
+        { value: projectInfo.projectName, color: 'green' },
+        { value: ' on Shardeum Chain', color: 'grey' }
+      ],
+      'Total Supply': [
+        {
+          value: projectInfo.presaleRate * projectInfo.hardCap + ' ' + projectInfo.projectName,
+          color: 'grey'
+        }
+      ],
+      'Initial Supply': [
+        {
+          value: projectInfo.presaleRate * projectInfo.hardCap + ' ' + projectInfo.projectName,
+          color: 'green'
+        },
+        {
+          value: ', market cap ',
+          color: 'grey'
+        },
+        {
+          value: 'SHM '+ projectInfo.hardCap,
+          color: 'green'
+        }
+      ],
+      'Token Listing': [
+        {
+          value: 'TBA',
+          color: 'grey'
+        }
+      ]
+    },
+    distribution: {
+      Distribution: [
+        {
+          value: 'Claimed on Shardstarter',
+          color: 'grey'
+        }
+      ],
+      Vesting: [
+        {
+          value: '20% at listing, 1 month cliff, then 6 months linear vesting',
+          color: 'grey'
+        }
+      ]
+    }
+  };
   return (
     <Box
       sx={{
@@ -49,15 +197,17 @@ const ProjectDetails = () => {
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Logo size={67} />
-          <Label sx={{ marginLeft: '28px' }} text={{ value: ProjectDetail.label, size: 30 }} />
+          <Box>
+            <img src={componentInfo.icon} alt={componentInfo.label} width={67} />
+          </Box>
+          <Label sx={{ marginLeft: '28px' }} text={{ value: componentInfo.label, size: 30 }} />
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <img src={ProjectDetail.img} alt={ProjectDetail.imgAlt} height={48} />
+          <img src={componentInfo.img} alt={componentInfo.imgAlt} height={48} />
         </Box>
       </Box>
       <Box sx={{ marginTop: '30px' }}>
-        <Label text={ProjectDetail.text} />
+        <Label text={componentInfo.text} />
       </Box>
       <Box sx={{ marginTop: '30px' }}>
         <span style={{ color: '#A7A7A7', fontSize: '20px' }}>
@@ -69,48 +219,30 @@ const ProjectDetails = () => {
         </span>
       </Box>
       <Box sx={{ marginTop: '30px' }}>
-        <IconButtonGroup elements={ProjectDetail.social} size={50} />
+        <IconButtonGroup elements={componentInfo.social} size={50} />
       </Box>
       <Box sx={{ marginTop: '60px', maxWidth: '565px' }}>
         <Label text={{ color: 'green', value: 'POOL DETAILS', size: 30 }} sx={{ marginBottom: '15px' }} />
-        <Box
-          sx={{
-            '@media (max-width: 600px)': {
-              flexDirection: 'column'
-            },
-            display: 'flex',
-            justifyContent: 'space-between'
-          }}
-        >
-          <Box sx={{ display: 'flex' }}>
-            <Label text={{ value: 'Access Type: ', weight: 100 }} />
-            <Label text={{ value: 'Levels', color: 'grey', weight: 100 }} sx={{ marginLeft: '8px' }} />
-          </Box>
-          <Box sx={{ display: 'flex' }}>
-            <Label text={{ value: 'Hard Cap: ', weight: 100 }} />
-            <Label text={{ value: '$270 001', color: 'grey', weight: 100 }} sx={{ marginLeft: '8px' }} />
-          </Box>
-        </Box>
         <Box sx={{ marginTop: '15px', display: 'flex', flexDirection: 'column', rowGap: '15px' }}>
-          {RenderObjArr(ProjectDetail.poolDetail)}
+          {RenderObjArr(componentInfo.poolDetail)}
         </Box>
       </Box>
       <Box sx={{ marginTop: '50px' }}>
         <Label text={{ color: 'green', value: 'PRICE', size: 30 }} />
         <Box sx={{ marginTop: '15px', display: 'flex', flexDirection: 'column', rowGap: '15px' }}>
-          {RenderObjArr(ProjectDetail.price)}
+          {RenderObjArr(componentInfo.price)}
         </Box>
       </Box>
       <Box sx={{ marginTop: '50px' }}>
         <Label text={{ color: 'green', value: 'TOKEN', size: 30 }} />
         <Box sx={{ marginTop: '15px', display: 'flex', flexDirection: 'column', rowGap: '15px' }}>
-          {RenderObjArr(ProjectDetail.token)}
+          {RenderObjArr(componentInfo.token)}
         </Box>
       </Box>
       <Box sx={{ marginTop: '50px' }}>
         <Label text={{ color: 'green', value: 'DISTRIBUTION', size: 30 }} />
         <Box sx={{ marginTop: '15px', display: 'flex', flexDirection: 'column', rowGap: '15px' }}>
-          {RenderObjArr(ProjectDetail.distribution)}
+          {RenderObjArr(componentInfo.distribution)}
         </Box>
       </Box>
     </Box>

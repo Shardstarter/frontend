@@ -225,7 +225,7 @@ export default function CreateStake() {
             setToken('');
             setProcessing(false);
           }
-          navigate(`/stakepad`);
+          navigate(`/staking`);
         } catch (err) {
           console.log(err);
           if (!unmounted) {

@@ -1,4 +1,10 @@
-export const navItems = ['projects', 'staking', 'vote', 'account', 'docs'];
+export const navItems = [
+  { text: 'projects', href: 'home' },
+  { text: 'staking', href: 'staking' },
+  { text: 'vote', href: 'vote' },
+  { text: 'account', href: 'account' },
+  { text: 'docs', href: 'https://shardstarter-io.gitbook.io/shardstarter/' },
+];
 
 export const loremString =
   "Lorem Ipsum is simply dummy text of the printing and texttg typesetting industry. Lorem Ipsum has been the acceptts industry's standard dummy text.";
@@ -15,6 +21,10 @@ export const twitter = {
 export const facebook = {
   img: '_img/icon/facebook.png',
   path: 'https://facebook.com'
+};
+export const discord = {
+  img: '_img/icon/discord.png',
+  path: 'https://discord.com/invite/auCWYjwAn5'
 };
 export const instagram = {
   img: '_img/icon/instagram.png',
@@ -50,14 +60,10 @@ export const Fantasy = {
   text: loremString1,
   maxRise: '$ 200,000.00',
   tokenAllocation: 'STU 1,000,000.00',
-  list: [
-    {
-      label: 'Private Round A',
-      value: '02D : 12H : 25M',
-      price: '$ 150,000.00',
-      percent: 79
-    }
-  ]
+  label: 'Private Round A',
+  value: '02D : 12H : 25M',
+  price: '$ 150,000.00',
+  percent: 79
 };
 export const Solchicks = {
   img: '_img/icon/solchicks.png',
@@ -69,14 +75,10 @@ export const Solchicks = {
   text: loremString1,
   maxRise: '$ 200,000.00',
   tokenAllocation: 'STU 1,000,000.00',
-  list: [
-    {
-      label: 'Private Round A',
-      value: '02D : 12H : 25M',
-      price: '$ 150,000.00',
-      percent: 79
-    }
-  ]
+  label: 'Private Round A',
+  value: '02D : 12H : 25M',
+  price: '$ 150,000.00',
+  percent: 79
 };
 export const Bulkperks = {
   img: '_img/icon/bulkperks.png',
@@ -88,14 +90,10 @@ export const Bulkperks = {
   text: loremString1,
   maxRise: '$ 200,000.00',
   tokenAllocation: 'STU 1,000,000.00',
-  list: [
-    {
-      label: 'Private Round A',
-      value: '02D : 12H : 25M',
-      price: '$ 150,000.00',
-      percent: 79
-    }
-  ]
+  label: 'Private Round A',
+  value: '02D : 12H : 25M',
+  price: '$ 150,000.00',
+  percent: 79
 };
 export const Sidus = {
   img: '_img/icon/sidus.png',
@@ -107,14 +105,10 @@ export const Sidus = {
   text: loremString1,
   maxRise: '$ 200,000.00',
   tokenAllocation: 'STU 1,000,000.00',
-  list: [
-    {
-      label: 'Private Round A',
-      value: '02D : 12H : 25M',
-      price: '$ 150,000.00',
-      percent: 79
-    }
-  ]
+  label: 'Private Round A',
+  value: '02D : 12H : 25M',
+  price: '$ 150,000.00',
+  percent: 79
 };
 export const NetVRK = {
   img: '_img/icon/netvrk.png',
@@ -126,108 +120,15 @@ export const NetVRK = {
   text: loremString1,
   maxRise: '$ 200,000.00',
   tokenAllocation: 'STU 1,000,000.00',
-  list: [
-    {
-      label: 'Private Round A',
-      value: '02D : 12H : 25M',
-      price: '$ 150,000.00',
-      percent: 79
-    }
-  ]
+  label: 'Private Round A',
+  value: '02D : 12H : 25M',
+  price: '$ 150,000.00',
+  percent: 79
 };
 export const ProjectButtons = ['All', 'Upcoming', 'Active', 'Completed'];
 export const VoteButtons = ['All', 'Open', 'Completed'];
 export const StakingButtons = ['Staking', 'Farming', 'Liquid Staking'];
-export const VoteProjects = [
-  {
-    imgUrl: '_img/icon/solchicks_1.png',
-    value: 'Galaxy Wars',
-    label: '$GLXW',
-    social: [chain, twitter, medium, telegram, reddit],
-    liked: 0,
-    percent: 70,
-    links: [
-      {
-        value: 'Whitepapers',
-        href: '/'
-      },
-      {
-        value: 'Pitchdeck',
-        href: '/'
-      },
-      {
-        value: 'Audit Report',
-        href: '/'
-      }
-    ]
-  },
-  {
-    imgUrl: '_img/icon/bulkperks_1.png',
-    value: 'Galaxy Wars',
-    label: '$GLXW',
-    social: [chain, twitter, medium, telegram, reddit],
-    liked: 1,
-    percent: 70,
-    links: [
-      {
-        value: 'Whitepapers',
-        href: '/'
-      },
-      {
-        value: 'Pitchdeck',
-        href: '/'
-      },
-      {
-        value: 'Audit Report',
-        href: '/'
-      }
-    ]
-  },
-  {
-    imgUrl: '_img/icon/netvrk_1.png',
-    value: 'Galaxy Wars',
-    label: '$GLXW',
-    social: [chain, twitter, medium, telegram, reddit],
-    liked: -1,
-    percent: 70,
-    links: [
-      {
-        value: 'Whitepapers',
-        href: '/'
-      },
-      {
-        value: 'Pitchdeck',
-        href: '/'
-      },
-      {
-        value: 'Audit Report',
-        href: '/'
-      }
-    ]
-  },
-  {
-    imgUrl: '_img/icon/sidus_1.png',
-    value: 'Galaxy Wars',
-    label: '$GLXW',
-    social: [chain, twitter, medium, telegram, reddit],
-    liked: 0,
-    percent: 70,
-    links: [
-      {
-        value: 'Whitepapers',
-        href: '/'
-      },
-      {
-        value: 'Pitchdeck',
-        href: '/'
-      },
-      {
-        value: 'Audit Report',
-        href: '/'
-      }
-    ]
-  }
-];
+
 
 export const AccountInfo = {
   balance: {
@@ -260,80 +161,6 @@ export const AccountInfo = {
     {
       keyword: 'Unclaimed Tokens',
       value: '1,239,000.00'
-    }
-  ]
-};
-
-export const stakingElement = {
-  imgUrl: '_img/icon/coins.png',
-  value: {
-    value: '$SHMX Staking',
-    size: 30
-  },
-  label: {
-    bgColor: '#171717',
-    label: '$SHMX / SHMX',
-    color: 'green',
-    size: 20,
-    width: 197,
-    height: 43
-  },
-  items: [
-    {
-      label: {
-        value: 'SHMX Staked',
-        color: 'grey',
-        size: 22,
-        height: 100
-      },
-      value: {
-        value: '1,200.00',
-        size: 26,
-        height: 100
-      }
-    },
-    {
-      label: {
-        value: 'Total Staked',
-        color: 'grey',
-        size: 22,
-        height: 100
-      },
-      value: {
-        value: '125,000.00',
-        size: 26,
-        height: 100
-      }
-    },
-    {
-      label: {
-        value: 'APR',
-        color: 'grey',
-        size: 22,
-        height: 100
-      },
-      value: {
-        value: '12%',
-        size: 26,
-        height: 100
-      },
-      img: {
-        imgUrl: '_img/icon/increased.png',
-        size: 16
-      }
-    },
-    {
-      label: {
-        value: 'TVL',
-        color: 'grey',
-        size: 22,
-        height: 100
-      },
-      value: {
-        value: '125,000.00',
-        size: 26,
-        height: 100
-      }
     }
   ]
 };

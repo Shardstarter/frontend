@@ -41,7 +41,6 @@ import { BigNumber, ethers } from 'ethers';
 import { formatEther, commify, parseEther } from '@ethersproject/units';
 import { getPool, setPoolStatusChanged } from 'redux/slices/pools';
 import { create } from 'ipfs-http-client';
-import Label from 'components/Label';
 import { useSnackbar } from 'notistack';
 import ConfirmDialog from 'components/ConfirmDialog';
 import UpdateDialog from 'pages/update/UpdateDialog';

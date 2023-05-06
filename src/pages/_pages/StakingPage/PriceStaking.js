@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -7,11 +7,221 @@ import { SearchInput, SubmitInput, Search } from 'components/_components/Input';
 import { PrimaryButton } from 'components/_components/Button';
 import { RoundedCard } from 'components/_components/Card';
 import Pagination from 'components/_components/Pagination';
-import { StakingButtons, stakingElement, LiquidParams } from 'utils/_utils/EntityFieldDefs';
+import { StakingButtons, LiquidParams } from 'utils/_utils/EntityFieldDefs';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import { useSnackbar } from 'notistack';
 
-const RenderElements = (element, idx, expanded, setExpanded) => {
+import { formatUnits, parseUnits } from '@ethersproject/units';
+import apis from 'services';
+import useActiveWeb3React from 'hooks/useActiveWeb3React';
+import { useStakingContract, useTokenContract } from 'hooks/useContract';
+
+const RenderElements = ({ poolInfo, idx, expanded, setExpanded }) => {
+  const { account } = useActiveWeb3React();
+  const tokenContract = useTokenContract(poolInfo.tokenAddress);
+  const stakingContract = useStakingContract(poolInfo.address);
+  const [data, setData] = useState({
+    token_decimal: 0,
+    wallet_balance: 0,
+    staked: 0,
+    rewards: 0,
+    staking_amount: 0, //input data
+    unstaking_amount: 0, //input data
+    tvl: 0, //pool information
+    lockingReleaseTime: '', //user information
+  });
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const wallet_balance = await tokenContract.balanceOf(account);
+        const pool_tvl = await stakingContract._totalSupply();
+        const decimals = await tokenContract.decimals();
+        const staked = await stakingContract.balances(account);
+        const rewards = await stakingContract.earned(account);
+
+        let lockingReleaseTime = await stakingContract.lockingReleaseTime(account);
+        lockingReleaseTime = formatUnits(lockingReleaseTime, 0);
+        if (Number(lockingReleaseTime) > 0) {
+          lockingReleaseTime = new Date(Number(lockingReleaseTime) * 1000);
+          var year = lockingReleaseTime.getFullYear();
+          var month = ("0" + (lockingReleaseTime.getMonth() + 1)).slice(-2);
+          var day = ("0" + lockingReleaseTime.getDate()).slice(-2);
+          var formattedDate = `${year}-${month}-${day}`;
+          lockingReleaseTime = formattedDate;
+        } else {
+          lockingReleaseTime = "~"
+        }
+
+
+        setData({
+          ...data,
+          token_decimal: decimals,
+          wallet_balance: formatUnits(wallet_balance, decimals),
+          staked: formatUnits(staked, decimals),
+          rewards: Number(formatUnits(rewards, decimals)).toFixed(3),
+          tvl: formatUnits(pool_tvl, decimals),
+          lockingReleaseTime,
+        });
+
+      } catch (error) {
+        console.log(error.message)
+      }
+    })();
+
+  }, [account, poolInfo, tokenContract]);
+
+  var componentInfo = {
+    imgUrl: poolInfo.logo,
+    value: {
+      value: `$${poolInfo.tokenName.substring(0, 10)}`,
+      size: 30
+    },
+    label: {
+      bgColor: '#171717',
+      label: `$${poolInfo.tokenSymbol.substring(0, 5)} / ${poolInfo.tokenSymbol.substring(0, 5)}`,
+      color: 'green',
+      size: 20,
+      width: 197,
+      height: 43
+    },
+    items: [
+      {
+        label: {
+          value: 'Your Staked',
+          color: 'grey',
+          size: 22,
+          height: 100
+        },
+        value: {
+          value: data.staked,
+          size: 26,
+          height: 100
+        }
+      },
+      {
+        label: {
+          value: 'Duration',
+          color: 'grey',
+          size: 22,
+          height: 100
+        },
+        value: {
+          value: `${poolInfo.lockingdays} days`,
+          size: 26,
+          height: 100
+        }
+      },
+      {
+        label: {
+          value: 'APR',
+          color: 'grey',
+          size: 22,
+          height: 100
+        },
+        value: {
+          value: poolInfo.rewardRate * 12 + '%',
+          size: 26,
+          height: 100
+        },
+        img: {
+          imgUrl: '_img/icon/increased.png',
+          size: 16
+        }
+      },
+      {
+        label: {
+          value: 'TVL',
+          color: 'grey',
+          size: 22,
+          height: 100
+        },
+        value: {
+          value: data.tvl,
+          size: 26,
+          height: 100
+        }
+      }
+    ]
+  };
+
+  const handleStake = async () => {
+    console.log(data)
+    var bignumber_staking_amount = parseUnits(String(data.staking_amount), data.token_decimal);
+    // check allowance
+    try {
+      const allowance = await tokenContract.allowance(account, poolInfo.address);
+      if (allowance.lt(bignumber_staking_amount)) {
+        const tx = await tokenContract.approve(poolInfo.address, bignumber_staking_amount);
+        let result = await tx.wait();
+        if (result.confirmations > 1) {
+          const tx = await stakingContract.stake(bignumber_staking_amount);
+          await tx.wait();
+
+          await apis.updateUserStaking({
+            staking_address: poolInfo.address,
+            wallet_address: account,
+            changing_amount: Number(data.staking_amount)
+          });
+
+          window.location.reload()
+        }
+      } else {
+        const tx = await stakingContract.stake(bignumber_staking_amount);
+        await tx.wait();
+
+        await apis.updateUserStaking({
+          staking_address: poolInfo.address,
+          wallet_address: account,
+          changing_amount: Number(data.staking_amount)
+        });
+
+        window.location.reload()
+      }
+    } catch (err) {
+      console.log(err);
+      return;
+    }
+  };
+
+  const handleUnstake = async () => {
+    console.log(data)
+    try {
+      if (new Date(data.lockingReleaseTime).getTime() > Date.now()) {
+        if (window.confirm("Unstaking before locktime can be take fee upto 25%. Are you ok?")) {
+
+        } else {
+          return;
+        }
+      }
+      const tx = await stakingContract.withdraw(parseUnits(String(data.unstaking_amount), data.token_decimal));
+      await tx.wait();
+
+      await apis.updateUserStaking({
+        staking_address: poolInfo.address,
+        wallet_address: account,
+        changing_amount: 0 - Number(data.unstaking_amount)
+      });
+
+      window.location.reload()
+    } catch (err) {
+      console.log(err);
+      return;
+    }
+  };
+
+  const handleHarvest = async () => {
+    try {
+      const tx = await stakingContract.getReward();
+      await tx.wait();
+      window.location.reload()
+    } catch (err) {
+      console.log(err);
+      return;
+    }
+  };
+
   return (
     <Box
       key={idx}
@@ -32,7 +242,7 @@ const RenderElements = (element, idx, expanded, setExpanded) => {
             }
           }}
         >
-          <img src={element.imgUrl} width={100} height={100} alt="coin" />
+          <img src={componentInfo.imgUrl} width={100} height={100} alt="coin" />
           <Box
             sx={{
               display: 'flex',
@@ -43,8 +253,8 @@ const RenderElements = (element, idx, expanded, setExpanded) => {
               }
             }}
           >
-            <Label text={element.value} sx={{ marginBottom: '8px' }} />
-            <RoundedCard {...element.label} />
+            <Label text={componentInfo.value} sx={{ marginBottom: '8px' }} />
+            <RoundedCard {...componentInfo.label} />
           </Box>
         </Box>
         <Box
@@ -61,7 +271,7 @@ const RenderElements = (element, idx, expanded, setExpanded) => {
             }
           }}
         >
-          {element.items.map((item, idx) => (
+          {componentInfo.items.map((item, idx) => (
             <Box
               key={idx}
               sx={{
@@ -159,42 +369,62 @@ const RenderElements = (element, idx, expanded, setExpanded) => {
             <SubmitInput
               sx={{
                 width: '30%',
-                minWidth: '400px',
+                minWidth: '330px',
                 '@media (max-width: 1000px)': {
                   width: '100%',
                   minWidth: 'fit-content'
                 }
               }}
-              value="600.55"
               size={38}
               btnValue="Harvest"
+              label={`$${poolInfo.tokenSymbol}`}
+              value={data.rewards}
+              onClick={() => handleHarvest()}
+              readOnly={true}
             />
             <SubmitInput
               sx={{
                 width: '30%',
-                minWidth: '400px',
+                minWidth: '330px',
                 '@media (max-width: 1000px)': {
                   width: '100%',
                   minWidth: 'fit-content'
                 }
               }}
-              value="1,200.00"
               size={26}
               btnValue="Stake"
+              label={`$${poolInfo.tokenSymbol}`}
+              value={data.staking_amount}
+              onClick={() => handleStake()}
+              onChangeValue={(value) => setData({ ...data, staking_amount: value })}
             />
             <SubmitInput
               sx={{
                 width: '30%',
-                minWidth: '400px',
+                minWidth: '330px',
                 '@media (max-width: 1000px)': {
                   width: '100%',
                   minWidth: 'fit-content'
                 }
               }}
-              value="1,200.00"
               size={26}
               btnValue="Un Stake"
+              label={`$${poolInfo.tokenSymbol}`}
+              value={data.unstaking_amount}
+              onClick={() => handleUnstake()}
+              onChangeValue={(value) => setData({ ...data, unstaking_amount: value })}
             />
+          </Box>
+          <Box
+            sx={{
+              columnGap: '35px',
+              rowGap: '25px',
+              padding: '5px 30px',
+            }}
+          >
+            <span>Your wallet {poolInfo.tokenSymbol} balance: {data.wallet_balance}</span>
+            <br/>
+            <span>Your Lock time: {data.lockingReleaseTime}.  Harvesting will reset the lock time.</span>
           </Box>
         </Box>
       )}
@@ -351,9 +581,32 @@ const RenderLiquid = () => {
 };
 
 function PriceStaking() {
-  const [activeId, setActiveId] = useState(0);
-  const elements = Array(5).fill(stakingElement);
+  const [activeId, setActiveId] = useState(0); //tab selected
   const [expanded, setExpanded] = useState(Array(5).fill(false));
+
+  const { enqueueSnackbar } = useSnackbar();
+  const { account } = useActiveWeb3React();
+
+  const [pools, SetPools] = useState([]);
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await apis.getStakingPools({});
+        if (response.data) {
+          SetPools(response.data.data);
+        } else {
+          enqueueSnackbar('failed', {
+            variant: 'danger'
+          });
+        }
+      } catch (error) {
+        console.log(error);
+        enqueueSnackbar('Oops, Something went wrong!', {
+          variant: 'error'
+        });
+      }
+    })();
+  }, [account]);
 
   return (
     <Box
@@ -417,11 +670,21 @@ function PriceStaking() {
           </Stack>
         </Box>
         <Box sx={{ marginTop: '60px' }}>
-          {(activeId === 0 || activeId === 1) && (
+          {/* Staking */}
+          {(activeId === 0) && (
             <Box sx={{ display: 'flex', rowGap: '20px', flexDirection: 'column' }}>
-              {elements.map((element, idx) => RenderElements(element, idx, expanded, setExpanded))}
+              {pools.map((pool, idx) =>
+                <RenderElements poolInfo={pool} idx={idx} expanded={expanded} setExpanded={setExpanded} />
+              )}
             </Box>
           )}
+
+          {/* Farming */}
+          {(activeId === 1) && (
+            <></>
+          )}
+
+          {/* Liquid Staking */}
           {activeId === 2 && RenderLiquid()}
         </Box>
       </Box>

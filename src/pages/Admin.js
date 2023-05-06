@@ -11,7 +11,7 @@ export default function Admin() {
   const navigate = useNavigate();
   return (
     <Page style={{ backgroundColor: '#171819' }}>
-      <Container maxWidth="lg" className="pt-5">
+      <Container maxWidth="lg" className="pt-5" style={{ height: '400px' }}>
         <Grid container paddingLeft={'5%'} paddingRight={'5%'} paddingTop="30px">
           <Grid container direction="row" position="relative" display="flex" borderRadius={2}>
             <Grid item md={3} sm={3} xs={12} padding="5px">

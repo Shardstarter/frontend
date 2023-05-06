@@ -1,31 +1,29 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
-import { ProjectCard } from 'utils/_utils/Projects';
 import { Label } from 'components/_components/Label';
 import { RoundedCard } from 'components/_components/Card';
 import { PrimaryButton } from 'components/_components/Button';
 import { LinearProgressBar } from 'components/_components/ProgressBar';
 
-const Logo = ({ size }) => (
-  <Box>
-    <img src={ProjectCard.icon} alt={ProjectCard.label} width={size} />
-  </Box>
-);
-
-const renderDetails = () => (
-  <Box sx={{ display: 'flex', rowGap: '15px', flexDirection: 'column' }}>
-    {ProjectCard.details.map((detail, idx) => (
-      <Box key={idx} sx={{ display: 'flex' }}>
-        <img src={detail.imgUrl} alt={detail.imgUrl} width={31} height={31} />
-        <Label sx={{ marginLeft: '15px', minWidth: '75px' }} text={detail.label} />
-        {detail.value && <Label sx={{ marginLeft: '40px' }} text={detail.value} />}
-      </Box>
-    ))}
-  </Box>
-);
-
-const Projectcard = () => {
+const Projectcard = ({ projectInfo }) => {
   const [walletConnected, setWalletConnected] = useState(false);
+
+  var componentInfo = {
+    icon: projectInfo.logo,
+    label: projectInfo.projectName,
+    pair_label: projectInfo.projectName + " / SHM",
+    price1: `1 SHM = ${projectInfo.presaleRate} ${projectInfo.projectName}`,
+    price2: `1 ${projectInfo.projectName} = ${1 / projectInfo.presaleRate} SHM`,
+    progress: {
+      title: 'registration opens in 2 days, 3 hours',
+      currProg: Number(projectInfo.weiRaised / projectInfo.hardCap * 100).toFixed(1),
+      text: projectInfo.weiRaised + ' SHM',
+      value: `${projectInfo.weiRaised * projectInfo.presaleRate} / ${projectInfo.hardCap * projectInfo.presaleRate}  ${projectInfo.projectName}`
+    },
+    date_register: ' ~ ' + new Date(projectInfo.startDateTime).toUTCString(), //'Apr 14, 14:00 - Apr 16, 11:00 UTC'
+    date_sale: new Date(projectInfo.startDateTime).toUTCString() + ' - ' + new Date(projectInfo.endDateTime).toUTCString(), //'Apr 16, 14:00 - Apr 17, 14:00 UTC'
+    date_fcfs: new Date(projectInfo.endDateTime).toUTCString(),// 'Apr 17, 13:20 UTC'
+  };
 
   return (
     <Box
@@ -48,22 +46,29 @@ const Projectcard = () => {
     >
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         <Box sx={{ display: 'flex' }}>
-          <Logo size={100} />
+          <Box>
+            <img src={componentInfo.icon} alt={componentInfo.label} width={100} />
+          </Box>
           <Box sx={{ marginLeft: '35px' }}>
-            <Label text={{ value: ProjectCard.label, size: 30 }} sx={{ marginBottom: '4px' }} />
-            <Label text={{ value: 'PLAYZAP / BUSD', color: 'green', size: 16 }} />
+            <Label text={{ value: componentInfo.label, size: 30 }} sx={{ marginBottom: '4px' }} />
+            <Label text={{ value: componentInfo.pair_label, color: 'green', size: 16 }} />
             <Box sx={{ display: 'flex', columnGap: '8px' }}>
-              {ProjectCard.labels.map((price, idx) => (
-                <RoundedCard
-                  key={idx}
-                  label={price.label}
-                  bgColor={price.bgColor}
-                  color={price.color}
-                  size={14}
-                  width={90}
-                  height={30}
-                />
-              ))}
+              <RoundedCard
+                label="Levels"
+                bgColor='#FF77774F'
+                color='#FF5D5D'
+                size={14}
+                width={90}
+                height={30}
+              />
+              <RoundedCard
+                label="KYC"
+                bgColor='#FFD5002B'
+                color='#FFD500'
+                size={14}
+                width={90}
+                height={30}
+              />
             </Box>
           </Box>
         </Box>
@@ -109,24 +114,74 @@ const Projectcard = () => {
         />
         <Label
           sx={{ marginTop: '20px' }}
-          text={{ value: '1 BUSD = 8.333 PLAYZAP', size: 24, color: 'green', weight: 600 }}
+          text={{ value: componentInfo.price1, size: 24, color: 'green', weight: 600 }}
         />
         <Label
           sx={{ marginTop: '8px' }}
-          text={{ value: '1 PLAYZAP = 0.12 BUSD', size: 18, color: 'green', weight: 100 }}
+          text={{ value: componentInfo.price2, size: 18, color: 'green', weight: 100 }}
         />
         <Box sx={{ marginTop: '38px', display: 'flex', justifyContent: 'space-between' }}>
-          <Label text={{ value: ProjectCard.progress.title, size: 18, weight: 100 }} />
-          <Label text={{ value: `${ProjectCard.progress.currProg}%`, size: 18, color: 'green', weight: 100 }} />
+          <Label text={{ value: componentInfo.progress.title, size: 18, weight: 100 }} />
+          <Label text={{ value: `${componentInfo.progress.currProg}%`, size: 18, color: 'green', weight: 100 }} />
         </Box>
+        {/* progress bar */}
         <Box sx={{ marginTop: '8px' }}>
-          <LinearProgressBar value={ProjectCard.progress.prog} bgColor="grey" />
+          <LinearProgressBar value={componentInfo.progress.currProg} bgColor="grey" />
           <Box sx={{ marginTop: '8px', display: 'flex', justifyContent: 'space-between' }}>
-            <Label text={{ value: ProjectCard.progress.text, size: 18, color: 'grey', weight: 100 }} />
-            <Label text={{ value: ProjectCard.progress.value, size: 18, color: 'grey', weight: 100 }} />
+            <Label text={{ value: componentInfo.progress.text, size: 18, color: 'grey', weight: 100 }} />
+            <Label text={{ value: componentInfo.progress.value, size: 18, color: 'grey', weight: 100 }} />
           </Box>
         </Box>
-        <Box sx={{ marginTop: '42px' }}>{renderDetails()}</Box>
+        {/* list */}
+        <Box sx={{ marginTop: '42px' }}>
+          <Box sx={{ display: 'flex', rowGap: '15px', flexDirection: 'column' }}>
+            <Box sx={{ display: 'flex' }}>
+              <img src="_img/icon/wifi.png" width={31} height={31} />
+              <Label sx={{ marginLeft: '15px', minWidth: '75px' }} text={{
+                value: 'IDO and distribution on Shardeum chain',
+                size: 18,
+                weight: 100
+              }} />
+            </Box>
+            <Box sx={{ display: 'flex' }}>
+              <img src="_img/icon/register.png" width={31} height={31} style={{ marginTop: '15px' }} />
+              <Label sx={{ marginLeft: '15px', minWidth: '75px' }} text={{
+                value: 'Register',
+                size: 18,
+                weight: 100
+              }} />
+              <Label sx={{ marginLeft: '40px' }} text={{
+                value: componentInfo.date_register,
+                size: 18
+              }} />
+            </Box>
+            <Box sx={{ display: 'flex' }}>
+              <img src="_img/icon/money-bag.png" width={31} height={31} style={{ marginTop: '25px' }} />
+              <Label sx={{ marginLeft: '15px', minWidth: '75px' }} text={{
+                value: 'Sale',
+                size: 18,
+                weight: 100
+              }} />
+              <Label sx={{ marginLeft: '40px' }} text={{
+                value: componentInfo.date_sale,
+                size: 18
+              }} />
+            </Box>
+            <Box sx={{ display: 'flex' }}>
+              <img src="_img/icon/training.png" width={31} height={31} style={{ marginTop: '15px' }} />
+              <Label sx={{ marginLeft: '15px', minWidth: '75px' }} text={{
+                value: 'FCFS',
+                size: 18,
+                weight: 100
+              }} />
+              <Label sx={{ marginLeft: '40px' }} text={{
+                value: componentInfo.date_fcfs,
+                size: 18
+              }} />
+            </Box>
+
+          </Box>
+        </Box>
       </Box>
     </Box>
   );

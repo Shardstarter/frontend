@@ -9,7 +9,8 @@ import {
   facebook,
   instagram,
   linkedin,
-  reddit
+  reddit,
+  discord
 } from 'utils/_utils/EntityFieldDefs';
 import { Link } from 'react-router-dom';
 const Footer = () => {
@@ -77,7 +78,7 @@ const Footer = () => {
           <IconButtonGroup
             sx={{ marginTop: '30px' }}
             size="50px"
-            elements={[twitter, facebook, instagram, reddit, linkedin]}
+            elements={[twitter, facebook, discord, instagram, reddit, linkedin]}
           />
           <Label text={{ value: privacyString, weight: 100 }} sx={{ marginTop: '40px' }} />
         </Box>

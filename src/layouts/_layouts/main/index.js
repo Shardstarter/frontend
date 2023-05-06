@@ -5,7 +5,7 @@ import Footer from './Footer';
 
 const MainLayout = () => {
   return (
-    <div>
+    <div id="xxyyzz" style={{ backgroundColor: "#171819" }}>
       <Header />
       <Outlet />
       <Footer />

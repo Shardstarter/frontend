@@ -10,7 +10,8 @@ export const useMainStakingStatus = () => {
   const [tier, setTier] = useState(TIER_LEVEL.none_0);
   const [countTiers, setCountTiers] = useState([0, 0, 0, 0]); // number of users in each tier level
   const [myTierLevelCount, setMyTierLevelCount] = useState(0); // number of users in my tier level
-  const [staked_amount, setstaked_amount] = useState(0);
+  const [staked_amount, setStakedAmount] = useState(0);
+  const [reward_amount, setRewardAmount] = useState(0);
   const { account, library } = useActiveWeb3React();
   const mainStakingContract = useMainStakingContract();
 
@@ -19,13 +20,17 @@ export const useMainStakingStatus = () => {
       try {
         let staked_amount = await mainStakingContract.balances(account);
         staked_amount = Number(formatEther(staked_amount))
-        setstaked_amount(staked_amount);
+        setStakedAmount(staked_amount);
 
         if (staked_amount > TIER_STAKING_AMOUNT.topaz_4) setTier(TIER_LEVEL.topaz_4);
         else if (staked_amount > TIER_STAKING_AMOUNT.jade_3) setTier(TIER_LEVEL.jade_3);
         else if (staked_amount > TIER_STAKING_AMOUNT.chrome_2) setTier(TIER_LEVEL.chrome_2);
         else if (staked_amount > TIER_STAKING_AMOUNT.amber_1) setTier(TIER_LEVEL.amber_1);
         else setTier(TIER_LEVEL.none_0);
+
+        let reward_amount = await mainStakingContract.earned(account);
+        reward_amount = Number(formatEther(staked_amount))
+        setRewardAmount(reward_amount);
 
 
         let response = await apis.getCountForTierLevel({
@@ -53,5 +58,5 @@ export const useMainStakingStatus = () => {
   }, [tier, countTiers])
 
 
-  return { tier, staked_amount, myTierLevelCount };
+  return { tier, staked_amount, reward_amount, myTierLevelCount };
 };
