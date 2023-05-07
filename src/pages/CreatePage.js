@@ -145,7 +145,7 @@ function Create() {
       });
   };
   const goComplete = (address) => {
-    navigate(`/project/${address}`);
+    navigate(`/projects?address=${address}`);
   };
 
   return (

@@ -1,14 +1,37 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import { Label } from 'components/_components/Label';
+import { TIER_LEVEL } from 'config/constants';
 
 import { useMainStakingStatus } from 'hooks/useMyStatus';
 
 function LeftStaking() {
   const { tier, staked_amount, reward_amount } = useMainStakingStatus();
 
+  var tierimg;
+  switch (tier) {
+    case TIER_LEVEL.none_0:
+      tierimg = '_img/icon/solchicks_2.png'
+      break;
+    case TIER_LEVEL.amber_1:
+      tierimg = '_img/icon/tier1.png'
+      break;
+    case TIER_LEVEL.chrome_2:
+      tierimg = '_img/icon/tier2.png'
+      break;
+    case TIER_LEVEL.jade_3:
+      tierimg = '_img/icon/tier3.png'
+      break;
+    case TIER_LEVEL.topaz_4:
+      tierimg = '_img/icon/tier4.png'
+      break;
+
+    default:
+      break;
+  }
+
   var Staking = {
-    icon: '_img/icon/solchicks_2.png',
+    icon: tierimg,
     label: {
       value: tier,
       size: 40

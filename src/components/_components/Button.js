@@ -50,7 +50,7 @@ export const IconButtonGroup = (props) => {
     <Box sx={props.sx}>
       {props.elements.map((element, idx) => (
         <IconButton key={idx} onClick={() => (window.open(element.path))} >
-          <img src={element.img} width={props.size} title={element.path}/>
+          <img src={element.img} width={props.size} title={element.path} />
         </IconButton>
       ))}
     </Box>

@@ -1,21 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import { Label } from 'components/_components/Label';
 import { RoundedCard } from 'components/_components/Card';
 import { PrimaryButton } from 'components/_components/Button';
 import { LinearProgressBar } from 'components/_components/ProgressBar';
+import { SubmitInput } from 'components/_components/Input';
+import { useIDOPoolStatus, useMainStakingStatus } from 'hooks/useMyStatus';
+import useActiveWeb3React from 'hooks/useActiveWeb3React';
+import { ADMIN_WALLETS } from 'config/constants';
+// import AccountPopover from 'layouts/dashboard/AccountPopover';
 
 const Projectcard = ({ projectInfo }) => {
-  const [walletConnected, setWalletConnected] = useState(false);
+  const { account, library } = useActiveWeb3React();
+  const { tier } = useMainStakingStatus()
+  const { myMaxDeposit, stage, stage_label,
+    action, action_label, action_description, action_available, handleFinalize } = useIDOPoolStatus(projectInfo)
+
+
 
   var componentInfo = {
     icon: projectInfo.logo,
     label: projectInfo.projectName,
+    tier_label: tier,
+    stage_label: stage_label,
     pair_label: projectInfo.projectName + " / SHM",
     price1: `1 SHM = ${projectInfo.presaleRate} ${projectInfo.projectName}`,
     price2: `1 ${projectInfo.projectName} = ${1 / projectInfo.presaleRate} SHM`,
     progress: {
-      title: 'registration opens in 2 days, 3 hours',
+      title: 'Fund raised',
       currProg: Number(projectInfo.weiRaised / projectInfo.hardCap * 100).toFixed(1),
       text: projectInfo.weiRaised + ' SHM',
       value: `${projectInfo.weiRaised * projectInfo.presaleRate} / ${projectInfo.hardCap * projectInfo.presaleRate}  ${projectInfo.projectName}`
@@ -23,7 +35,9 @@ const Projectcard = ({ projectInfo }) => {
     date_register: ' ~ ' + new Date(projectInfo.startDateTime).toUTCString(), //'Apr 14, 14:00 - Apr 16, 11:00 UTC'
     date_sale: new Date(projectInfo.startDateTime).toUTCString() + ' - ' + new Date(projectInfo.endDateTime).toUTCString(), //'Apr 16, 14:00 - Apr 17, 14:00 UTC'
     date_fcfs: new Date(projectInfo.endDateTime).toUTCString(),// 'Apr 17, 13:20 UTC'
-  };
+  }
+
+  const [amount, setAmount] = useState(0)
 
   return (
     <Box
@@ -34,14 +48,14 @@ const Projectcard = ({ projectInfo }) => {
           height: 'auto'
         },
         width: '620px',
-        height: '850px',
+        height: '900px',
         backgroundImage: 'url("_img/cards/detail_bg.png")',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
         backgroundSize: 'cover',
         borderRadius: '38px',
         padding: '50px',
-        marginLeft: '50px'
+        marginLeft: '50px',
       }}
     >
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -54,7 +68,7 @@ const Projectcard = ({ projectInfo }) => {
             <Label text={{ value: componentInfo.pair_label, color: 'green', size: 16 }} />
             <Box sx={{ display: 'flex', columnGap: '8px' }}>
               <RoundedCard
-                label="Levels"
+                label={componentInfo.tier_label}
                 bgColor='#FF77774F'
                 color='#FF5D5D'
                 size={14}
@@ -62,7 +76,7 @@ const Projectcard = ({ projectInfo }) => {
                 height={30}
               />
               <RoundedCard
-                label="KYC"
+                label={componentInfo.stage_label}
                 bgColor='#FFD5002B'
                 color='#FFD500'
                 size={14}
@@ -84,21 +98,40 @@ const Projectcard = ({ projectInfo }) => {
             padding: '15px 0px'
           }}
         >
-          {walletConnected && (
-            <Label
-              sx={{ marginBottom: '15px', textAlign: 'center' }}
-              text={{ value: 'This IDO requires KYC verification.', size: 18, weight: 100 }}
-            />
-          )}
-          <PrimaryButton
-            label={walletConnected ? 'Verify KYC' : 'Connect Wallet'}
-            sx={{
-              padding: '8px',
-              width: '220px'
-            }}
-            hasFocus={true}
-            onClick={() => setWalletConnected(!walletConnected)}
+          <Label
+            sx={{ marginBottom: '25px', textAlign: 'center' }}
+            text={{ value: account ? action_description : "Please connect wallet", size: 18, weight: 100 }}
           />
+          {account && action_available &&
+            ((stage == 1 || stage == 3) ?
+              <SubmitInput
+                sx={{
+                  width: '30%',
+                  minWidth: '330px',
+                  '@media (max-width: 1000px)': {
+                    width: '100%',
+                    minWidth: 'fit-content'
+                  }
+                }}
+                size={38}
+                btnValue={action_label}
+                label={`SHM`}
+                value={amount}
+                onChangeValue={(value) => setAmount(value)}
+                onClick={() => action(amount)}
+              /> :
+              <PrimaryButton
+                label={action_label}
+                sx={{
+                  padding: '8px',
+                  width: '220px'
+                }}
+                hasFocus={true}
+                onClick={() => action()}
+              />
+            )
+          }
+
         </Box>
         <Label
           sx={{ marginTop: '8px', textAlign: 'right' }}
@@ -182,6 +215,18 @@ const Projectcard = ({ projectInfo }) => {
 
           </Box>
         </Box>
+        {/* admin function */}
+        {
+          stage == 4 && ADMIN_WALLETS.includes(account) &&
+          <PrimaryButton
+            label="Admin: Finalize"
+            sx={{
+              margin: '8px',
+              width: '220px'
+            }}
+            hasFocus={true}
+            onClick={() => handleFinalize()}
+          />}
       </Box>
     </Box>
   );

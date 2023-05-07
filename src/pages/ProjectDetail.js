@@ -63,8 +63,8 @@ export default function ProjectDetail() {
   }, []);
 
   useEffect(() => {
-    document.querySelector('.css-hsfvqa').style.overflow = 'visible';
-    document.querySelector('.css-om7vnx').style.overflow = 'visible';
+    // document.querySelector('.css-hsfvqa').style.overflow = 'visible';
+    // document.querySelector('.css-om7vnx').style.overflow = 'visible';
   }, []);
 
   useLayoutEffect(() => {

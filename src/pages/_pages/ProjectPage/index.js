@@ -13,7 +13,6 @@ export default function ProjectPage() {
  
   const tokenAddress = new URLSearchParams(search).get('address');
 
-  const { account } = useActiveWeb3React();
   const [data, setData] = useState({});
 
   useEffect(() => {

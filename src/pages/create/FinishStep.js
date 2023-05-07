@@ -34,7 +34,7 @@ const projectId = '2DGg3pQzKiRprxvjRddH37hP6Nd';   // <---------- your Infura Pr
 const projectSecret = '46afcc2f7f76fa5508d3c7ceed3a75fd';  // <---------- your Infura Secret
 // (for security concerns, consider saving these values in .env files)
 
-const auth = 'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
+const auth = 'Basic ' + btoa(projectId + ':' + projectSecret);
 
 const client = create({
   host: 'ipfs.infura.io',
