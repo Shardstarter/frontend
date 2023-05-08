@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import useActiveWeb3React from "./useActiveWeb3React";
 import { TIER_LEVEL, TIER_STAKING_AMOUNT } from "config/constants";
-import { useMainStakingContract } from "./useContract";
+import { useMainStakingContract, useMainStakingTokenContract } from "./useContract";
 import { useIDOContract, usePoolContract } from "./useContract";
 import { formatUnits, parseUnits, formatEther, parseEther } from '@ethersproject/units';
 import { TIER_DEPOSIT_PERCENT } from "config/constants";
@@ -15,7 +15,39 @@ export const useMainStakingStatus = () => {
   const [staked_amount, setStakedAmount] = useState(0);
   const [reward_amount, setRewardAmount] = useState(0);
   const { account, library } = useActiveWeb3React();
+
   const mainStakingContract = useMainStakingContract();
+  const tokenContract = useMainStakingTokenContract(); //main staking token
+
+  //Wallet balance
+  const [wallet_balance, setWalletBalance] = useState(0)
+  useEffect(() => {
+    (async () => {
+      try {
+        let decimals = await tokenContract.decimals();
+        let wallet_balance = await tokenContract.balanceOf(account);
+        wallet_balance = formatUnits(wallet_balance, decimals);
+        setWalletBalance(wallet_balance);
+      } catch (error) {
+        console.log(error.message)
+      }
+    })();
+  }, [tokenContract])
+
+  //TVL
+  const [tvl, setTVL] = useState(0);
+  useEffect(() => {
+    (async () => {
+      if (mainStakingContract) {
+        try {
+          const pool_tvl = await mainStakingContract._totalSupply();
+          setTVL(Number(formatEther(pool_tvl)))
+        } catch (error) {
+          console.log(error.message)
+        }
+      }
+    })();
+  }, [mainStakingContract])
 
   useEffect(() => {
     const dosth = async () => {
@@ -65,7 +97,7 @@ export const useMainStakingStatus = () => {
   }, [tier, countTiers])
 
 
-  return { tier, staked_amount, reward_amount, myTierLevelCount };
+  return { tier, tvl, staked_amount, reward_amount, wallet_balance, myTierLevelCount };
 };
 
 export const useIDOPoolStatus = (poolInfo) => {

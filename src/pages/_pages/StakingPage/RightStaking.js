@@ -7,7 +7,6 @@ import { PrimaryButton } from 'components/_components/Button';
 import { formatUnits, parseUnits } from '@ethersproject/units';
 import { useMainStakingTokenContract, useMainStakingContract } from 'hooks/useContract';
 import { useMainStakingStatus } from 'hooks/useMyStatus';
-import { MAIN_STAKING_TOKEN_ADDRESS } from 'config/constants';
 import apis from 'services';
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
 

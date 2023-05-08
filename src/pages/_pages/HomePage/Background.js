@@ -75,6 +75,7 @@ const Background = () => {
                 }}
                 hasFocus={true}
                 img={'_img/icon/shardstarter.png'}
+                onClick={() => window.open('https://app.swapped.finance/swap')}
               />
               <SecondaryButton label="How to Invest" sx={{ width: '220px' }} onClick={() => window.open('https://shardstarter-io.gitbook.io/shardstarter/the-tier-system')} />
             </Box>

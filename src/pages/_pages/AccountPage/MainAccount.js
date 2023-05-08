@@ -1,10 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { RoundedLabel, Label } from 'components/_components/Label';
-import { AccountInfo } from '../../../utils/_utils/EntityFieldDefs';
 import LeftStaking from '../StakingPage/LeftStaking';
+import { Link } from 'react-router-dom';
+
+import apis from 'services';
+import useActiveWeb3React from 'hooks/useActiveWeb3React';
+import { useMainStakingStatus } from 'hooks/useMyStatus';
 
 function MainAccount() {
+  const { account } = useActiveWeb3React();
+  const { tier, staked_amount, wallet_balance } = useMainStakingStatus();
+
   useEffect(() => {
     function handleResize() {
       if (window.innerWidth < 1000) {
@@ -18,6 +25,89 @@ function MainAccount() {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  const [userInfo, setUserInfo] = useState({});
+  useEffect(() => {
+    const getUserEmail = async () => {
+      const response = await apis.getUserInfo({
+        wallet_address: account
+      });
+      if (response.data.result) {
+        setUserInfo(response.data.data);
+      }
+      else {
+        alert(response.data.message)
+      }
+    }
+    if (account) getUserEmail();
+  }, [account])
+
+  const saveEmail = async () => {
+    try {
+      const userInput = prompt("Enter a email:", userInfo?.email);
+      if (userInput) {
+        const response = await apis.setUserEmail({
+          wallet_address: account,
+          email: userInput
+        });
+        if (response.data.result) {
+          alert('success');
+          window.location.reload();
+        }
+        else {
+          alert(response.data.message)
+        }
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
+  const saveNonEVM = async () => {
+    try {
+      const userInput = prompt("Enter a email:", userInfo?.nonevm);
+      if (userInput) {
+        const response = await apis.setUserNonEVM({
+          wallet_address: account,
+          nonevm: userInput
+        });
+        if (response.data.result) {
+          alert('success');
+          window.location.reload();
+        }
+        else {
+          alert(response.data.message)
+        }
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
+  var AccountInfo = {
+    balance: {
+      keyword: 'Balance',
+      value: '$SHMX ' + wallet_balance
+    },
+    buy: {
+      keyword: 'Buy',
+      value: '$SHMX'
+    },
+    wallet: {
+      keyword: 'Wallet',
+      value: account
+    },
+    totalView: [
+      {
+        keyword: 'Staked $SHMX',
+        value: staked_amount + ' SHMX'
+      },
+      {
+        keyword: 'Unclaimed Tokens',
+        value: '1,000.00' //TO_DO
+      }
+    ]
+  };
 
   return (
     <Box
@@ -65,7 +155,9 @@ function MainAccount() {
             }}
           >
             <RoundedLabel keyword={AccountInfo.balance.keyword} value={AccountInfo.balance.value} bgColor="#171717" />
-            <RoundedLabel keyword={AccountInfo.buy.keyword} value={AccountInfo.buy.value} bgColor="#171717" />
+            <Link to="https://app.swapped.finance/swap">
+              <RoundedLabel keyword={AccountInfo.buy.keyword} value={AccountInfo.buy.value} bgColor="#171717" />
+            </Link>
           </Box>
           <RoundedLabel keyword={AccountInfo.wallet.keyword} value={AccountInfo.wallet.value} bgColor="#171717" />
           <Box
@@ -82,35 +174,59 @@ function MainAccount() {
               }
             }}
           >
-            {AccountInfo.accountBox.map((element, index) => (
-              <div key={index} style={{ marginBottom: '30px' }}>
-                {/* Added Part Start */}
-                <Box
-                  sx={{
-                    width: '188px',
-                    height: '37px',
-                    backgroundColor: '#4B4B4B',
-                    color: '#02FF7B',
-                    fontSize: '17px',
-                    padding: '5px 15px',
-                    borderRadius: '7px'
+            {/* NonEVM wallet */}
+            <div style={{ marginBottom: '30px' }}>
+              <Box
+                sx={{
+                  width: '188px',
+                  height: '37px',
+                  backgroundColor: '#4B4B4B',
+                  color: '#02FF7B',
+                  fontSize: '17px',
+                  padding: '5px 15px',
+                  borderRadius: '7px'
+                }}
+              >
+                NON EVM WALLET
+              </Box>
+              <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <Label
+                  sx={{ overflow: 'hidden' }}
+                  text={{
+                    value: userInfo?.nonevm,
+                    size: 26
                   }}
-                >
-                  {element.keyword}
-                </Box>
-                <div style={{ display: 'flex', flexDirection: 'row' }}>
-                  <Label
-                    sx={{ overflow: 'hidden' }}
-                    text={{
-                      value: element.value,
-                      size: 26
-                    }}
-                  />
-                  <img src="_img/icon/pencil.png" width="26px" style={{ margin: '8px' }} />
-                </div>
-                {/* Added Part End */}
+                />
+                <img src="_img/icon/pencil.png" width="26px" style={{ margin: '8px', cursor: 'pointer' }} onClick={() => saveNonEVM()} />
               </div>
-            ))}
+            </div>
+            {/* Email */}
+            <div style={{ marginBottom: '30px' }}>
+              <Box
+                sx={{
+                  width: '188px',
+                  height: '37px',
+                  backgroundColor: '#4B4B4B',
+                  color: '#02FF7B',
+                  fontSize: '17px',
+                  padding: '5px 15px',
+                  borderRadius: '7px'
+                }}
+              >
+                EMAIL ADDRESS
+              </Box>
+              <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <Label
+                  sx={{ overflow: 'hidden' }}
+                  text={{
+                    value: userInfo?.email,
+                    size: 26
+                  }}
+
+                />
+                <img src="_img/icon/pencil.png" width="26px" style={{ margin: '8px', cursor: 'pointer' }} onClick={() => saveEmail()} />
+              </div>
+            </div>
           </Box>
           {/* Total View */}
           <Box

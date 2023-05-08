@@ -14,11 +14,13 @@ import { useSnackbar } from 'notistack';
 
 import apis from 'services';
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
+import { useMainStakingStatus } from 'hooks/useMyStatus';
 
 
-const Projects = () => {
+const Votes = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { account } = useActiveWeb3React();
+  const { tvl, staked_amount: vote_power } = useMainStakingStatus();
 
   const [activeId, setActiveId] = useState(0);
 
@@ -38,46 +40,19 @@ const Projects = () => {
     })();
   }, []);
 
-
-  var tempVotes = [{
-    "up": 2060,
-    "down": 200,
-    "_id": "643773f23c51f3308049adc7",
-    "projectName": "VoteTest1",
-    "logo": "https://snipboard.io/pFnzT4.jpg",
-    "ticker": "Token",
-    "website": "https://safelaunch.io/",
-    "telegram": "https://safelaunch.io/",
-    "twitter": "https://safelaunch.io/",
-    "discord": "https://safelaunch.io/",
-    "participants": [
-      {
-        "_id": "643773fb3c51f3308049add0",
-        "wallet_address": "0xecFA21cfFcb7BDeE55D137486Dea0d7984c72619",
-        "power": 1050,
-        "isUp": true
-      },
-      {
-        "_id": "643774d83c51f3308049ae08",
-        "wallet_address": "0x42E8c710Cff480eDF060e6d5cC385c01f55C88F4",
-        "power": 200,
-        "isUp": false
-      },
-      {
-        "_id": "643a8c9bbc5728457b221f75",
-        "wallet_address": "0x712E60AD613492633571793eb69aA3C5eAdB5e83",
-        "power": 1010,
-        "isUp": true
-      }
-    ],
-    "createdAt": "2023-04-13T03:16:02.563Z",
-    "updatedAt": "2023-04-15T11:38:03.235Z"
-  }];
-
-  const [showing_votes, setShowingVotes] = useState([]);
+  const [showing_votes, setShowingVotes] = useState([]); //modified votes 
   useEffect(() => {
     var new_arr = votes.map((item) => {
+      let found = false, liked = false;
+      item.participants.find((item) => {
+        if (item.wallet_address == account) {
+          found = true;
+          liked = item.isUp;
+        }
+      });
+
       return {
+        id: item._id,
         imgUrl: item.logo,
         value: item.projectName,
         label: item.ticker,
@@ -99,28 +74,53 @@ const Projects = () => {
             path: item.discord
           },
         ],
-        liked: 0,  //1, -1, 0
-        percent: Number(item.up / (item.up + item.down) * 100).toFixed(1),
-        percent1_label: Number(item.up / (item.up + item.down) * 100).toFixed(1) + " %",
-        percent2_label: Number(item.down / (item.up + item.down) * 100).toFixed(1) + " %",
+        liked: found ? (liked ? 1 : -1) : 0,  //1, -1, 0
+        percent: Number(item.up / tvl * 100).toFixed(1),
+        percent1_label: Number(item.up / tvl * 100).toFixed(1) + " %",
+        percent2_label: Number(item.down / tvl * 100).toFixed(1) + " %",
         links: [
           {
             value: 'Whitepapers',
-            href: '/'
+            href: item.whitepaper
           },
           {
             value: 'Pitchdeck',
-            href: '/'
+            href: item.pitchdeck
           },
           {
             value: 'Audit Report',
-            href: '/'
+            href: item.audit
           }
         ]
       }
     })
     setShowingVotes(new_arr)
-  }, [votes])
+  }, [votes, tvl])
+
+  const placeVote = async (vote_id, isUp) => {
+    try {
+      const response = await apis.placeVote({
+        vote_id,
+        wallet_address: account,
+        power: vote_power,
+        isUp
+      });
+      if (response.data.result) {
+        enqueueSnackbar('success', {
+          variant: 'success'
+        });
+        window.location.reload()
+      } else {
+        enqueueSnackbar(response.data.message, {
+          variant: 'danger'
+        });
+      }
+    } catch (error) {
+      enqueueSnackbar(error.message, {
+        variant: 'danger'
+      });
+    }
+  }
 
   return (
     <Box
@@ -195,8 +195,11 @@ const Projects = () => {
             <FilterBar options={['PolkaFantasy', 'NetVRK', 'Bulkperks', 'Solchicks', 'SIDUS']} />
           </Box>
           <Box sx={{ marginTop: '60px', display: 'flex', flexDirection: 'column', rowGap: '20px' }}>
-            {showing_votes.map((project, idx) => (
-              <VoteCard key={idx} project={project} />
+            {showing_votes.map((vote, idx) => (
+              <VoteCard key={idx} vote={vote}
+                onClickYes={() => vote.liked == 0 ? placeVote(vote.id, true) : alert('Already voted')}
+                onClickNo={() => vote.liked == 0 ? placeVote(vote.id, false) : alert('Already voted')}
+              />
             ))}
           </Box>
         </Box>
@@ -206,7 +209,7 @@ const Projects = () => {
 };
 
 
-const VoteCard = ({ project }) => {
+const VoteCard = ({ vote, onClickYes, onClickNo }) => {
   return (
     <Box
       sx={{
@@ -225,14 +228,14 @@ const VoteCard = ({ project }) => {
     >
       <Box>
         <Box sx={{ display: 'flex' }}>
-          <img src={project.imgUrl} alt="imgUrl" width={100} />
+          <img src={vote.imgUrl} alt="imgUrl" width={100} />
           <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '30px' }}>
-            <Label text={{ value: project.value, size: 30 }} />
-            <RoundedCard bgColor="#171717" color="#02FF7B" label={project.label} width={119} height={43} />
+            <Label text={{ value: vote.value, size: 30 }} />
+            <RoundedCard bgColor="#171717" color="#02FF7B" label={vote.label} width={119} height={43} />
           </Box>
         </Box>
         <Box sx={{ marginTop: '28px' }}>
-          <IconButtonGroup elements={project.social} size={50} />
+          <IconButtonGroup elements={vote.social} size={50} />
         </Box>
       </Box>
       <Box
@@ -247,35 +250,37 @@ const VoteCard = ({ project }) => {
         <Box sx={{ width: '160px', display: 'flex', justifyContent: 'space-between' }}>
           <Box>
             <img
-              src={project.liked === 1 ? '_img/icon/liked.png' : '_img/icon/like.png'}
+              src={vote.liked === 1 ? '_img/icon/liked.png' : '_img/icon/like.png'}
               alt="like"
               width={50}
-              style={{ cursor: 'pointer' }}
+              style={vote.liked == 0 ? { cursor: 'pointer' } : {}}
+              onClick={onClickYes}
             />
             <Label
               sx={{ marginTop: '20px' }}
-              text={{ value: 'Yes', size: 22, color: project.liked === 1 ? 'green' : 'white' }}
+              text={{ value: 'Yes', size: 22, color: vote.liked === 1 ? 'green' : 'white' }}
             />
           </Box>
           <Box>
             <img
-              src={project.liked === -1 ? '_img/icon/hated.png' : '_img/icon/hate.png'}
+              src={vote.liked === -1 ? '_img/icon/hated.png' : '_img/icon/hate.png'}
               alt="like"
               width={50}
-              style={{ cursor: 'pointer' }}
+              style={vote.liked == 0 ? { cursor: 'pointer' } : {}}
+              onClick={onClickNo}
             />
             <Label
               sx={{ marginTop: '20px' }}
-              text={{ value: 'No', size: 22, color: project.liked === -1 ? 'green' : 'white' }}
+              text={{ value: 'No', size: 22, color: vote.liked === -1 ? 'green' : 'white' }}
             />
           </Box>
         </Box>
         <Box sx={{ width: '100%' }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-            <Label text={{ value: project.percent1_label, color: 'grey', size: 18, weight: 100 }} />
-            <Label text={{ value: project.percent2_label, color: 'grey', size: 18, weight: 100 }} />
+            <Label text={{ value: vote.percent1_label, color: 'grey', size: 18, weight: 100 }} />
+            <Label text={{ value: vote.percent2_label, color: 'grey', size: 18, weight: 100 }} />
           </Box>
-          <LinearProgressBar value={project.percent} bgColor="grey" />
+          <LinearProgressBar value={vote.percent} bgColor="grey" />
         </Box>
       </Box>
       <Box
@@ -286,7 +291,7 @@ const VoteCard = ({ project }) => {
           flexDirection: 'column'
         }}
       >
-        {project.links.map((link, idx) => (
+        {vote.links.map((link, idx) => (
           <Box key={idx} sx={{ display: 'flex' }}>
             <Label text={{ value: link.value, type: 'link', href: link.href }} sx={{ marginRight: '12px' }} />
             <Link to={link.href}>
@@ -298,4 +303,4 @@ const VoteCard = ({ project }) => {
     </Box>
   );
 };
-export default Projects;
+export default Votes;

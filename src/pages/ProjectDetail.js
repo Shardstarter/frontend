@@ -656,7 +656,6 @@ function CustomCard(props) {
 }
 
 function ProjectInformation({ data: poolInfo }) {
-  // const chainId = useSelector((store) => store.network.chainId); //TO_DO check 
   const { account, library, chainId } = useActiveWeb3React();
   const [approved, setApproved] = useState(false); //user preapproving status
 

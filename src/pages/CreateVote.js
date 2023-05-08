@@ -31,6 +31,9 @@ export default function CreateVote() {
   const [telegram, setTelegram] = useState('');
   const [twitter, setTwitter] = useState('');
   const [discord, setDiscord] = useState('');
+  const [whitepaper, setWhitepaper] = useState('');
+  const [pitchdeck, setPitchdeck] = useState('');
+  const [audit, setAudit] = useState('');
 
   const [processing, setProcessing] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
@@ -40,7 +43,9 @@ export default function CreateVote() {
     (async () => {
       try {
         const response = await apis.createVote({
-          projectName, logo, ticker, website, telegram, twitter, discord
+          projectName, logo, ticker,
+          website, telegram, twitter, discord,
+          whitepaper, pitchdeck, audit
         });
         if (response.data.result) {
           enqueueSnackbar('success', {
@@ -129,10 +134,31 @@ export default function CreateVote() {
               onChange={(e) => setDiscord(e.target.value)}
               sx={{ width: 1 }}
             />
+            <TextField
+              fullWidth
+              label="Whitepapaer"
+              value={whitepaper}
+              onChange={(e) => setWhitepaper(e.target.value)}
+              sx={{ width: 1 }}
+            />
+            <TextField
+              fullWidth
+              label="Pitchdeck"
+              value={pitchdeck}
+              onChange={(e) => setPitchdeck(e.target.value)}
+              sx={{ width: 1 }}
+            />
+            <TextField
+              fullWidth
+              label="Audit report"
+              value={audit}
+              onChange={(e) => setAudit(e.target.value)}
+              sx={{ width: 1 }}
+            />
           </Stack>
           <Stack sx={{ mt: 2 }} alignItems="center" spacing={1}>
             <Button size="large" variant="contained" className="btn btn-info text-light mt-2 mx-4" onClick={handleCreate}>
-              {processing ? <HashLoader color="#02FF7B" size={30} /> : 'Create Pool'}
+              {processing ? <HashLoader color="#02FF7B" size={30} /> : 'Create Vote'}
             </Button>
           </Stack>
         </Card>

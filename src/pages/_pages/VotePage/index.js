@@ -1,12 +1,12 @@
 import React from 'react';
 import Background from './Background';
-import Projects from './Projects';
+import Votes from './Votes';
 
 const DaoPage = () => {
   return(
     <div>
       <Background />
-      <Projects />
+      <Votes />
     </div>
   )
 }
