@@ -142,7 +142,7 @@ export default function Stakepad() {
                                 ))}
                             </Box>
                         </Grid>
-                        <Box component="button" position="absolute" right="5px" style={{ backgroundColor: "#24B6E6", border: "none", height: '58px', color: "white", borderRadius: 8, width: "120px" }}> KYC </Box>
+                        <Box component="button" position="absolute" right="5px" style={{ backgroundColor: "#02FF7B", border: "none", height: '58px', color: "white", borderRadius: 8, width: "120px" }}> KYC </Box>
                     </Grid>
                     <ProgressCard></ProgressCard>
                     <Grid container direction={"row"} marginTop="30px" spacing={2} >
@@ -166,7 +166,7 @@ export default function Stakepad() {
                             </Box>
                         </Grid>
                         <Grid item xs={6} padding="5px">
-                            <Box component="button" width="100%" borderRadius={1} padding="3px 8px" style={{ backgroundColor: "#24B6E6", border: "none", color: "white" }}> KYC </Box>
+                            <Box component="button" width="100%" borderRadius={1} padding="3px 8px" style={{ backgroundColor: "#02FF7B", border: "none", color: "white" }}> KYC </Box>
                         </Grid>
                     </Grid>
                     <ProgressCard></ProgressCard>

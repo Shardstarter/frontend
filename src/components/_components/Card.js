@@ -6,31 +6,6 @@ import { LinearProgressBar } from './ProgressBar';
 import { SecondaryButton, IconButtonGroup } from './Button';
 import { facebook, twitter, instagram, reddit } from 'utils/_utils/EntityFieldDefs';
 
-const Card = (props) => {
-  return (
-    <Box
-      width={320}
-      height={150}
-      sx={{
-        ...props.sx,
-        backgroundImage: 'url("_img/cards/background.png")',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        display: 'flex',
-        alignItems: 'center'
-      }}
-    >
-      <Box sx={{ marginLeft: '22px' }}>
-        <img src={props.img} alt={props.label} width={80} />
-      </Box>
-      <Box sx={{ marginLeft: '15px', display: 'flex', justifyContent: 'space-around', flexFlow: 'column' }}>
-        <Label text={{ value: props.label, size: 18 }} />
-        <Label text={{ value: props.status, size: 30, color: 'gree' }} />
-      </Box>
-    </Box>
-  );
-};
-
 export const RoundedCard = (props) => {
   const { img, bgColor, label, width, height, color, size } = props;
   return (
@@ -164,6 +139,3 @@ export const ProjectCard = ({ project }) => {
     </Box>
   );
 };
-
-
-export default Card;

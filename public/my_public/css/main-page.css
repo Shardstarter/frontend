@@ -134,7 +134,7 @@ a:hover {
 }
 
 .bdr {
-  border: 1px solid #24b6e6;
+  border: 1px solid #02FF7B;
   border-radius: 6px;
   margin-bottom: 14px;
 }
@@ -154,7 +154,7 @@ a:hover {
 }
 
 .upcomming-card-border {
-  border: 1px solid #24b6e6;
+  border: 1px solid #02FF7B;
   border-radius: 6px;
 }
 
@@ -278,7 +278,7 @@ a:hover {
 }
 
 .join-army-btn {
-  background-color: #24b6e6;
+  background-color: #02FF7B;
   padding: 6px 22px;
   color: white;
   border-radius: 6px;
@@ -319,7 +319,7 @@ a:hover {
 }
 
 .copyright-text {
-  color: #24b6e6;
+  color: #02FF7B;
 }
 
 @media only screen and (max-width: 991px) {

@@ -77,10 +77,10 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 8,
   borderRadius: 1,
   [`&.${linearProgressClasses.colorPrimary}`]: {
-    backgroundColor: '#59f1f65a'
+    backgroundColor: '#02FF7B5a'
   },
   [`& .${linearProgressClasses.bar}`]: {
-    backgroundColor: '#59f1f6',
+    backgroundColor: '#02FF7B',
     borderRadius: 1
   }
 }));
@@ -1214,7 +1214,7 @@ export default function DetailPage() {
                             >
                               {isRefunding ? (
                                 // <Loader type="ThreeDots" color="#00BFFF" height={30} width={30} />
-                                <HashLoader color="#59f1f6" size={30} />
+                                <HashLoader color="#02FF7B" size={30} />
                               ) : (
                                 'Refund'
                               )}
@@ -1436,7 +1436,7 @@ export default function DetailPage() {
                                     pool.holders['lock'] ? pool.holders['lock'] : 0,
                                     pool.holders['unlock'] ? pool.holders['unlock'] : 0
                                   ],
-                                  backgroundColor: ['#59f1f65a', '#08adb3', '#A74AF9', '#FF4842']
+                                  backgroundColor: ['#02FF7B5a', '#08adb3', '#A74AF9', '#FF4842']
                                 }
                               ]
                             }}
@@ -1479,7 +1479,7 @@ export default function DetailPage() {
                                     pool.holders['lock'] ? pool.holders['lock'] : 0,
                                     pool.holders['unlock'] ? pool.holders['unlock'] : 0
                                   ],
-                                  backgroundColor: ['#59f1f65a', '#08adb3', '#A74AF9', '#7A4F01']
+                                  backgroundColor: ['#02FF7B5a', '#08adb3', '#A74AF9', '#7A4F01']
                                 }
                               ]
                             }}
@@ -1688,7 +1688,7 @@ export default function DetailPage() {
                             >
                               {isRefunding ? (
                                 // <Loader type="ThreeDots" color="#00BFFF" height={30} width={30} />
-                                <HashLoader color="#59f1f6" size={30} />
+                                <HashLoader color="#02FF7B" size={30} />
                               ) : (
                                 'Refund'
                               )}

@@ -123,7 +123,7 @@ export default function LoadingScreen({ ...other }) {
     //   />
     // </RootStyle>
     <RootStyle {...other}>
-      {/* <HashLoader color="#59f1f6" size={80} /> */}
+      {/* <HashLoader color="#02FF7B" size={80} /> */}
       <Box component="img" src={imageURL('logo.png')} />
     </RootStyle>
   );

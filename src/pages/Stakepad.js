@@ -348,7 +348,7 @@ function PoolBox(poolInfo) {
           //   rowSpacing={2}
           //   width="100%"
           // >
-          //   <HashLoader color="#59f1f6" size={30} />
+          //   <HashLoader color="#02FF7B" size={30} />
           // </Grid>
         ) : (
           <Grid

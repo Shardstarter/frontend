@@ -635,7 +635,7 @@ function CustomCard(props) {
     <>
       <MHidden width='mdDown'>
         <Grid style={{ backgroundColor: '#232323', borderRadius: 10, padding: '20px' }}>
-          <Box style={{ fontSize: '15px', color: '#24B6E6' }}>{props.name}</Box>
+          <Box style={{ fontSize: '15px', color: '#02FF7B' }}>{props.name}</Box>
           <Box marginTop='20px' style={{ fontSize: '20px', color: 'white' }}>
             {props.number}
           </Box>
@@ -643,7 +643,7 @@ function CustomCard(props) {
       </MHidden>
       <MHidden width='mdUp'>
         <Grid style={{ backgroundColor: '#232323', borderRadius: 10, padding: '20px' }}>
-          <Box style={{ fontSize: '15px', color: '#24B6E6' }} textAlign='center'>
+          <Box style={{ fontSize: '15px', color: '#02FF7B' }} textAlign='center'>
             {props.name}
           </Box>
           <Box marginTop='10px' style={{ fontSize: '20px', color: 'white' }} textAlign='center'>

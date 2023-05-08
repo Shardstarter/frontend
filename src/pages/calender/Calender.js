@@ -119,7 +119,7 @@ export default function Calender() {
                           borderRadius={1}
                           padding='5px 8px'
                           margin='0px 10px'
-                          style={{ backgroundColor: '#24B6E6', border: 'none', color: 'white' }}
+                          style={{ backgroundColor: '#02FF7B', border: 'none', color: 'white' }}
                           onClick={() => setChannel(parseInt(key))}
                         >
                           {'EDIT'}
@@ -130,7 +130,7 @@ export default function Calender() {
                           borderRadius={1}
                           padding='5px 8px'
                           margin='0px 10px'
-                          style={{ backgroundColor: '#24B6E6', border: 'none', color: 'white' }}
+                          style={{ backgroundColor: '#02FF7B', border: 'none', color: 'white' }}
                           onClick={() => deleteChannel(parseInt(key))}
                         >
                           {'DELETE'}

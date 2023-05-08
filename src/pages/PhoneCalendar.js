@@ -190,8 +190,8 @@ function EventCard(props){
       <Grid container marginBottom="20px" backgroundColor="#232323" borderRadius={1} padding="10px 20px">
         <Grid item xs={2} fontSize={16} color="white">{event.day}</Grid>
         <Grid item xs={10} fontSize={14} color="white">{event.title}</Grid>
-        <Grid item xs={2} fontSize={12} color="#24B6E6">{event.weekDay}</Grid>
-        <Grid item xs={10} fontSize={12} color="#24B6E6">{event.fromto}</Grid>
+        <Grid item xs={2} fontSize={12} color="#02FF7B">{event.weekDay}</Grid>
+        <Grid item xs={10} fontSize={12} color="#02FF7B">{event.fromto}</Grid>
       </Grid>
       </Box>
     </>

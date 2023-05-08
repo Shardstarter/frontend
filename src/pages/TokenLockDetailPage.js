@@ -208,7 +208,7 @@ export default function TokenLockDetail() {
                 ele.endDateTime <= Date.now() ? (
                   <Typography sx={{ width: 0.3 }}>
                     <Button variant="outline" sx={{ bgcolor: 'primary.dark' }} onClick={handleUnlock}>
-                      {isUnlocking ? <HashLoader color="#59f1f6" size={30} /> : 'Unlock'}
+                      {isUnlocking ? <HashLoader color="#02FF7B" size={30} /> : 'Unlock'}
                     </Button>
                   </Typography>
                 ) : (

@@ -56,8 +56,8 @@ export default function Performance(){
             <h1 className="text-light text-center position-absolute start-50 translate-middle-x" style={{fontSize:25, top:'13px'}}>Coming Soon</h1>
           </Box>
           }
-          <Typography fontFamily={'Segoe UI'} fontSize={'25px'} align='center' marginTop="20px" sx={{ padding: '2em 0', color : '#24B6E6' }}>
-            <a href="/deals" style={{textDecoration:'none', color:"#24B6E6"}}>View All</a>
+          <Typography fontFamily={'Segoe UI'} fontSize={'25px'} align='center' marginTop="20px" sx={{ padding: '2em 0', color : '#02FF7B' }}>
+            <a href="/deals" style={{textDecoration:'none', color:"#02FF7B"}}>View All</a>
           </Typography>
         </Box>
         </MHidden>
@@ -76,8 +76,8 @@ export default function Performance(){
               )
             })}
           </Grid>
-          <Typography fontFamily={'Segoe UI'} fontSize={'25px'} align='center' marginTop="20px" sx={{ marginBottom: '5px', color : '#24B6E6' }}>
-            <a href="#" style={{textDecoration:'none',  color:"#24B6E6"}}>View All</a>
+          <Typography fontFamily={'Segoe UI'} fontSize={'25px'} align='center' marginTop="20px" sx={{ marginBottom: '5px', color : '#02FF7B' }}>
+            <a href="#" style={{textDecoration:'none',  color:"#02FF7B"}}>View All</a>
           </Typography>
         </Box>
         </MHidden>

@@ -163,7 +163,7 @@ export default function MyAlarms({ account, network }) {
         >
           <Stack direction="row" justifyContent="flex-end">
             <Button size="large" startIcon={<CloseIcon />} onClick={() => setRemoveDialogOpen(!isRemoving)}>
-              {isRemoving ? <HashLoader color="#59f1f6" size={30} /> : 'Remove All'}
+              {isRemoving ? <HashLoader color="#02FF7B" size={30} /> : 'Remove All'}
             </Button>
           </Stack>
           <Typography variant="h3" align="center">

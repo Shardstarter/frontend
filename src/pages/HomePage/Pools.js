@@ -58,9 +58,9 @@ export default function Pools() {
               fontFamily={'Segoe UI'}
               fontSize={'25px'}
               align="center"
-              sx={{ marginBottom: '5px', color: '#24B6E6' }}
+              sx={{ marginBottom: '5px', color: '#02FF7B' }}
             >
-              <Link to='/stakepad'  style={{ textDecoration: 'none', color: '#24B6E6' }}>View All</Link>
+              <Link to='/stakepad'  style={{ textDecoration: 'none', color: '#02FF7B' }}>View All</Link>
             </Typography>
 
           </Grid>
@@ -111,9 +111,9 @@ export default function Pools() {
               fontFamily={'Segoe UI'}
               fontSize={'25px'}
               align="center"
-              sx={{ marginBottom: '5px', color: '#24B6E6' }}
+              sx={{ marginBottom: '5px', color: '#02FF7B' }}
             >
-              <Link to='/stakepad'  style={{ textDecoration: 'none', color: '#24B6E6' }}>View All</Link>
+              <Link to='/stakepad'  style={{ textDecoration: 'none', color: '#02FF7B' }}>View All</Link>
             </Typography>
           </Grid>
         </Box>

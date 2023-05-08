@@ -52,7 +52,7 @@ export default function Router() {
         { path: '/staking', element: <StakingPage /> },
         { path: '/vote', element: <VotePage /> },
         { path: '/account', element: <AccountPage /> },
-        
+
         { path: '/deals', element: <Deals /> },
         { path: '/idodeals', element: <IdoDeals /> },
         { path: '/inodeals', element: <InoDeals /> },
@@ -83,6 +83,7 @@ export default function Router() {
         // { path: '/admin-presales', element: account === ADMIN_ADDRESS[network] ? <AdminPresales /> : '' }
         { path: '/admin-presales', element: <AdminPresales /> },
         { path: '/admin', element: <Admin /> },
+        { path: '/manage-cards', element: <ManageCards /> },
 
         // { path: '/pages', element: <PageList /> } // list of pages
       ]
@@ -128,15 +129,18 @@ const Vote = Loadable(lazy(() => import('pages/Vote')));
 const Dashboard = Loadable(lazy(() => import('pages/Dashboard')));
 const Blog = Loadable(lazy(() => import('pages/Blog')));
 const DetailPage = Loadable(lazy(() => import('pages/DetailPage')));
-const CreatePage = Loadable(lazy(() => import('pages/CreatePage')));
-const CreateStake = Loadable(lazy(() => import('pages/CreateStake')));
-const CreateVote = Loadable(lazy(() => import('pages/CreateVote')));
+
 const LockListPage = Loadable(lazy(() => import('pages/LockListPage')));
 const TokenLockDetailPage = Loadable(lazy(() => import('pages/TokenLockDetailPage')));
 const LiquidityLockDetailPage = Loadable(lazy(() => import('pages/LiquidityLockDetailPage')));
 const PageList = Loadable(lazy(() => import('pages/PageList')));
 const AdminPresales = Loadable(lazy(() => import('pages/AdminPresales')));
+
+// admin pages
 const Admin = Loadable(lazy(() => import('pages/Admin')));
+const CreatePage = Loadable(lazy(() => import('pages/CreatePage')));
+const CreateStake = Loadable(lazy(() => import('pages/CreateStake')));
+const CreateVote = Loadable(lazy(() => import('pages/CreateVote')));
 const Calendar = Loadable(lazy(() => import('pages/calender/Calender')));
-// Main
-// const LandingPage = Loadable(lazy(() => import('pages/LandingPage')));
+const ManageCards = Loadable(lazy(() => import('pages/ManageCards')));
+

@@ -105,7 +105,7 @@ export default function Stakepad() {
   }
   const btnStyle2 = {
     color:"white",
-    backgroundColor:"#24B6E6",
+    backgroundColor:"#02FF7B",
     width:"85px",
     border:"none",
     height:"40px"

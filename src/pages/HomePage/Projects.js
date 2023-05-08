@@ -103,9 +103,9 @@ export default function Projects() {
             fontFamily={'Segoe UI'}
             fontSize={'25px'}
             align="center"
-            sx={{ marginBottom: '5px', color: '#24B6E6' }}
+            sx={{ marginBottom: '5px', color: '#02FF7B' }}
           >
-            <a href="/deals" style={{ textDecoration: 'none', color: '#24B6E6' }}>
+            <a href="/deals" style={{ textDecoration: 'none', color: '#02FF7B' }}>
               View All
             </a>
           </Typography>
@@ -157,9 +157,9 @@ export default function Projects() {
             fontFamily={'Segoe UI'}
             fontSize={'25px'}
             align="center"
-            sx={{ marginBottom: '5px', color: '#24B6E6' }}
+            sx={{ marginBottom: '5px', color: '#02FF7B' }}
           >
-            <a href="/deals" style={{ textDecoration: 'none', color: '#24B6E6' }}>
+            <a href="/deals" style={{ textDecoration: 'none', color: '#02FF7B' }}>
               View All
             </a>
           </Typography>

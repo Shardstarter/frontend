@@ -307,7 +307,7 @@ export default function CreateStake() {
             />
             {isParsing == true ? (
               // <Loader type="ThreeDots" color="#00BFFF" height={30} width={30} />
-              <HashLoader color="#59f1f6" size={30} />
+              <HashLoader color="#02FF7B" size={30} />
             ) : tokenInfo.name != '' ? (
               <Stack sx={{ marginTop: '30px', padding: '0 20px' }}>
                 <Stack direction="row" justifyContent="space-between">
@@ -393,7 +393,7 @@ export default function CreateStake() {
           </Stack>
           <Stack sx={{ mt: 2 }} alignItems="center" spacing={1}>
             <Button size="large" variant="contained" className="btn btn-info text-light mt-2 mx-4" onClick={handleCreate}>
-              {processing ? <HashLoader color="#59f1f6" size={30} /> : 'Create Pool'}
+              {processing ? <HashLoader color="#02FF7B" size={30} /> : 'Create Pool'}
             </Button>
           </Stack>
         </Card>

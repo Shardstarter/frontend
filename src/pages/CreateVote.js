@@ -13,23 +13,17 @@ import {
   linearProgressClasses,
   Link
 } from '@mui/material';
-import { DateTimePicker } from '@mui/lab';
 import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
 import { useNavigate } from 'react-router';
 import Page from 'components/Page';
-import { formatUnits, parseUnits, commify } from '@ethersproject/units';
 import { useSnackbar } from 'notistack';
 import HashLoader from 'react-spinners/HashLoader';
 import apis from 'services';
 
 export default function CreateVote() {
   const navigate = useNavigate();
-  const { library, account } = useActiveWeb3React();
-  const signer = library?.getSigner();
-  const network = useSelector((state) => state.network.chainId);
-
   const [projectName, setProjectName] = useState('');
   const [logo, setLogo] = useState('https://snipboard.io/pFnzT4.jpg');
   const [ticker, setTicker] = useState('');
@@ -138,7 +132,7 @@ export default function CreateVote() {
           </Stack>
           <Stack sx={{ mt: 2 }} alignItems="center" spacing={1}>
             <Button size="large" variant="contained" className="btn btn-info text-light mt-2 mx-4" onClick={handleCreate}>
-              {processing ? <HashLoader color="#59f1f6" size={30} /> : 'Create Pool'}
+              {processing ? <HashLoader color="#02FF7B" size={30} /> : 'Create Pool'}
             </Button>
           </Stack>
         </Card>

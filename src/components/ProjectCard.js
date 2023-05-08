@@ -31,7 +31,7 @@ export default function ProjectName(props) {
                 <Box position="absolute" top="3%" right="3%" borderRadius={0.5} color="white" bgcolor="#56c5ff" fontSize="12px" padding="5px">{tag} Deals</Box>
             </Box>
             <Box paddingLeft={'13%'} paddingRight={'13%'} paddingBottom="12%" justifyContent="center">
-              <Typography marginTop="15px" align="center" variant="body2" fontSize="20px" fontFamily={'Segoe UI'} color="#24B6E6">
+              <Typography marginTop="15px" align="center" variant="body2" fontSize="20px" fontFamily={'Segoe UI'} color="#02FF7B">
                 {name}
               </Typography>
               {/*<Typography variant="body2" align="center" fontSize="13px" color="white"  fontFamily={'Segoe UI'}>
@@ -63,7 +63,7 @@ export default function ProjectName(props) {
               padding="10px" borderRadius="50%" boxShadow="inset 0px 0px 3.48792px #FFFFFF" border="none" backgroundColor="#232323"/>
             </Box>
             <Box paddingLeft={'13%'} paddingRight={'13%'} paddingBottom="12%" justifyContent="center">
-              <Typography marginTop="15px" align="center" variant="body2" fontSize="20px" fontFamily={'Segoe UI'} color="#24B6E6">
+              <Typography marginTop="15px" align="center" variant="body2" fontSize="20px" fontFamily={'Segoe UI'} color="#02FF7B">
               Project Name
               </Typography>
               <Typography variant="body2" align="center" fontSize="13px" color="white"  fontFamily={'Segoe UI'}>

@@ -124,7 +124,7 @@ function SettingsProvider({ children }) {
   const [settings, setSettings] = useLocalStorage('settings', {
     themeMode: 'dark',
     themeDirection: 'ltr',
-    themeColor: 'cyan',
+    themeColor: 'dark-cyan',
     themeStretch: false,
   });
 

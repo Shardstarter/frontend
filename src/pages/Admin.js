@@ -35,7 +35,7 @@ export default function Admin() {
                 width="100%"
                 borderRadius={1}
                 padding="3px 8px"
-                style={{ backgroundColor: '#24B6E6', border: 'none', color: 'white' }}
+                style={{ backgroundColor: '#02FF7B', border: 'none', color: 'white' }}
                 onClick={() => navigate('/create-stake')}
               >
                 Create Staking POOLS
@@ -62,17 +62,33 @@ export default function Admin() {
                 width="100%"
                 borderRadius={1}
                 padding="3px 8px"
-                style={{ backgroundColor: '#24B6E6', border: 'none', color: 'white' }}
+                style={{ backgroundColor: '#02FF7B', border: 'none', color: 'white' }}
                 onClick={() => navigate('/create-vote')}
               >
                 Create Vote
               </Box>
             </Grid>
           </Grid>
-        </Grid>
 
-        {/* <p>Create staking: working token: BUSD on BSC testnet: 0xed24fc36d5ee211ea25a80239fb8c4cfd80f12ee</p>
-      <p>Staking Contract, Verified:  0x1182b77a40aa95978c9906058fd927f4a17a6203</p> */}
+          <Grid container direction="row" position="relative" display="flex" borderRadius={2}>
+            <Grid item md={3} sm={3} xs={12} padding="5px">
+              <Box
+                component="button"
+                borderRadius={1}
+                width="100%"
+                color="white"
+                border="1px solid #56C5FF"
+                padding="3px 8px"
+                backgroundColor="rgb(255, 255, 255, 0)"
+              >
+                <Box component={Link} to={'/manage-cards'} sx={{ textDecoration: 'none' }}>
+                  Manage Homepage Cards
+                </Box>
+              </Box>
+            </Grid>
+
+          </Grid>
+        </Grid>
 
       </Container>
     </Page>

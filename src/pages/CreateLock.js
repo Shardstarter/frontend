@@ -232,7 +232,7 @@ export default function CreateLock() {
             />
             {isParsing == true ? (
               // <Loader type="ThreeDots" color="#00BFFF" height={30} width={30} />
-              <HashLoader color="#59f1f6" size={30} />
+              <HashLoader color="#02FF7B" size={30} />
             ) : tokenInfo.name != '' ? (
               <Stack sx={{ marginTop: '30px', padding: '0 20px' }}>
                 <Stack direction="row" justifyContent="space-between">
@@ -290,7 +290,7 @@ export default function CreateLock() {
           </Alert>
           <Stack sx={{ mt: 2 }} alignItems="center" spacing={1}>
             <Button size="large" variant="contained" sx={{ bgcolor: 'primary.dark', width: 200 }} onClick={handleLock}>
-              {isLocking ? <HashLoader color="#59f1f6" size={30} /> : 'Lock'}
+              {isLocking ? <HashLoader color="#02FF7B" size={30} /> : 'Lock'}
             </Button>
           </Stack>
         </Card>

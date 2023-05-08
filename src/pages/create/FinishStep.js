@@ -679,7 +679,7 @@ const FinishStep = ({ goBack, goComplete }) => {
           </Stack>
         ) : (
           // <Loader type="TailSpin" color="#00BFFF" height={50} width={50} />
-          // <HashLoader color="#59f1f6" size={50} />
+          // <HashLoader color="#02FF7B" size={50} />
           <h6>It will take some seconds, please hold on.</h6>
         )}
       </Paper>
