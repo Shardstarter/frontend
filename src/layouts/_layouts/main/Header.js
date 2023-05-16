@@ -112,7 +112,7 @@ const Header = (props) => {
             onClick={handleDrawerToggle}
             sx={{
               mr: 2,
-              '@media (max-width: 1500px)': {
+              '@media (max-width: 992px)': {
                 display: 'block'
               },
               display: 'none'
@@ -124,7 +124,7 @@ const Header = (props) => {
           <Box sx={{ display: 'flex', flexFlow: 'row' }}>
             <Box
               sx={{
-                '@media (max-width: 1500px)': {
+                '@media (max-width: 992px)': {
                   display: 'none'
                 },
                 display: 'flex',
@@ -183,7 +183,7 @@ const Header = (props) => {
             keepMounted: true // Better open performance on mobile.
           }}
           sx={{
-            '@media (max-width: 1500px)': {
+            '@media (max-width: 992px)': {
               display: 'flex'
             },
             display: 'none',

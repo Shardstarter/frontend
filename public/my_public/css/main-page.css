@@ -333,3 +333,23 @@ a:hover {
     display: none;
   }
 }
+
+
+.scrolling-box {
+  white-space: nowrap; /* don't break lines */
+  overflow: hidden; /* hide overflow */
+}
+
+.scrolling-content  {
+  display: inline-block; /* display as inline-block element */
+  animation: scrolling-text 20s linear infinite; /* set animation */
+}
+
+@keyframes scrolling-text {
+  from {
+    transform: translateX(100%); /* start from right side of container */
+  }
+  to {
+    transform: translateX(-100%); /* scroll to left side of container */
+  }
+}

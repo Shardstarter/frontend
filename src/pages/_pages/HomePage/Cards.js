@@ -22,40 +22,45 @@ const Cards = () => {
   }, [])
 
   return (
-    <Box
-      sx={{
-        '@media (max-width: 600px)': {
-          margin: '20px 2%'
-        },
-        margin: '20px 8%',
-        display: '-webkit-box',
-        overflowX: 'hidden !important'
-      }}
-    >
-      {cards.map((project, idx) => (
+    <Box className="scrolling-box">
+      <Box className="scrolling-content">
         <Box
-          width={320}
-          height={150}
+
           sx={{
-            ...project.sx,
-            backgroundImage: 'url("_img/cards/background.png")',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover',
-            display: 'flex',
-            alignItems: 'center',
-            marginRight: '40px'
+            '@media (max-width: 600px)': {
+              margin: '20px 2%'
+            },
+            margin: '20px 8%',
+            display: '-webkit-box',
+            // overflowX: 'hidden !important'
           }}
         >
-          <Box sx={{ marginLeft: '22px' }}>
-            <img src={project.img} alt={project.title} width={80} />
-          </Box>
-          <Box sx={{ marginLeft: '15px', display: 'flex', justifyContent: 'space-around', flexFlow: 'column' }}>
-            <Label text={{ value: project.title, size: 18 }} />
-            <Label text={{ value: project.description, size: 30, color: 'green' }} />
-          </Box>
-        </Box>
+          {cards.map((project, idx) => (
+            <Box
+              width={320}
+              height={150}
+              sx={{
+                ...project.sx,
+                backgroundImage: 'url("_img/cards/background.png")',
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
+                display: 'flex',
+                alignItems: 'center',
+                marginRight: '40px'
+              }}
+            >
+              <Box sx={{ marginLeft: '22px' }}>
+                <img src={project.img} alt={project.title} width={80} />
+              </Box>
+              <Box sx={{ marginLeft: '15px', display: 'flex', justifyContent: 'space-around', flexFlow: 'column' }}>
+                <Label text={{ value: project.title, size: 18 }} />
+                <Label text={{ value: project.description, size: 30, color: 'green' }} />
+              </Box>
+            </Box>
 
-      ))}
+          ))}
+        </Box>
+      </Box>
     </Box>
   );
 };
