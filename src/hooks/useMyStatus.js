@@ -2,8 +2,13 @@ import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import useActiveWeb3React from "./useActiveWeb3React";
 import { TIER_LEVEL, TIER_STAKING_AMOUNT } from "config/constants";
-import { useMainStakingContract, useMainStakingTokenContract } from "./useContract";
-import { useIDOContract, usePoolContract } from "./useContract";
+import {
+  useMainStakingContract, useProjectMainTokenContract, useIDOContract,
+  usePoolContract, useLiquidStakingContract, useLiquidStakingTokenContract
+} from "./useContract";
+import { LIQUID_STAKING_CONTRACT_ADDRESS, PROJECT_MAIN_TOKEN_ADDRESS } from "config/constants";
+import { useSelector } from "react-redux";
+
 import { formatUnits, parseUnits, formatEther, parseEther } from '@ethersproject/units';
 import { TIER_DEPOSIT_PERCENT } from "config/constants";
 import apis from "services";
@@ -17,7 +22,7 @@ export const useMainStakingStatus = () => {
   const { account, library } = useActiveWeb3React();
 
   const mainStakingContract = useMainStakingContract();
-  const tokenContract = useMainStakingTokenContract(); //main staking token
+  const tokenContract = useProjectMainTokenContract(); //main staking token
 
   //Wallet balance
   const [wallet_balance, setWalletBalance] = useState(0)
@@ -432,3 +437,87 @@ export const useIDOPoolStatus = (poolInfo) => {
     handleFinalize,
   };
 };
+
+export const useLiquidStakingStatus = () => {
+  const { account } = useActiveWeb3React();
+  const network = useSelector((state) => state.network.chainId);
+
+  const liquidstakingContract = useLiquidStakingContract();
+
+  const [staked_amount, setStakedAmount] = useState(0);
+  const [received_amount, setReceivedAmount] = useState(0);
+  const [rewards, setRewards] = useState(0);
+
+  const [wallet_SHMX_balance, setWalletSHMXBalance] = useState(0);
+  const [wallet_sSHMX_balance, setWalletsSHMXBalance] = useState(0);
+
+  const projectmainTokenContract = useProjectMainTokenContract();
+  const liquidstakingTokenContract = useLiquidStakingTokenContract();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        let staked_amount = await liquidstakingContract.stakedBalances(account);
+        staked_amount = formatUnits(staked_amount, 18);
+        setStakedAmount(staked_amount);
+
+        let received_amount = await liquidstakingContract.receivedAmount(account);
+        received_amount = formatUnits(received_amount, 18);
+        setReceivedAmount(received_amount);
+
+
+        let rewards = await liquidstakingContract.getRewards(account);
+        rewards = formatUnits(rewards, 18);
+        setRewards(rewards);
+
+        let wallet_SHMX_balance = await projectmainTokenContract.balanceOf(account);
+        wallet_SHMX_balance = formatUnits(wallet_SHMX_balance, 18);
+        setWalletSHMXBalance(wallet_SHMX_balance);
+
+        let wallet_sSHMX_balance = await liquidstakingTokenContract.balanceOf(account);
+        wallet_sSHMX_balance = formatUnits(wallet_sSHMX_balance, 18);
+        setWalletsSHMXBalance(wallet_sSHMX_balance);
+
+
+      } catch (error) {
+        console.log(error.message)
+      }
+    })();
+  }, [liquidstakingContract, account])
+
+  const funcStake = async (staking_amount) => {
+    let allowance = await projectmainTokenContract.allowance(account, LIQUID_STAKING_CONTRACT_ADDRESS[network]);
+    allowance = formatEther(allowance);
+
+    if (Number(allowance) < Number(staking_amount)) {
+      const tx = await projectmainTokenContract.approve(LIQUID_STAKING_CONTRACT_ADDRESS[network], parseEther(String(staking_amount)));
+      await tx.wait();
+    }
+
+    const tx = await liquidstakingContract.stake(parseEther(String(staking_amount)));
+    await tx.wait();
+
+    window.location.reload();
+  }
+
+  const funcUnstake = async (staking_amount) => {
+    const tx = await liquidstakingContract.unstake(parseEther(String(staking_amount)));
+    await tx.wait();
+
+    window.location.reload();
+  }
+
+
+  const funcClaimRewards = async () => {
+    const tx = await liquidstakingContract.claimRewards();
+    await tx.wait();
+
+    window.location.reload();
+  }
+
+  return {
+    staked_amount, received_amount, rewards,
+    wallet_SHMX_balance, wallet_sSHMX_balance,
+    funcStake, funcUnstake, funcClaimRewards
+  };
+}

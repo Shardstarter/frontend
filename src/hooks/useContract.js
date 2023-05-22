@@ -5,7 +5,12 @@ import IDO_ABI from 'config/abi/ido.json';
 import LOCK_ABI from 'config/abi/lock.json';
 import POOL_ABI from 'config/abi/pool.json';
 import STAKING_ABI from 'config/abi/staking.json';
-import { IDO_ADDRESS, LOCK_ADDRESS, MAIN_STAKING_CONTRACT_ADDRESS, MAIN_STAKING_TOKEN_ADDRESS } from 'config/constants';
+import LIQUIDSTAKING_ABI from 'config/abi/liquid_staking.json';
+
+import {
+  IDO_ADDRESS, LOCK_ADDRESS, MAIN_STAKING_CONTRACT_ADDRESS,
+  PROJECT_MAIN_TOKEN_ADDRESS, LIQUID_STAKING_CONTRACT_ADDRESS, LIQUID_STAKING_TOKEN_ADDRESS
+} from 'config/constants';
 // Imports below migrated from Exchange useContract.ts
 import { Contract } from '@ethersproject/contracts';
 import { useSelector } from 'react-redux';
@@ -31,9 +36,13 @@ function useContract(address, ABI, withSignerIfPossible = true) {
 export function useTokenContract(tokenAddress, withSignerIfPossible = true) {
   return useContract(tokenAddress, ERC20_ABI, withSignerIfPossible);
 }
-export function useMainStakingTokenContract(withSignerIfPossible = true) {
+export function useProjectMainTokenContract(withSignerIfPossible = true) {
   const network = useSelector((state) => state.network.chainId);
-  return useContract(MAIN_STAKING_TOKEN_ADDRESS[network], ERC20_ABI, withSignerIfPossible);
+  return useContract(PROJECT_MAIN_TOKEN_ADDRESS[network], ERC20_ABI, withSignerIfPossible);
+}
+export function useLiquidStakingTokenContract(withSignerIfPossible = true) {
+  const network = useSelector((state) => state.network.chainId);
+  return useContract(LIQUID_STAKING_TOKEN_ADDRESS[network], ERC20_ABI, withSignerIfPossible);
 }
 
 export function usePoolContract(poolAddress, withSignerIfPossible = true) {
@@ -61,4 +70,11 @@ export function useMainStakingContract(withSignerIfPossible = true) {
 
   return useContract(MAIN_STAKING_CONTRACT_ADDRESS[network], STAKING_ABI, withSignerIfPossible);
 }
+
+export function useLiquidStakingContract(withSignerIfPossible = true) {
+  const network = useSelector((state) => state.network.chainId);
+
+  return useContract(LIQUID_STAKING_CONTRACT_ADDRESS[network], LIQUIDSTAKING_ABI, withSignerIfPossible);
+}
+
 

@@ -12,11 +12,25 @@ export const MAIN_STAKING_CONTRACT_ADDRESS = {
   [process.env.REACT_APP_SHM2X_CHAINID]: '0x6A9C7aaF517E615Ef113af92f0425fe487E9fb9B',  //Shardeum, SHMX token
 };
 
-export const MAIN_STAKING_TOKEN_ADDRESS = {
+export const PROJECT_MAIN_TOKEN_ADDRESS = {
   [process.env.REACT_APP_ETHEREUM_CHAINID]: '',
-  [process.env.REACT_APP_BSC_CHAINID]: '0x3405714e3714137ceb4B0ac90e1933d34C2af218', //MGV token
+  [process.env.REACT_APP_BSC_CHAINID]: '0xd3761e00fDd4e4eEeED5cE78ed0C7c41b6517a0f', //SHMX
   [process.env.REACT_APP_LOCALHOST_CHAINID]: '',
-  [process.env.REACT_APP_SHM2X_CHAINID]: '',  //Shardeum, SHMX token
+  [process.env.REACT_APP_SHM2X_CHAINID]: '',  //ShardStarter Token, SHMX
+};
+
+export const LIQUID_STAKING_CONTRACT_ADDRESS = {
+  [process.env.REACT_APP_ETHEREUM_CHAINID]: '',
+  [process.env.REACT_APP_BSC_CHAINID]: '0xaeffE1d8e1a87824903558E1b1675F6f167170AA', //sSHMX
+  [process.env.REACT_APP_LOCALHOST_CHAINID]: '',
+  [process.env.REACT_APP_SHM2X_CHAINID]: '',
+};
+
+export const LIQUID_STAKING_TOKEN_ADDRESS = {
+  [process.env.REACT_APP_ETHEREUM_CHAINID]: '',
+  [process.env.REACT_APP_BSC_CHAINID]: '0xD17D869E5D8152e0deEEAC1BB45476DD272c9c58', //sSHMX
+  [process.env.REACT_APP_LOCALHOST_CHAINID]: '',
+  [process.env.REACT_APP_SHM2X_CHAINID]: '',
 };
 
 export const LOCK_ADDRESS = {

@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { Label, RoundedLabel } from 'components/_components/Label';
-import { SearchInput, SubmitInput, Search } from 'components/_components/Input';
+import { SubmitInput } from 'components/_components/Input';
 import { PrimaryButton } from 'components/_components/Button';
 import { RoundedCard } from 'components/_components/Card';
 import Pagination from 'components/_components/Pagination';
@@ -16,6 +16,7 @@ import { formatUnits, parseUnits } from '@ethersproject/units';
 import apis from 'services';
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
 import { useStakingContract, useTokenContract } from 'hooks/useContract';
+import LiquidStaking from './LiquidStaking';
 
 const RenderElements = ({ poolInfo, idx, expanded, setExpanded }) => {
   const { account } = useActiveWeb3React();
@@ -423,159 +424,11 @@ const RenderElements = ({ poolInfo, idx, expanded, setExpanded }) => {
             }}
           >
             <span>Your wallet {poolInfo.tokenSymbol} balance: {data.wallet_balance}</span>
-            <br/>
+            <br />
             <span>Your Lock time: {data.lockingReleaseTime}.  Harvesting will reset the lock time.</span>
           </Box>
         </Box>
       )}
-    </Box>
-  );
-};
-
-const RenderRoundedCard = (props) => (
-  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        borderRadius: '7px',
-        width: '120px',
-        minHeight: '43px',
-        backgroundColor: '#02FF7B',
-        justifyContent: 'center'
-      }}
-    >
-      <Label text={{ ...props.label }} />
-    </Box>
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        '@media (max-width: 500px)': {
-          flexDirection: 'column',
-          alignItems: 'start'
-        }
-      }}
-    >
-      <Label text={props.value} sx={{ marginTop: '5px' }} />
-      {props.id === 2 && (
-        <Button
-          sx={{
-            fontSize: '15px',
-            width: '120px',
-            height: '52px',
-            backgroundColor: '#171717',
-            color: 'white',
-            border: '1px solid #02FF7B',
-            borderRadius: '8px',
-            marginLeft: '35px',
-            '@media (max-width: 500px)': {
-              marginLeft: '0px',
-              marginTop: '10px'
-            }
-          }}
-        >
-          Harvest
-        </Button>
-      )}
-    </Box>
-  </Box>
-);
-
-const RenderLiquid = () => {
-  return (
-    <Box>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-evenly',
-          padding: '50px 50px',
-          backgroundColor: '#000000',
-          border: '1px solid #7070704C',
-          borderRadius: '20px',
-          flexWrap: 'wrap',
-          rowGap: '25px',
-          '@media (max-width: 500px)': {
-            flexDirection: 'column'
-          }
-        }}
-      >
-        {LiquidParams.items.map((item, idx) => (
-          <RenderRoundedCard key={idx} {...item} id={idx} />
-        ))}
-      </Box>
-      <Box
-        sx={{
-          width: '100%',
-          marginTop: '40px',
-          paddingBottom: '50px',
-          display: 'flex',
-          alignItems: 'center',
-          flexDirection: 'column',
-          backgroundColor: '#000000'
-        }}
-      >
-        <Label sx={{ marginTop: '60px' }} text={{ value: 'Stake SHM', size: 40, color: 'green' }} />
-        <Label
-          sx={{ marginTop: '10px' }}
-          text={{ value: 'Stake SHM & Receive xSHM While Staking', color: 'grey', size: 18, weight: 100 }}
-        />
-        <Box
-          sx={{
-            width: '600px',
-            '@media (max-width: 760px)': {
-              width: '100%'
-            }
-          }}
-        >
-          <Search value="1,200.00" />
-          <Box sx={{ display: 'flex', justifyContent: 'end' }}>
-            <RoundedLabel keyword="Balance" value="$SHMX 120,000.00" bgColor="#171717" />
-          </Box>
-          <PrimaryButton
-            sx={{
-              marginTop: '30px',
-              marginBottom: '52px',
-              width: '100%',
-              minHeight: '85px',
-              fontSize: '24px !important'
-            }}
-            label="Stake"
-            hasFocus
-          />
-          {LiquidParams.labels.map((val, idx) => (
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '22px' }}>
-              <Label text={{ ...val.label }} />
-              <Label text={{ ...val.value }} />
-            </Box>
-          ))}
-        </Box>
-      </Box>
-
-      <Box
-        sx={{
-          backgroundColor: '#0A1610',
-          padding: '18px 0px 40px 0px',
-          display: 'flex',
-          justifyContent: 'center'
-        }}
-      >
-        <Box
-          sx={{
-            width: '600px',
-            '@media (max-width: 760px)': {
-              width: '100%'
-            }
-          }}
-        >
-          {LiquidParams.values.map((val, idx) => (
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '22px' }}>
-              <Label text={{ ...val.label }} />
-              <Label text={{ ...val.value }} />
-            </Box>
-          ))}
-        </Box>
-      </Box>
     </Box>
   );
 };
@@ -685,7 +538,7 @@ function PriceStaking() {
           )}
 
           {/* Liquid Staking */}
-          {activeId === 2 && RenderLiquid()}
+          {activeId === 2 && <LiquidStaking />}
         </Box>
       </Box>
     </Box>

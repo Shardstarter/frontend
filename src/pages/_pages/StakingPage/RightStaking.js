@@ -5,14 +5,14 @@ import { SubmitInput } from 'components/_components/Input';
 import { PrimaryButton } from 'components/_components/Button';
 
 import { formatUnits, parseUnits } from '@ethersproject/units';
-import { useMainStakingTokenContract, useMainStakingContract } from 'hooks/useContract';
+import { useProjectMainTokenContract, useMainStakingContract } from 'hooks/useContract';
 import { useMainStakingStatus } from 'hooks/useMyStatus';
 import apis from 'services';
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
 
 function RightStaking() {
   const { tier, staked_amount, reward_amount } = useMainStakingStatus();
-  const tokenContract = useMainStakingTokenContract(); //main staking token
+  const tokenContract = useProjectMainTokenContract(); //main staking token
   const stakingContract = useMainStakingContract();
   const { account } = useActiveWeb3React();
 
