@@ -16,7 +16,7 @@ export const privacyString = 'Privacy Policy | Terms & Conditions';
 
 export const twitter = {
   img: '_img/icon/twitter.png',
-  path: 'https://twitter.com'
+  path: 'https://twitter.com/ShardStarter'
 };
 export const facebook = {
   img: '_img/icon/facebook.png',
@@ -28,7 +28,7 @@ export const discord = {
 };
 export const instagram = {
   img: '_img/icon/instagram.png',
-  path: 'https://instagram.com'
+  path: 'https://in.linkedin.com/company/shardstarter'
 };
 export const reddit = {
   img: '_img/icon/reddit.png',
@@ -44,11 +44,11 @@ export const chain = {
 };
 export const telegram = {
   img: '_img/icon/telegram.png',
-  path: 'https://telegram.com'
+  path: 'https://t.me/ShardStarter'
 };
 export const medium = {
   img: '_img/icon/medium.png',
-  path: 'https://medium.com'
+  path: 'https://medium.com/@partnerships_75747'
 };
 export const Fantasy = {
   img: '_img/icon/fantasy.png',

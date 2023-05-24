@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MainAccount from './MainAccount';
 import PanelAccount from './PanelAccount';
 const AccountPage = () => {
+  const [unclaimed, setUnclaimed] = useState(0);
   return (
     <div>
-      <MainAccount/>
-      <PanelAccount />
+      <MainAccount unclaimed={unclaimed} />
+      <PanelAccount handleUnclaimed={(value) => setUnclaimed(value)} />
     </div>
   )
 };

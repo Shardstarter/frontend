@@ -9,6 +9,7 @@ import { ProjectCard } from 'components/_components/Card';
 import Pagination from 'components/_components/Pagination';
 import FilterBar from 'components/_components/FilterBar';
 import { ProjectButtons, Fantasy, Solchicks, NetVRK, Bulkperks, Sidus } from 'utils/_utils/EntityFieldDefs';
+import { SecondaryButton } from 'components/_components/Button';
 // my insert
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
 import apis from 'services';
@@ -157,6 +158,7 @@ const Projects = () => {
                 />
               ))}
             </Stack>
+            <SecondaryButton label="Calendar View" sx={{ width: '220px' }} onClick={() => window.open('/calender')} />
             <FilterBar options={['PolkaFantasy', 'NetVRK', 'Bulkperks', 'Solchicks', 'SIDUS']} />
           </Box>
         </Box>

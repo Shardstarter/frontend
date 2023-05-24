@@ -16,7 +16,7 @@ function RightStaking() {
   const stakingContract = useMainStakingContract();
   const { account } = useActiveWeb3React();
 
-  const [token_address, setTokenAddress] = useState('')
+  const [stakingpool_address, setStakingPoolAddress] = useState('')
   const [wallet_balance, setWalletBalance] = useState(0)
   const [data, setData] = useState({
     token_decimal: 18,
@@ -29,7 +29,7 @@ function RightStaking() {
   useEffect(() => {
     (async () => {
       try {
-        setTokenAddress(tokenContract.address)
+        setStakingPoolAddress(stakingContract.address)
         let decimals = await tokenContract.decimals();
         let wallet_balance = await tokenContract.balanceOf(account);
         wallet_balance = formatUnits(wallet_balance, decimals);
@@ -65,16 +65,16 @@ function RightStaking() {
     var bignumber_staking_amount = parseUnits(String(data.staking_amount), data.token_decimal);
     // check allowance
     try {
-      const allowance = await tokenContract.allowance(account, token_address);
+      const allowance = await tokenContract.allowance(account, stakingpool_address);
       if (allowance.lt(bignumber_staking_amount)) {
-        const tx = await tokenContract.approve(token_address, bignumber_staking_amount);
+        const tx = await tokenContract.approve(stakingpool_address, bignumber_staking_amount);
         let result = await tx.wait();
         if (result.confirmations > 1) {
           const tx = await stakingContract.stake(bignumber_staking_amount);
           await tx.wait();
 
           await apis.updateUserStaking({
-            staking_address: token_address,
+            staking_address: stakingpool_address,
             wallet_address: account,
             changing_amount: Number(data.staking_amount)
           });
@@ -86,7 +86,7 @@ function RightStaking() {
         await tx.wait();
 
         await apis.updateUserStaking({
-          staking_address: token_address,
+          staking_address: stakingpool_address,
           wallet_address: account,
           changing_amount: Number(data.staking_amount)
         });
@@ -113,7 +113,7 @@ function RightStaking() {
       await tx.wait();
 
       await apis.updateUserStaking({
-        staking_address: token_address,
+        staking_address: stakingpool_address,
         wallet_address: account,
         changing_amount: 0 - Number(data.unstaking_amount)
       });

@@ -6,7 +6,7 @@ const CHAINS_IMAGES = {
   250: imageURL('./chains/ftm.png'),
   43114: imageURL('./chains/avax.png'),
   137: imageURL('./chains/polygon.png'),
-  8081: imageURL('./chains/shardeum.png')
+  8082: imageURL('./chains/shardeum.png')
 };
 
 export const getNetworkImage = (chainId = 0) => {

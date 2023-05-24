@@ -6,10 +6,9 @@ import { AccountProjects } from 'utils/_utils/EntityFieldDefs';
 import apis from 'services';
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
 
-const PanelAccount = () => {
+const PanelAccount = ({ handleUnclaimed }) => {
   const { account } = useActiveWeb3React();
   const [dealsStatus, setDealsStatus] = useState([])
-  const [totalParticipate, setTotalParticipate] = useState(0)
 
   useEffect(() => {
     const dosth = async () => {
@@ -20,9 +19,9 @@ const PanelAccount = () => {
         setDealsStatus(rows)
 
         rows.map(item => {
-          total += Number(item.deposit_amount)
+          total += Number(item.deposit_amount * item.presaleRate)
         })
-        setTotalParticipate(total)
+        handleUnclaimed(total)
 
       } else {
         console.log('getUserParticipations: ', response.data.message)

@@ -8,7 +8,7 @@ import apis from 'services';
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
 import { useMainStakingStatus } from 'hooks/useMyStatus';
 
-function MainAccount() {
+function MainAccount({unclaimed}) {
   const { account } = useActiveWeb3React();
   const { tier, staked_amount, wallet_balance } = useMainStakingStatus();
 
@@ -104,7 +104,7 @@ function MainAccount() {
       },
       {
         keyword: 'Unclaimed Tokens',
-        value: '1,000.00' //TO_DO
+        value: unclaimed 
       }
     ]
   };

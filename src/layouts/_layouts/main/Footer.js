@@ -10,9 +10,11 @@ import {
   instagram,
   linkedin,
   reddit,
-  discord
+  discord,
+  medium
 } from 'utils/_utils/EntityFieldDefs';
 import { Link } from 'react-router-dom';
+import { median } from 'ramda';
 const Footer = () => {
   return (
     <Box>
@@ -37,7 +39,7 @@ const Footer = () => {
             </Link>
           </Box>
           <Label
-            text={{ value: loremString, weight: 100, color: '#D1D1D1' }}
+            text={{ value: "Developed on Shardeum, We are poised to enhance the DeFi, NFT, Metaverse, and Gaming ecosystems. Our platform rigorously selects high-quality projects through its unique project selection process.", weight: 100, color: '#D1D1D1' }}
             sx={{
               width: '612px',
               '@media (max-width: 1360px)': {
@@ -78,7 +80,7 @@ const Footer = () => {
           <IconButtonGroup
             sx={{ marginTop: '30px' }}
             size="50px"
-            elements={[twitter, facebook, discord, instagram, reddit, linkedin]}
+            elements={[instagram, twitter, facebook, discord, medium]}
           />
           <Label text={{ value: privacyString, weight: 100 }} sx={{ marginTop: '40px' }} />
         </Box>

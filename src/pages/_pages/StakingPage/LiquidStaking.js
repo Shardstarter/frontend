@@ -165,7 +165,8 @@ function LiquidStaking() {
           weight: 100
         },
         value: {
-          value: '$1,200,000.00',
+          value: '---',
+          // value: '$1,200,000.00',
           color: 'grey',
           weight: 100
         }
@@ -176,7 +177,8 @@ function LiquidStaking() {
           weight: 100
         },
         value: {
-          value: '1,600',
+          value: '---',
+          // value: '1,600',
           color: 'grey',
           weight: 100
         }
@@ -187,7 +189,8 @@ function LiquidStaking() {
           weight: 100
         },
         value: {
-          value: '$120,049,054.45',
+          value: '---',
+          // value: '$120,049,054.45',
           color: 'grey',
           weight: 100
         }

@@ -11,7 +11,7 @@ function LeftStaking() {
   var tierimg;
   switch (tier) {
     case TIER_LEVEL.none_0:
-      tierimg = '_img/icon/solchicks_2.png'
+      tierimg = '_img/icon/tier0.png'
       break;
     case TIER_LEVEL.amber_1:
       tierimg = '_img/icon/tier1.png'
