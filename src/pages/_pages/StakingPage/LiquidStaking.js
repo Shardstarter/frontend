@@ -59,7 +59,8 @@ const RenderRoundedCard = (props) => (
 
 function LiquidStaking() {
   const { staked_amount, received_amount, rewards,
-    wallet_SHMX_balance, wallet_sSHMX_balance,
+    wallet_SHMX_balance, wallet_sSHMX_balance, sSHMX_marketcap,
+    totalStakedSHMX, totalStakers,
     funcStake, funcUnstake, funcClaimRewards } = useLiquidStakingStatus();
 
   const [amount, setAmount] = useState(0);
@@ -165,8 +166,7 @@ function LiquidStaking() {
           weight: 100
         },
         value: {
-          value: '---',
-          // value: '$1,200,000.00',
+          value: totalStakedSHMX + ' SHMX',
           color: 'grey',
           weight: 100
         }
@@ -177,8 +177,7 @@ function LiquidStaking() {
           weight: 100
         },
         value: {
-          value: '---',
-          // value: '1,600',
+          value: totalStakers,
           color: 'grey',
           weight: 100
         }
@@ -189,8 +188,7 @@ function LiquidStaking() {
           weight: 100
         },
         value: {
-          value: '---',
-          // value: '$120,049,054.45',
+          value: '$ ' + sSHMX_marketcap,
           color: 'grey',
           weight: 100
         }

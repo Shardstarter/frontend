@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { ethers } from "ethers";
 import useActiveWeb3React from "./useActiveWeb3React";
 import { TIER_LEVEL, TIER_STAKING_AMOUNT } from "config/constants";
@@ -451,8 +451,19 @@ export const useLiquidStakingStatus = () => {
   const [wallet_SHMX_balance, setWalletSHMXBalance] = useState(0);
   const [wallet_sSHMX_balance, setWalletsSHMXBalance] = useState(0);
 
+  const [totalStakedSHMX, setTotalStakedSHMX] = useState(0);
+  const [totalStakers, setTotalStakers] = useState(0);
+
   const projectmainTokenContract = useProjectMainTokenContract();
   const liquidstakingTokenContract = useLiquidStakingTokenContract();
+
+
+  const [sSHMX_price] = useState(0.22); //sSHMX token price is 0.22 USD
+  const [sSHMX_totalsupply, setsSHMXTotalsupply] = useState(0);
+  const sSHMX_marketcap = useMemo(() => {
+    console.log('Computing doubledCount');
+    return Number(sSHMX_price) * Number(sSHMX_totalsupply);
+  }, [sSHMX_price, sSHMX_totalsupply]);
 
   useEffect(() => {
     (async () => {
@@ -470,6 +481,15 @@ export const useLiquidStakingStatus = () => {
         rewards = formatUnits(rewards, 18);
         setRewards(rewards);
 
+
+        let totalStakedSHMX = await liquidstakingContract.totalStakingAmount();
+        totalStakedSHMX = formatUnits(totalStakedSHMX, 18);
+        setTotalStakedSHMX(totalStakedSHMX);
+
+        let totalStakers = await liquidstakingContract.totalStakersCount();
+        totalStakers = formatUnits(totalStakers, 0);
+        setTotalStakers(totalStakers);
+
         let wallet_SHMX_balance = await projectmainTokenContract.balanceOf(account);
         wallet_SHMX_balance = formatUnits(wallet_SHMX_balance, 18);
         setWalletSHMXBalance(wallet_SHMX_balance);
@@ -477,6 +497,11 @@ export const useLiquidStakingStatus = () => {
         let wallet_sSHMX_balance = await liquidstakingTokenContract.balanceOf(account);
         wallet_sSHMX_balance = formatUnits(wallet_sSHMX_balance, 18);
         setWalletsSHMXBalance(wallet_sSHMX_balance);
+
+        let sSHMX_totalsupply = await liquidstakingTokenContract.totalSupply();
+        console.log('sSHMX_totalsupply', sSHMX_totalsupply)
+        sSHMX_totalsupply = formatUnits(sSHMX_totalsupply, 18);
+        setsSHMXTotalsupply(sSHMX_totalsupply);
 
 
       } catch (error) {
@@ -518,6 +543,7 @@ export const useLiquidStakingStatus = () => {
   return {
     staked_amount, received_amount, rewards,
     wallet_SHMX_balance, wallet_sSHMX_balance,
+    totalStakedSHMX, totalStakers, sSHMX_marketcap,
     funcStake, funcUnstake, funcClaimRewards
   };
 }
