@@ -14,9 +14,7 @@ const Projectcard = ({ projectInfo }) => {
   const { account, library } = useActiveWeb3React();
   const { tier } = useMainStakingStatus()
   const { myMaxDeposit, stage, stage_label,
-    action, action_label, action_description, action_available, handleFinalize } = useIDOPoolStatus(projectInfo)
-
-
+    action, action_label, action_description, action_available, handleFinalize, deletePool } = useIDOPoolStatus(projectInfo)
 
   var componentInfo = {
     icon: projectInfo.logo,
@@ -48,7 +46,7 @@ const Projectcard = ({ projectInfo }) => {
           height: 'auto'
         },
         width: '620px',
-        height: '900px',
+        height: '950px',
         backgroundImage: 'url("_img/cards/detail_bg.png")',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
@@ -226,6 +224,16 @@ const Projectcard = ({ projectInfo }) => {
             }}
             hasFocus={true}
             onClick={() => handleFinalize()}
+          />}
+        {ADMIN_WALLETS.includes(account) &&
+          <PrimaryButton
+            label="Admin: Delete Pool"
+            sx={{
+              marginTop: '50px',
+              width: '220px'
+            }}
+            hasFocus={true}
+            onClick={() => deletePool()}
           />}
       </Box>
     </Box>

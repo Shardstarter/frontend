@@ -154,7 +154,7 @@ function RightStaking() {
         onClick={() => handleStake()}
         onChangeValue={(value) => setData({ ...data, staking_amount: value })}
       />
-      <SubmitInput size={26} btnValue="Un Stake" sx={{ marginTop: '60px' }}
+      <SubmitInput size={26} btnValue="Unstake" sx={{ marginTop: '60px' }}
         value={data.unstaking_amount}
         onClick={() => handleUnstake()}
         onChangeValue={(value) => setData({ ...data, unstaking_amount: value })}

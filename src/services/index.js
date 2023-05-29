@@ -29,6 +29,7 @@ const createBackendServer = (baseURL) => {
   const getApproval = async (body) => api.post('api/approval/get', body);
   const updateUserDeposit = async (body) => api.post('api/update-user-deposit', body);
   const countApproval = async (body) => api.post('api/approval/count', body);
+  const deletePool = async (body) => api.post('api/ido/delete', body);
 
   const getStakingPools = async (body) => api.get('api/bsc/stake', body);
   const updateUserStaking = async (body) => api.post('api/stake/updateUserStaking', body);
@@ -48,7 +49,8 @@ const createBackendServer = (baseURL) => {
 
   return {
     createBscIdo, updateIDOWeiRaised, getBscIdo, getVCDeals, getProjectDetails, getDeals, getEvent, saveEvent, getFollowers, getRandomImages, ipfs,
-    setApproval, getApproval, updateUserDeposit, countApproval, getStakingPools, updateUserStaking, getCountForTierLevel,
+    setApproval, getApproval, updateUserDeposit, countApproval, deletePool,
+    getStakingPools, updateUserStaking, getCountForTierLevel,
     getUserInfo, setUserEmail, setUserNonEVM, getUserParticipations,
     createVote, getVotes, placeVote,
     createCards, getCards,

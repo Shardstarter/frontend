@@ -8,6 +8,15 @@ import { Link, useNavigate } from 'react-router-dom'
 
 
 export default function Admin() {
+  useEffect(() => {
+    var pwd = prompt('input admin password');
+    if (pwd == 'shardstarter12345') {
+
+    } else {
+      window.location.href = "/"
+    }
+  }, []);
+
   const navigate = useNavigate();
   return (
     <Page style={{ backgroundColor: '#171819' }}>

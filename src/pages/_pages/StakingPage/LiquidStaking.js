@@ -274,7 +274,7 @@ function LiquidStaking() {
             }}
           >
             <IconButton sx={{ p: '10px' }} disabled>
-              <img src="_img/icon/shardeum_1.png" alt="hello" width={50} />
+              <img src="_img/icon/shmx.png" alt="hello" width={50} />
             </IconButton>
             <InputBase
               sx={{ ml: 1, flex: 1, fontSize: '26px', fontWeight: 700 }}

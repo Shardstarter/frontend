@@ -430,11 +430,29 @@ export const useIDOPoolStatus = (poolInfo) => {
     }
   }
 
+  const deletePool = async () => {
+    try {
+      if (window.confirm('Are you sure to remove this pool?')) {
+        let response = await apis.deletePool({
+          pool_address: poolInfo?.address
+        });
+        if (response.data.result) {
+          window.location.href = "/"
+        } else {
+          alert(response.data.message)
+        }
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+
+  }
+
   return {
     myCollaboration,
     stage, stage_label,
     action, action_label, action_description, action_available,
-    handleFinalize,
+    handleFinalize, deletePool,
   };
 };
 

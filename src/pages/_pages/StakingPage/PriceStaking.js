@@ -409,7 +409,7 @@ const RenderElements = ({ poolInfo, idx, expanded, setExpanded }) => {
                 }
               }}
               size={26}
-              btnValue="Un Stake"
+              btnValue="Unstake"
               label={`$${poolInfo.tokenSymbol}`}
               value={data.unstaking_amount}
               onClick={() => handleUnstake()}
