@@ -11,7 +11,9 @@ import {
   linkedin,
   reddit,
   discord,
-  medium
+  medium,
+  telegram,
+  mirror
 } from 'utils/_utils/EntityFieldDefs';
 import { Link } from 'react-router-dom';
 import { median } from 'ramda';
@@ -80,7 +82,7 @@ const Footer = () => {
           <IconButtonGroup
             sx={{ marginTop: '30px' }}
             size="50px"
-            elements={[instagram, twitter, facebook, discord, medium]}
+            elements={[linkedin, telegram,  twitter,  discord, medium, mirror]}
           />
           <Label text={{ value: privacyString, weight: 100 }} sx={{ marginTop: '40px' }} />
         </Box>

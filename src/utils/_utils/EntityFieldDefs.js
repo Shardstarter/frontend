@@ -14,34 +14,22 @@ export const loremString1 =
 
 export const privacyString = 'Privacy Policy | Terms & Conditions';
 
+//Social links
 export const twitter = {
   img: '_img/icon/twitter.png',
   path: 'https://twitter.com/ShardStarter'
 };
-export const facebook = {
-  img: '_img/icon/facebook.png',
-  path: 'https://facebook.com'
-};
+
 export const discord = {
   img: '_img/icon/discord.png',
   path: 'https://discord.com/invite/auCWYjwAn5'
 };
-export const instagram = {
-  img: '_img/icon/instagram.png',
-  path: 'https://in.linkedin.com/company/shardstarter'
-};
-export const reddit = {
-  img: '_img/icon/reddit.png',
-  path: 'https://reddit.com'
-};
+
 export const linkedin = {
   img: '_img/icon/linkedin.png',
-  path: 'https://linkedin.com'
+  path: 'https://in.linkedin.com/company/shardstarter'
 };
-export const chain = {
-  img: '_img/icon/chain.png',
-  path: 'https://chain.com'
-};
+
 export const telegram = {
   img: '_img/icon/telegram.png',
   path: 'https://t.me/ShardStarter'
@@ -50,6 +38,32 @@ export const medium = {
   img: '_img/icon/medium.png',
   path: 'https://medium.com/@partnerships_75747'
 };
+
+export const mirror = {
+  img: '_img/icon/mirror.png',
+  path: 'https://mirror.xyz/0x9DbAacCf4eF5a954271dB02a51ec383D6e360a45'
+};
+
+export const facebook = {
+  img: '_img/icon/facebook.png',
+  path: 'https://facebook.com'
+};
+
+export const reddit = {
+  img: '_img/icon/reddit.png',
+  path: 'https://reddit.com'
+};
+
+export const chain = {
+  img: '_img/icon/chain.png',
+  path: 'https://chain.com'
+};
+
+export const instagram = {
+  img: '_img/icon/instagram.png',
+  path: 'https://instagram.com'
+};
+// temp projects
 export const Fantasy = {
   img: '_img/icon/fantasy.png',
   cardimg: '_img/projects/fantasy.png',
