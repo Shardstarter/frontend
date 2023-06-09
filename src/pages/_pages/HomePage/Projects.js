@@ -32,23 +32,23 @@ const Projects = () => {
     (async () => {
       await dispatch(getPools(network, tab, account));
       const response = await apis.getDeals();
+      console.log('apis.getDeals===>', response)
 
-      if (response.statusText === 'OK') {
-        const _pools = response.data.pools;
-        _pools.map((pool) => {
-          pool.privacy = pool?.whitelistable ? 'Private Deal' : 'Public Deal';
-          pool.tag = pool?.deal;
+      const _pools = response.data.pools;
+      _pools.map((pool) => {
+        pool.privacy = pool?.whitelistable ? 'Private Deal' : 'Public Deal';
+        pool.tag = pool?.deal;
 
-          var startDateTime = new Date(pool.startDateTime)
-          var endDateTime = new Date(pool.endDateTime)
-          var nowDateTime = new Date();
+        var startDateTime = new Date(pool.startDateTime)
+        var endDateTime = new Date(pool.endDateTime)
+        var nowDateTime = new Date();
 
-          if (nowDateTime < startDateTime) pool.status = 1; //upcoming
-          else if (nowDateTime <= endDateTime) pool.status = 2; //open
-          else if (nowDateTime > endDateTime) pool.status = 3; //completed
-        })
-        setProjects(_pools);
-      }
+        if (nowDateTime < startDateTime) pool.status = 1; //upcoming
+        else if (nowDateTime <= endDateTime) pool.status = 2; //open
+        else if (nowDateTime > endDateTime) pool.status = 3; //completed
+      })
+      setProjects(_pools);
+
 
     })();
     return () => (unmounted = true);

@@ -10,7 +10,7 @@ import apis from 'services';
 
 export default function ProjectPage() {
   const { pathname, hash, search } = useLocation();
- 
+
   const tokenAddress = new URLSearchParams(search).get('address');
 
   const [data, setData] = useState({});
@@ -18,10 +18,10 @@ export default function ProjectPage() {
   useEffect(() => {
     (async () => {
       const response = await apis.getProjectDetails(tokenAddress, {});
-      if (response.statusText === 'OK') {
-        const { pool } = response.data;
-        setData(pool);
-      }
+
+      const { pool } = response.data;
+      setData(pool);
+
     })();
   }, []);
 
