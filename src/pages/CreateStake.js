@@ -58,7 +58,7 @@ export default function CreateStake() {
   //input
   const [token, setToken] = useState('');
   const [tokenError, setTokenError] = useState('');
-  const [logo, setLogo] = useState('https://snipboard.io/QnhTJZ.jpg');
+  const [logo, setLogo] = useState('https://snipboard.io/rcMq0f.jpg');
   const [lockingdays, setLockingDays] = useState(56);
   const [rewardRate, setRewardRate] = useState(3);
   const [amount, setAmount] = useState(1000);
@@ -216,6 +216,7 @@ export default function CreateStake() {
           console.log(contract.address);
           poolAddress = contract.address;
           await contract.deployTransaction.wait();
+          console.log('staking pool is created.... waiting transfer')
 
           const tx = await tokenContract.transfer(poolAddress, parseUnits(String(amount), tokenInfo.decimals));
           await tx.wait();
@@ -237,6 +238,7 @@ export default function CreateStake() {
 
         //save db
         try {
+          console.log('saving to database')
           const response = await axios.post(`/api/bsc/stake`, {
             address: poolAddress,
             owner: account,

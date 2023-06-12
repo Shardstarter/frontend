@@ -299,6 +299,7 @@ function LiquidStaking() {
 
           <Box sx={{ display: 'flex', justifyContent: 'end' }}>
             <RoundedLabel keyword="Balance" value={"$SHMX " + Number(wallet_SHMX_balance).toFixed(1)} bgColor="#171717" />
+            <RoundedLabel keyword="Balance" value={"$sSHMX " + Number(wallet_sSHMX_balance).toFixed(1)} bgColor="#171717" />
           </Box>
           <PrimaryButton
             sx={{
