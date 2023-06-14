@@ -111,10 +111,11 @@ export default function Admin() {
         <Grid padding="5%">
           <h3>Current setting</h3>
           <hr />
-          <p>Network: <span style={{ color: 'green' }}> {NETWORK_NAME[network]}</span></p>
+          <p>Network: <span style={{ color: 'green' }}> {NETWORK_NAME[network]} ({network})</span></p>
           <p>SHMX Token address: <span style={{ color: 'green' }}> {PROJECT_MAIN_TOKEN_ADDRESS[network]}</span></p>
           <p>sSHMX Token address: <span style={{ color: 'green' }}> {LIQUID_STAKING_TOKEN_ADDRESS[network]}</span></p>
           <p>Liquid Staking Contract address: <span style={{ color: 'green' }}> {LIQUID_STAKING_CONTRACT_ADDRESS[network]}</span></p>
+          <p>Main Staking Contract address: <span style={{ color: 'green' }}> {MAIN_STAKING_CONTRACT_ADDRESS[network]}</span></p>
           <p>IDO Contract address: <span style={{ color: 'green' }}> {IDO_ADDRESS[network]}</span></p>
           <hr />
           <p>Tier Level and Staking amount:

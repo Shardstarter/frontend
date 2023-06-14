@@ -13,6 +13,7 @@ import { useInactiveListener } from './hooks/useInactiveListener'
 
 import useActiveWeb3React from "hooks/useActiveWeb3React";
 import { setupNetwork } from 'utils/wallet';
+import { propOr } from "ramda";
 
 // ----------------------------------------------------------------------
 
@@ -27,22 +28,23 @@ export default function App() {
   useInactiveListener();
 
   const provider = window.ethereum;
-  useEffect(() => {
-    if (provider) {
-      if (provider.chainId && (Number(provider.chainId) !== Number(process.env.REACT_APP_PROJECT_CHAINID))) {
-        setupNetwork(process.env.REACT_APP_PROJECT_CHAINID);
-      }
-      dispatch(switchNetwork(provider.networkVersion));
-    }
-  }, [dispatch, chainId, network, provider]);
-
-
   // useEffect(() => {
-  //   if (provider)
-  //     provider.on('chainChanged', (id) => {      
-  //       dispatch(switchNetwork(id));
-  //     });
-  // }, [dispatch, provider]);
+  //   if (provider) {
+  //     if (provider.chainId && (Number(provider.chainId) !== Number(process.env.REACT_APP_PROJECT_CHAINID))) {
+  //       setupNetwork(process.env.REACT_APP_PROJECT_CHAINID);
+  //     }
+  //     dispatch(switchNetwork(provider.networkVersion));
+  //   }
+  // }, [dispatch, chainId, network, provider]);
+
+
+  useEffect(() => {
+    dispatch(switchNetwork(provider.chainId));
+
+    provider.on('chainChanged', (id) => {
+      dispatch(switchNetwork(id));
+    });
+  }, [dispatch, provider, chainId, network]);
 
   return (
     <ThemeConfig>

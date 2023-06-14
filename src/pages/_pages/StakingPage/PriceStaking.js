@@ -527,7 +527,7 @@ function PriceStaking() {
           {(activeId === 0) && (
             <Box sx={{ display: 'flex', rowGap: '20px', flexDirection: 'column' }}>
               {pools.map((pool, idx) =>
-                <RenderElements poolInfo={pool} idx={idx} expanded={expanded} setExpanded={setExpanded} />
+                <RenderElements key={idx}  poolInfo={pool} idx={idx} expanded={expanded} setExpanded={setExpanded} />
               )}
             </Box>
           )}

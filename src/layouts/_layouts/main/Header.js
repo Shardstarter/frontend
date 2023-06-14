@@ -11,6 +11,7 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React';
 import { useWalletModal } from 'redrum-pancake-uikit';
 import useAuth from 'hooks/useAuth';
 import { useSelector } from 'react-redux';
+import { NETWORK_NAME } from 'config/constants';
 
 const Logo = () => (
   <Box maxWidth={318} height={64}>
@@ -148,6 +149,21 @@ const Header = (props) => {
                 />
               ))}
             </Box>
+            {account &&
+              <Label
+                key={10}
+                sx={{
+                  marginRight: '60px',
+                }}
+
+                text={{
+                  type: "text",
+                  color: "green",
+                  value: NETWORK_NAME[network],
+                  size: 18,
+                  weight: 100
+                }}
+              />}
             {account ?
               <PrimaryButton
                 label={account.substring(0, 5) + '...' + account.substring(account.length - 4, account.length)}

@@ -10,6 +10,7 @@ import { nodes } from "./getRpcUrl";
  * @returns {boolean} true if the setup succeeded, false otherwise
  */
 export const setupNetwork = async (network) => { 
+  console.log('setting up network')
   const provider = window.ethereum;
   if (provider) {
     const requested_chainId_str = `0x${Number(network).toString(16)}`;

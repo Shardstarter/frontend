@@ -27,16 +27,19 @@ export const useMainStakingStatus = () => {
   //Wallet balance
   const [wallet_balance, setWalletBalance] = useState(0)
   useEffect(() => {
-    (async () => {
-      try {
-        let decimals = await tokenContract.decimals();
-        let wallet_balance = await tokenContract.balanceOf(account);
-        wallet_balance = formatUnits(wallet_balance, decimals);
-        setWalletBalance(wallet_balance);
-      } catch (error) {
-        console.log(error.message)
-      }
-    })();
+    if (tokenContract) {
+      (async () => {
+        try {
+          let decimals = await tokenContract.decimals();
+          console.log('decimals', decimals)
+          let wallet_balance = await tokenContract.balanceOf(account);
+          wallet_balance = formatUnits(wallet_balance, decimals);
+          setWalletBalance(wallet_balance);
+        } catch (error) {
+          console.log(error.message)
+        }
+      })();
+    }
   }, [tokenContract])
 
   //TVL
@@ -91,7 +94,7 @@ export const useMainStakingStatus = () => {
     };
 
     dosth();
-  }, [account]);
+  }, [account, mainStakingContract]);
 
   useEffect(() => {
     if (tier == TIER_LEVEL.none_0) setMyTierLevelCount(countTiers[0])

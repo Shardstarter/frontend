@@ -95,10 +95,10 @@ export const NETWORK_NAME = {
   '3': 'Ropsten Testnet',
   '42': 'Kovan Testnet',
   '56': 'Binance Smart Chain Mainnet',
-  '97': 'Binance Smart Chain Testnet',
+  '97': 'BSC',
   '1337': 'localhost',
   '8081': 'Shardeum Liberty 2.X',
-  '8082': 'Shardeum Sphinx 1.X',
+  '8082': 'Sphinx',
 };
 export const SWAP_URL = {
   '1': 'https://app.uniswap.org/#/swap?outputCurrency=',

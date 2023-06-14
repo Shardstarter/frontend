@@ -14,7 +14,8 @@ function RightStaking() {
   const { tier, staked_amount, reward_amount } = useMainStakingStatus();
   const tokenContract = useProjectMainTokenContract(); //main staking token
   const stakingContract = useMainStakingContract();
-  const { account } = useActiveWeb3React();
+  const { account, library } = useActiveWeb3React();
+
 
   const [stakingpool_address, setStakingPoolAddress] = useState('')
   const [wallet_balance, setWalletBalance] = useState(0)
