@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import { Label } from 'components/_components/Label';
-import { TIER_LEVEL } from 'config/constants';
+import { TIER_LEVEL, TIER_DEPOSIT_PERCENT, TIER_MINIMUM_STAKING_DAYS } from 'config/constants';
 
 import { useMainStakingStatus } from 'hooks/useMyStatus';
 
@@ -63,7 +63,7 @@ function LeftStaking() {
           size: 24
         },
         value: {
-          value: '50% of Pool Size',
+          value: TIER_DEPOSIT_PERCENT[tier] + '% of Pool Size',
           size: 18,
           weight: 100,
           color: 'grey'
@@ -76,7 +76,7 @@ function LeftStaking() {
           size: 24
         },
         value: {
-          value: 'Stake for 56 Days',
+          value: 'Stake for ' + TIER_MINIMUM_STAKING_DAYS[tier] + ' Days',
           size: 18,
           weight: 100,
           color: 'grey'

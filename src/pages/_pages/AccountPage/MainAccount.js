@@ -87,7 +87,7 @@ function MainAccount({unclaimed}) {
   var AccountInfo = {
     balance: {
       keyword: 'Balance',
-      value: '$SHMX ' + wallet_balance
+      value: '$SHMX ' + Number(wallet_balance).toFixed(3)
     },
     buy: {
       keyword: 'Buy',

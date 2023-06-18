@@ -5,7 +5,7 @@ import PriceStaking from "./PriceStaking"
 const StakingPage = () => {
   return(
     <div>
-      <MainStaking />
+      {/* <MainStaking /> */}
       <PriceStaking />
     </div>
   )

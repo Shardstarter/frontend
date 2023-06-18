@@ -153,14 +153,13 @@ const Header = (props) => {
               <Label
                 key={10}
                 sx={{
-                  marginRight: '60px',
+                  marginRight: '20px',
                 }}
-
                 text={{
                   type: "text",
                   color: "green",
                   value: NETWORK_NAME[network],
-                  size: 18,
+                  size: 15,
                   weight: 100
                 }}
               />}

@@ -40,62 +40,67 @@ const Votes = () => {
     })();
   }, []);
 
+  const [filter, setFilter] = useState('All'); //filter
   const [showing_votes, setShowingVotes] = useState([]); //modified votes 
   useEffect(() => {
-    var new_arr = votes.map((item) => {
-      let found = false, liked = false;
-      item.participants.find((item) => {
-        if (item.wallet_address == account) {
-          found = true;
-          liked = item.isUp;
-        }
-      });
-
-      return {
-        id: item._id,
-        imgUrl: item.logo,
-        value: item.projectName,
-        label: item.ticker,
-        social: [
-          {
-            img: '_img/icon/chain.png',
-            path: item.website
-          },
-          {
-            img: '_img/icon/twitter.png',
-            path: item.twitter
-          },
-          {
-            img: '_img/icon/telegram.png',
-            path: item.telegram
-          },
-          {
-            img: '_img/icon/reddit.png',
-            path: item.discord
-          },
-        ],
-        liked: found ? (liked ? 1 : -1) : 0,  //1, -1, 0
-        percent: Number(item.up / tvl * 100).toFixed(1),
-        percent1_label: Number(item.up / tvl * 100).toFixed(1) + " %",
-        percent2_label: Number(item.down / tvl * 100).toFixed(1) + " %",
-        links: [
-          {
-            value: 'Whitepapers',
-            href: item.whitepaper
-          },
-          {
-            value: 'Pitchdeck',
-            href: item.pitchdeck
-          },
-          {
-            value: 'Audit Report',
-            href: item.audit
+    var new_arr = votes
+      .filter(item => (filter == 'All' || item.ticker?.includes(filter)))
+      .filter(item => activeId == 0 || activeId == 1) //only for "All" and "Open" button
+      .map((item) => {
+        let found = false, liked = false;
+        item.participants.find((item) => {
+          if (item.wallet_address == account) {
+            found = true;
+            liked = item.isUp;
           }
-        ]
-      }
-    })
+        });
+
+        return {
+          id: item._id,
+          imgUrl: item.logo,
+          value: item.projectName,
+          label: item.ticker,
+          social: [
+            {
+              img: '_img/icon/chain.png',
+              path: item.website
+            },
+            {
+              img: '_img/icon/twitter.png',
+              path: item.twitter
+            },
+            {
+              img: '_img/icon/telegram.png',
+              path: item.telegram
+            },
+            {
+              img: '_img/icon/reddit.png',
+              path: item.discord
+            },
+          ],
+          liked: found ? (liked ? 1 : -1) : 0,  //1, -1, 0
+          percent: Number(item.up / tvl * 100).toFixed(1),
+          percent1_label: Number(item.up / tvl * 100).toFixed(1) + " %",
+          percent2_label: Number(item.down / tvl * 100).toFixed(1) + " %",
+          links: [
+            {
+              value: 'Whitepapers',
+              href: item.whitepaper
+            },
+            {
+              value: 'Pitchdeck',
+              href: item.pitchdeck
+            },
+            {
+              value: 'Audit Report',
+              href: item.audit
+            }
+          ]
+        }
+      })
+      .reverse();
     setShowingVotes(new_arr)
-  }, [votes, tvl])
+  }, [votes, tvl, filter, activeId])
 
   const placeVote = async (vote_id, isUp) => {
     try {
@@ -192,7 +197,7 @@ const Votes = () => {
                 />
               ))}
             </Stack>
-            <FilterBar options={['PolkaFantasy', 'NetVRK', 'Bulkperks', 'Solchicks', 'SIDUS']} />
+            <FilterBar options={['All', 'Governance', 'Funding', 'Project', 'Policy', 'Community']} onChangeAction={setFilter} />
           </Box>
           <Box sx={{ marginTop: '60px', display: 'flex', flexDirection: 'column', rowGap: '20px' }}>
             {showing_votes.map((vote, idx) => (
@@ -231,7 +236,7 @@ const VoteCard = ({ vote, onClickYes, onClickNo }) => {
           <img src={vote.imgUrl} alt="imgUrl" width={100} />
           <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '30px' }}>
             <Label text={{ value: vote.value, size: 30 }} />
-            <RoundedCard bgColor="#171717" color="#02FF7B" label={vote.label} width={119} height={43} />
+            <RoundedCard bgColor="#171717" color="#02FF7B" label={vote.label} width={250} height={43} />
           </Box>
         </Box>
         <Box sx={{ marginTop: '28px' }}>
@@ -293,8 +298,11 @@ const VoteCard = ({ vote, onClickYes, onClickNo }) => {
       >
         {vote.links.map((link, idx) => (
           <Box key={idx} sx={{ display: 'flex' }}>
-            <Label text={{ value: link.value, type: 'link', href: link.href }} sx={{ marginRight: '12px' }} />
-            <Link to={link.href}>
+            <Label text={{ value: link.value, type: 'text' }} sx={{ marginRight: '12px' }} />
+            <Link to={link.href} onClick={(event) => {
+              event.preventDefault();
+              window.open(event.currentTarget.href, '_blank');
+            }}>
               <LaunchIcon />
             </Link>
           </Box>

@@ -11,7 +11,7 @@ const injected = new InjectedConnector({
   supportedChainIds: [
     Number(process.env.REACT_APP_ETHEREUM_CHAINID),
     Number(process.env.REACT_APP_BSC_CHAINID),
-    Number(process.env.REACT_APP_SHMLIB2X_CHAINID),
+    Number(process.env.REACT_APP_SHARDEUM_APPSPHINX_CHAINID),
     Number(process.env.REACT_APP_SHMSPHINX_CHAINID),
   ]
 });
@@ -20,7 +20,7 @@ const walletconnect = new WalletConnectConnector({
   rpc: {
     [Number(process.env.REACT_APP_ETHEREUM_CHAINID)]: getNodeUrl(Number(process.env.REACT_APP_ETHEREUM_CHAINID)),
     [Number(process.env.REACT_APP_BSC_CHAINID)]: getNodeUrl(Number(process.env.REACT_APP_BSC_CHAINID)),
-    [Number(process.env.REACT_APP_SHMLIB2X_CHAINID)]: getNodeUrl(Number(process.env.REACT_APP_SHMLIB2X_CHAINID)),
+    [Number(process.env.REACT_APP_SHARDEUM_APPSPHINX_CHAINID)]: getNodeUrl(Number(process.env.REACT_APP_SHARDEUM_APPSPHINX_CHAINID)),
     [Number(process.env.REACT_APP_SHMSPHINX_CHAINID)]: getNodeUrl(Number(process.env.REACT_APP_SHMSPHINX_CHAINID))
   },
   qrcode: true,
@@ -31,7 +31,7 @@ const bscConnector = new BscConnector({
   supportedChainIds: [
     Number(process.env.REACT_APP_ETHEREUM_CHAINID),
     Number(process.env.REACT_APP_BSC_CHAINID),
-    Number(process.env.REACT_APP_SHMLIB2X_CHAINID),
+    Number(process.env.REACT_APP_SHARDEUM_APPSPHINX_CHAINID),
     Number(process.env.REACT_APP_SHMSPHINX_CHAINID),
   ]
 });

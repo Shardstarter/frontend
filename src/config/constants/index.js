@@ -2,7 +2,7 @@ export const IDO_ADDRESS = {
   [process.env.REACT_APP_ETHEREUM_CHAINID]: '0xb7BB0b6Ceb97cd0F482AADA8Cf09df14451f7300', //Ropsten IDO
   [process.env.REACT_APP_BSC_CHAINID]: '0x54A637CB0033d5eb96316d00EA1B43cA0E7eb25A', //BSC IDO
   [process.env.REACT_APP_LOCALHOST_CHAINID]: '',
-  [process.env.REACT_APP_SHMLIB2X_CHAINID]: '0x50826317f22c46753CC7cb91455Af69AfCEc907F', //Shardeum IDO
+  [process.env.REACT_APP_SHARDEUM_APPSPHINX_CHAINID]: '0x50826317f22c46753CC7cb91455Af69AfCEc907F', //Shardeum IDO
   [process.env.REACT_APP_SHMSPHINX_CHAINID]: '0x45C1fe473B7053cf01923ebe5c67B8576F6E2C02', //Shardeum IDO
 };
 
@@ -10,7 +10,7 @@ export const MAIN_STAKING_CONTRACT_ADDRESS = {
   [process.env.REACT_APP_ETHEREUM_CHAINID]: '',
   [process.env.REACT_APP_BSC_CHAINID]: '0xbb3663E583E51AF08654a800B50d2d1b12b1B88E', //SHMX token on BSC
   [process.env.REACT_APP_LOCALHOST_CHAINID]: '',
-  [process.env.REACT_APP_SHMLIB2X_CHAINID]: '0x6A9C7aaF517E615Ef113af92f0425fe487E9fb9B',  //Shardeum, SHMX token
+  [process.env.REACT_APP_SHARDEUM_APPSPHINX_CHAINID]: '0x6A9C7aaF517E615Ef113af92f0425fe487E9fb9B',  //Shardeum, SHMX token
   [process.env.REACT_APP_SHMSPHINX_CHAINID]: '',  //Shardeum, SHMX token
 };
 
@@ -18,7 +18,7 @@ export const PROJECT_MAIN_TOKEN_ADDRESS = {
   [process.env.REACT_APP_ETHEREUM_CHAINID]: '',
   [process.env.REACT_APP_BSC_CHAINID]: '0xd3761e00fDd4e4eEeED5cE78ed0C7c41b6517a0f', //SHMX
   [process.env.REACT_APP_LOCALHOST_CHAINID]: '',
-  [process.env.REACT_APP_SHMLIB2X_CHAINID]: '',  //ShardStarter Token, SHMX
+  [process.env.REACT_APP_SHARDEUM_APPSPHINX_CHAINID]: '0x978Ef5F2Dc601d2Fb482FD8457e19178ccb76a53',  //ShardStarter Token, SHMX
   [process.env.REACT_APP_SHMSPHINX_CHAINID]: '0x978Ef5F2Dc601d2Fb482FD8457e19178ccb76a53',  //ShardStarter Token, SHMX
 };
 
@@ -26,7 +26,7 @@ export const LIQUID_STAKING_CONTRACT_ADDRESS = {
   [process.env.REACT_APP_ETHEREUM_CHAINID]: '',
   [process.env.REACT_APP_BSC_CHAINID]: '0xC2447aC4Fc570bB0ECc2352bF59680F5867c9D54', //SHMX <-> sSHMX
   [process.env.REACT_APP_LOCALHOST_CHAINID]: '',
-  [process.env.REACT_APP_SHMLIB2X_CHAINID]: '',
+  [process.env.REACT_APP_SHARDEUM_APPSPHINX_CHAINID]: '0x1B0036918420486B5b16BeB7fB8aae32Cd6832B9',
   [process.env.REACT_APP_SHMSPHINX_CHAINID]: '0x72b94c2f7539c84D4B2a18072bF4461D2EEfeE89', //SHMX <-> sSHMX
 };
 
@@ -34,7 +34,7 @@ export const LIQUID_STAKING_TOKEN_ADDRESS = {
   [process.env.REACT_APP_ETHEREUM_CHAINID]: '',
   [process.env.REACT_APP_BSC_CHAINID]: '0xD17D869E5D8152e0deEEAC1BB45476DD272c9c58', //sSHMX
   [process.env.REACT_APP_LOCALHOST_CHAINID]: '',
-  [process.env.REACT_APP_SHMLIB2X_CHAINID]: '',
+  [process.env.REACT_APP_SHARDEUM_APPSPHINX_CHAINID]: '0x1182B77a40aA95978C9906058FD927f4a17a6203',
   [process.env.REACT_APP_SHMSPHINX_CHAINID]: '0x1182B77a40aA95978C9906058FD927f4a17a6203', //sSHMX
 };
 
@@ -46,7 +46,7 @@ export const LOCK_ADDRESS = {
   [process.env.REACT_APP_ETHEREUM_CHAINID]: '0xdd151CEbdc9574686a408381732a5756D4A96819',
   [process.env.REACT_APP_BSC_CHAINID]: '0x7C1666fa1e6E3908618B4aE4cEB239f8ccb62C10',
   [process.env.REACT_APP_LOCALHOST_CHAINID]: '',
-  [process.env.REACT_APP_SHMLIB2X_CHAINID]: '',
+  [process.env.REACT_APP_SHARDEUM_APPSPHINX_CHAINID]: '',
   [process.env.REACT_APP_SHMSPHINX_CHAINID]: '',
 };
 
@@ -54,7 +54,7 @@ export const ADMIN_ADDRESS = {
   [process.env.REACT_APP_ETHEREUM_CHAINID]: '0xecFA21cfFcb7BDeE55D137486Dea0d7984c72619',
   [process.env.REACT_APP_BSC_CHAINID]: '0xecFA21cfFcb7BDeE55D137486Dea0d7984c72619',
   [process.env.REACT_APP_LOCALHOST_CHAINID]: '0xecFA21cfFcb7BDeE55D137486Dea0d7984c72619',
-  [process.env.REACT_APP_SHMLIB2X_CHAINID]: '0xecFA21cfFcb7BDeE55D137486Dea0d7984c72619',
+  [process.env.REACT_APP_SHARDEUM_APPSPHINX_CHAINID]: '0xecFA21cfFcb7BDeE55D137486Dea0d7984c72619',
   [process.env.REACT_APP_SHMSPHINX_CHAINID]: '0xecFA21cfFcb7BDeE55D137486Dea0d7984c72619',
 };
 
@@ -65,7 +65,7 @@ export const SCAN_URL = {
   '42': 'https://kovan.etherscan.io',
   '56': 'https://bscscan.com',
   '97': 'https://testnet.bscscan.com',
-  '8081': 'https://explorer-liberty20.shardeum.org',
+  '8081': 'https://explorer-dapps.shardeum.org/',
   '8082': 'https://explorer-sphinx.shardeum.org/',
 };
 
@@ -97,7 +97,7 @@ export const NETWORK_NAME = {
   '56': 'Binance Smart Chain Mainnet',
   '97': 'BSC',
   '1337': 'localhost',
-  '8081': 'Shardeum Liberty 2.X',
+  '8081': 'App Sphinx 1.X',
   '8082': 'Sphinx',
 };
 export const SWAP_URL = {
@@ -158,10 +158,10 @@ export const TIER_LEVEL = {
 };
 
 export const TIER_STAKING_AMOUNT = {
-  amber_1: 1000,
-  chrome_2: 2000,
-  jade_3: 3000,
-  topaz_4: 4000,
+  amber_1: 3000,
+  chrome_2: 15000,
+  jade_3: 45000,
+  topaz_4: 70000,
 };
 
 export const TIER_DEPOSIT_PERCENT = {
@@ -170,4 +170,12 @@ export const TIER_DEPOSIT_PERCENT = {
   'Chrome': 15,
   'Jade': 30,
   'Topaz': 50,
+};
+
+export const TIER_MINIMUM_STAKING_DAYS = {
+  'None': 0,
+  'Amber': 7, // minimum staking perios 7 Days
+  'Chrome': 7,
+  'Jade': 7,
+  'Topaz': 10,
 };

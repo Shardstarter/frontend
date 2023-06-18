@@ -140,14 +140,14 @@ const CustomSelect = React.forwardRef(function CustomSelect(props, ref) {
   return <Select {...props} ref={ref} slots={slots} />;
 });
 
-const FilterBar = ({ options }) => {
+const FilterBar = ({ options, onChangeAction }) => {
   return (
-    <CustomSelect defaultValue={-1}>
-      <StyledOption value={-1} sx={{ display: 'none' }}>
+    <CustomSelect defaultValue={0} onChange={(e) => onChangeAction(e?.target.textContent)}>
+      <StyledOption value={0} sx={{ display: 'none' }}>
         Filters
       </StyledOption>
       {options.map((option, idx) => (
-        <StyledOption key={idx} value={idx}>{option}</StyledOption>
+        <StyledOption key={idx} value={option}>{option}</StyledOption>
       ))}
     </CustomSelect>
   );

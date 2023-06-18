@@ -61,7 +61,7 @@ const RenderElements = ({ poolInfo, idx, expanded, setExpanded }) => {
           token_decimal: decimals,
           wallet_balance: formatUnits(wallet_balance, decimals),
           staked: formatUnits(staked, decimals),
-          rewards: Number(formatUnits(rewards, decimals)).toFixed(3),
+          rewards: Number(formatUnits(rewards, decimals)).toExponential(2),
           tvl: formatUnits(pool_tvl, decimals),
           lockingReleaseTime,
         });
@@ -425,6 +425,8 @@ const RenderElements = ({ poolInfo, idx, expanded, setExpanded }) => {
           >
             <span>Your wallet {poolInfo.tokenSymbol} balance: {data.wallet_balance}</span>
             <br />
+            <span>Your reward amount: {data.rewards}</span>
+            <br />
             <span>Your Lock time: {data.lockingReleaseTime}.  Harvesting will reset the lock time.</span>
           </Box>
         </Box>
@@ -467,7 +469,7 @@ function PriceStaking() {
         backgroundImage: 'url("_img/projects/background.png")',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
-        marginTop: '80px',
+        marginTop: '0px',
         position: 'relative',
         '@media (max-width: 600px)': {
           padding: '60px 2%'
@@ -527,7 +529,7 @@ function PriceStaking() {
           {(activeId === 0) && (
             <Box sx={{ display: 'flex', rowGap: '20px', flexDirection: 'column' }}>
               {pools.map((pool, idx) =>
-                <RenderElements key={idx}  poolInfo={pool} idx={idx} expanded={expanded} setExpanded={setExpanded} />
+                <RenderElements key={idx} poolInfo={pool} idx={idx} expanded={expanded} setExpanded={setExpanded} />
               )}
             </Box>
           )}

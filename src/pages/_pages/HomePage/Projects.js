@@ -54,6 +54,8 @@ const Projects = () => {
     return () => (unmounted = true);
   }, [account, dispatch, network, tab]);
 
+  const [filter, setFilter] = useState('All'); //filter
+
   return (
     <Box
       sx={{
@@ -159,7 +161,7 @@ const Projects = () => {
               ))}
             </Stack>
             <SecondaryButton label="Calendar View" sx={{ width: '220px' }} onClick={() => window.open('/calender')} />
-            <FilterBar options={['PolkaFantasy', 'NetVRK', 'Bulkperks', 'Solchicks', 'SIDUS']} />
+            <FilterBar options={['All', 'GTEDI', 'Bulkperks', 'Solchicks', 'SIDUS']} onChangeAction={setFilter} />
           </Box>
         </Box>
         <Box
@@ -175,10 +177,12 @@ const Projects = () => {
             }
           }}
         >
-          {projects.map((project, idx) =>
-            (activeId == 0 || project.status == activeId) &&
-            <ProjectCard key={idx} project={project} />
-          )}
+          {projects
+            .filter(project => (filter == 'All' || project.projectName?.includes(filter)))
+            .map((project, idx) =>
+              (activeId == 0 || project.status == activeId) &&
+              <ProjectCard key={idx} project={project} />
+            )}
         </Box>
         <Box sx={{ marginTop: '80px', marginBottom: '30px' }}>
           <Pagination id={curId} setCurId={setCurId} />
