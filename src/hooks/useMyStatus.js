@@ -3,8 +3,9 @@ import { ethers } from "ethers";
 import useActiveWeb3React from "./useActiveWeb3React";
 import { TIER_LEVEL, TIER_STAKING_AMOUNT } from "config/constants";
 import {
-  useMainStakingContract, useProjectMainTokenContract, useIDOContract,
-  usePoolContract, useLiquidStakingContract, useLiquidStakingTokenContract
+  useTokenContract, useMainStakingContract, useProjectMainTokenContract, useIDOContract,
+  usePoolContract, useLiquidStakingContract, useLiquidStakingTokenContract,
+  useDEXRouterContract
 } from "./useContract";
 import { LIQUID_STAKING_CONTRACT_ADDRESS, PROJECT_MAIN_TOKEN_ADDRESS } from "config/constants";
 import { useSelector } from "react-redux";
@@ -12,6 +13,7 @@ import { useSelector } from "react-redux";
 import { formatUnits, parseUnits, formatEther, parseEther } from '@ethersproject/units';
 import { TIER_DEPOSIT_PERCENT } from "config/constants";
 import apis from "services";
+import { USDC_TOKEN_ADDRESS } from "config/constants";
 
 export const useMainStakingStatus = () => {
   const [tier, setTier] = useState(TIER_LEVEL.none_0);
@@ -568,3 +570,75 @@ export const useLiquidStakingStatus = () => {
     funcStake, funcUnstake, funcClaimRewards
   };
 }
+
+/**
+ * 
+ * @returns swap contract status
+ */
+export const useSwapStatus = () => {
+  const { account } = useActiveWeb3React();
+  const network = useSelector((state) => state.network.chainId);
+
+  const dexRouterContract = useDEXRouterContract();
+
+  // Token in
+  const tokenIn = useMemo(() => {
+    return USDC_TOKEN_ADDRESS[network]; //TO_DO
+  }, [network]);
+  const tokenInContract = useTokenContract(USDC_TOKEN_ADDRESS[network]); //TO_DO
+  const [tokenInBalance, setTokenInBalance] = useState();
+  useEffect(async () => {
+    try {
+      const balance = await tokenInContract.balanceOf(account);
+      setTokenInBalance(formatEther(balance));
+    } catch (error) {
+      console.error('Error fetching token balance:', error);
+    }
+  }, [tokenInContract]);
+
+  // Token out
+  const tokenOut = useMemo(() => {
+    return PROJECT_MAIN_TOKEN_ADDRESS[network]; //TO_DO
+  }, [network]);
+  const tokenOutContract = useTokenContract(PROJECT_MAIN_TOKEN_ADDRESS[network]); //TO_DO
+  const [tokenOutBalance, setTokenOutBalance] = useState();
+  useEffect(async () => {
+    try {
+      const balance = await tokenOutContract.balanceOf(account);
+      setTokenOutBalance(formatEther(balance));
+    } catch (error) {
+      console.error('Error fetching token balance:', error);
+    }
+  }, [tokenOutContract]);
+
+
+  const [tokenAmountIn, setTokenAmountIn] = useState(0.001);
+  const [tokenAmountOut, setTokenAmountOut] = useState('');
+
+  // Calculate Output from Input
+  useEffect(async () => {
+    let amountIn = parseEther(String(tokenAmountIn))
+    const amountsOut = await dexRouterContract.getAmountsOut(amountIn, [tokenIn, tokenOut]);
+    setTokenAmountOut(Number(formatEther((amountsOut[1]))));
+  }, [tokenAmountIn, dexRouterContract])
+
+  const funcSwap = async () => {
+    const tx = await dexRouterContract.swapExactTokensForTokens(
+      parseEther(String(tokenAmountIn)),
+      0,
+      [
+        tokenIn,
+        tokenOut
+      ],
+      account,
+      Math.floor(Date.now() / 1000) + 300, // Set the deadline to 5 minutes from now
+    );
+    await tx.wait();
+  }
+
+  return {
+    tokenAmountIn, setTokenAmountIn, tokenAmountOut, setTokenAmountOut,
+    tokenInBalance, tokenOutBalance,
+    funcSwap
+  };
+};

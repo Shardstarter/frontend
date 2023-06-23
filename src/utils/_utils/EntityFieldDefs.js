@@ -1,8 +1,9 @@
 export const navItems = [
   { text: 'projects', href: 'home' },
   { text: 'staking', href: 'staking' },
-  { text: 'vote', href: 'vote' },
+  { text: 'vote', href: 'vote' },  
   { text: 'account', href: 'account' },
+  { text: 'swap', href: 'swap' },
   { text: 'docs', href: 'https://shardstarter-io.gitbook.io/shardstarter/' },
 ];
 

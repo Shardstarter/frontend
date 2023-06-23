@@ -6,10 +6,12 @@ import LOCK_ABI from 'config/abi/lock.json';
 import POOL_ABI from 'config/abi/pool.json';
 import STAKING_ABI from 'config/abi/staking.json';
 import LIQUIDSTAKING_ABI from 'config/abi/liquid_staking.json';
+import PANCAKEROUTER_ABI from 'config/abi/pancake_router.json';
 
 import {
   IDO_ADDRESS, LOCK_ADDRESS, MAIN_STAKING_CONTRACT_ADDRESS,
-  PROJECT_MAIN_TOKEN_ADDRESS, LIQUID_STAKING_CONTRACT_ADDRESS, LIQUID_STAKING_TOKEN_ADDRESS
+  PROJECT_MAIN_TOKEN_ADDRESS, LIQUID_STAKING_CONTRACT_ADDRESS, LIQUID_STAKING_TOKEN_ADDRESS,
+  DEX_ROUTERV2_ADDRESS
 } from 'config/constants';
 // Imports below migrated from Exchange useContract.ts
 import { Contract } from '@ethersproject/contracts';
@@ -77,4 +79,9 @@ export function useLiquidStakingContract(withSignerIfPossible = true) {
   return useContract(LIQUID_STAKING_CONTRACT_ADDRESS[network], LIQUIDSTAKING_ABI, withSignerIfPossible);
 }
 
+export function useDEXRouterContract(withSignerIfPossible = true) {
+  const network = useSelector((state) => state.network.chainId);
+
+  return useContract(DEX_ROUTERV2_ADDRESS[network], PANCAKEROUTER_ABI, withSignerIfPossible);
+}
 

@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 import {
   NETWORK_NAME, IDO_ADDRESS, PROJECT_MAIN_TOKEN_ADDRESS, MAIN_STAKING_CONTRACT_ADDRESS,
-  LIQUID_STAKING_CONTRACT_ADDRESS, LIQUID_STAKING_TOKEN_ADDRESS,
+  LIQUID_STAKING_CONTRACT_ADDRESS, LIQUID_STAKING_TOKEN_ADDRESS, USDC_TOKEN_ADDRESS, 
   TIER_LEVEL, TIER_STAKING_AMOUNT
 } from 'config/constants';
 
@@ -117,6 +117,7 @@ export default function Admin() {
           <p>Liquid Staking Contract address: <span style={{ color: 'green' }}> {LIQUID_STAKING_CONTRACT_ADDRESS[network]}</span></p>
           <p>Main Staking Contract address: <span style={{ color: 'green' }}> {MAIN_STAKING_CONTRACT_ADDRESS[network]}</span></p>
           <p>IDO Contract address: <span style={{ color: 'green' }}> {IDO_ADDRESS[network]}</span></p>
+          <p>USDC Token address: <span style={{ color: 'green' }}> {USDC_TOKEN_ADDRESS[network]}</span></p>
           <hr />
           <p>Tier Level and Staking amount:
             <span style={{ color: 'green' }}>
