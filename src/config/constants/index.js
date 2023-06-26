@@ -20,6 +20,7 @@ export const PROJECT_MAIN_TOKEN_ADDRESS = {
   [process.env.REACT_APP_LOCALHOST_CHAINID]: '',
   [process.env.REACT_APP_SHARDEUM_APPSPHINX_CHAINID]: '0x978Ef5F2Dc601d2Fb482FD8457e19178ccb76a53',  //ShardStarter Token, SHMX
   [process.env.REACT_APP_SHMSPHINX_CHAINID]: '0x978Ef5F2Dc601d2Fb482FD8457e19178ccb76a53',  //ShardStarter Token, SHMX
+  [process.env.REACT_APP_MUMBAI_CHAINID]: '0x321E9808b85EdbA9fa3F5fC4CA90A5dD5e220711'
 };
 
 export const LIQUID_STAKING_CONTRACT_ADDRESS = {
@@ -38,21 +39,50 @@ export const LIQUID_STAKING_TOKEN_ADDRESS = {
   [process.env.REACT_APP_SHMSPHINX_CHAINID]: '0x1182B77a40aA95978C9906058FD927f4a17a6203', //sSHMX
 };
 
-export const USDC_TOKEN_ADDRESS = {
+export const WETH_TOKEN_ADDRESS = {
   [process.env.REACT_APP_ETHEREUM_CHAINID]: '',
-  [process.env.REACT_APP_BSC_CHAINID]: '0x64544969ed7EBf5f083679233325356EbE738930', 
+  [process.env.REACT_APP_BSC_CHAINID]: '0xae13d989dac2f0debff460ac112a837c89baa7cd',
   [process.env.REACT_APP_LOCALHOST_CHAINID]: '',
   [process.env.REACT_APP_SHARDEUM_APPSPHINX_CHAINID]: '',
-  [process.env.REACT_APP_SHMSPHINX_CHAINID]: '', 
+  [process.env.REACT_APP_SHMSPHINX_CHAINID]: '',
+};
+
+export const USDC_TOKEN_ADDRESS = {
+  [process.env.REACT_APP_ETHEREUM_CHAINID]: '',
+  [process.env.REACT_APP_BSC_CHAINID]: '0x64544969ed7EBf5f083679233325356EbE738930',
+  [process.env.REACT_APP_LOCALHOST_CHAINID]: '',
+  [process.env.REACT_APP_SHARDEUM_APPSPHINX_CHAINID]: '0x11f13ad374e79b466a36eb835747e431fbbe3890',
+  [process.env.REACT_APP_SHMSPHINX_CHAINID]: '',
+};
+
+export const USDT_TOKEN_ADDRESS = {
+  [process.env.REACT_APP_ETHEREUM_CHAINID]: '',
+  [process.env.REACT_APP_BSC_CHAINID]: '0xaB1a4d4f1D656d2450692D237fdD6C7f9146e814',
+  [process.env.REACT_APP_LOCALHOST_CHAINID]: '',
+  [process.env.REACT_APP_SHARDEUM_APPSPHINX_CHAINID]: '',
+  [process.env.REACT_APP_SHMSPHINX_CHAINID]: '',
 };
 
 export const DEX_ROUTERV2_ADDRESS = {
   [process.env.REACT_APP_ETHEREUM_CHAINID]: '',
-  [process.env.REACT_APP_BSC_CHAINID]: '0xde2db97d54a3c3b008a097b2260633e6ca7db1af', 
+  [process.env.REACT_APP_BSC_CHAINID]: '0xd4fB1825DE596D2E90Af8Ff2B70F5e0F41ca588E',
   [process.env.REACT_APP_LOCALHOST_CHAINID]: '',
   [process.env.REACT_APP_SHARDEUM_APPSPHINX_CHAINID]: '',
-  [process.env.REACT_APP_SHMSPHINX_CHAINID]: ''
+  [process.env.REACT_APP_SHMSPHINX_CHAINID]: '',
+  [process.env.REACT_APP_MUMBAI_CHAINID]: ''
 };
+
+export const DEX_COINS_LIST = [
+  'SHMX',
+  'USDC',
+  'USDT',
+]
+
+export const DEX_COINS = {
+  'SHMX': { name: "SHMX", addresses: PROJECT_MAIN_TOKEN_ADDRESS, isNative: false, icon: '_img/icon/shmx.png' },
+  'USDC': { name: "USDC", addresses: USDC_TOKEN_ADDRESS, isNative: false, icon: '_img/icon/USDC.png' },
+  'USDT': { name: "USDT", addresses: USDT_TOKEN_ADDRESS, isNative: false, icon: '_img/icon/USDT.png' }
+}
 
 
 
@@ -82,6 +112,7 @@ export const SCAN_URL = {
   '97': 'https://testnet.bscscan.com',
   '8081': 'https://explorer-dapps.shardeum.org/',
   '8082': 'https://explorer-sphinx.shardeum.org/',
+  '80001': 'https://mumbai.polygonscan.com',
 };
 
 export const CURRENCY_NAME = {
@@ -93,6 +124,7 @@ export const CURRENCY_NAME = {
   '1337': 'Ethereum',
   '8081': 'Shardeum',
   '8082': 'Shardeum',
+  '80001': 'MATIC',
 };
 
 export const CURRENCY_SYMBOL = {
@@ -104,6 +136,7 @@ export const CURRENCY_SYMBOL = {
   '1337': 'ETH',
   '8081': 'SHM',
   '8082': 'SHM',
+  '80001': 'MATIC',
 };
 export const NETWORK_NAME = {
   '1': 'Ethereum Mainnet',
@@ -114,6 +147,7 @@ export const NETWORK_NAME = {
   '1337': 'localhost',
   '8081': 'App Sphinx 1.X',
   '8082': 'Sphinx',
+  '80001': 'Mumbai',
 };
 export const SWAP_URL = {
   '1': 'https://app.uniswap.org/#/swap?outputCurrency=',

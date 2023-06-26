@@ -39,11 +39,13 @@ export default function App() {
 
 
   useEffect(() => {
-    dispatch(switchNetwork(provider.chainId));
+    if (provider) {
+      dispatch(switchNetwork(provider.chainId));
 
-    provider.on('chainChanged', (id) => {
-      dispatch(switchNetwork(id));
-    });
+      provider.on('chainChanged', (id) => {
+        dispatch(switchNetwork(id));
+      });
+    }
   }, [dispatch, provider, chainId, network]);
 
   return (

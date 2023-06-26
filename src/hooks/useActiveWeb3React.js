@@ -17,7 +17,11 @@ const useActiveWeb3React = () => {
    * Else set provider as project chain1
    */
   useEffect(() => {
-    if (Number(network) !== Number(process.env.REACT_APP_PROJECT_CHAINID) && Number(network) !== Number(process.env.REACT_APP_PROJECT_CHAINID2)) {
+    if (
+      Number(network) !== Number(process.env.REACT_APP_PROJECT_CHAINID)
+      && Number(network) !== Number(process.env.REACT_APP_PROJECT_CHAINID2)
+      && Number(network) !== Number(process.env.REACT_APP_PROJECT_CHAINID3)
+    ) {
       setProvider(library || simpleRpcProvider(Number(process.env.REACT_APP_PROJECT_CHAINID)));
     } else {
       setProvider(library || simpleRpcProvider(network));

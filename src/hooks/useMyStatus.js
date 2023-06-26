@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { ethers } from "ethers";
 import useActiveWeb3React from "./useActiveWeb3React";
-import { TIER_LEVEL, TIER_STAKING_AMOUNT } from "config/constants";
+import { DEX_ROUTERV2_ADDRESS, TIER_LEVEL, TIER_STAKING_AMOUNT } from "config/constants";
 import {
   useTokenContract, useMainStakingContract, useProjectMainTokenContract, useIDOContract,
   usePoolContract, useLiquidStakingContract, useLiquidStakingTokenContract,
@@ -582,10 +582,8 @@ export const useSwapStatus = () => {
   const dexRouterContract = useDEXRouterContract();
 
   // Token in
-  const tokenIn = useMemo(() => {
-    return USDC_TOKEN_ADDRESS[network]; //TO_DO
-  }, [network]);
-  const tokenInContract = useTokenContract(USDC_TOKEN_ADDRESS[network]); //TO_DO
+  const [tokenIn, setTokenIn] = useState();
+  const tokenInContract = useTokenContract(tokenIn);
   const [tokenInBalance, setTokenInBalance] = useState();
   useEffect(async () => {
     try {
@@ -597,10 +595,8 @@ export const useSwapStatus = () => {
   }, [tokenInContract]);
 
   // Token out
-  const tokenOut = useMemo(() => {
-    return PROJECT_MAIN_TOKEN_ADDRESS[network]; //TO_DO
-  }, [network]);
-  const tokenOutContract = useTokenContract(PROJECT_MAIN_TOKEN_ADDRESS[network]); //TO_DO
+  const [tokenOut, setTokenOut] = useState();
+  const tokenOutContract = useTokenContract(tokenOut);
   const [tokenOutBalance, setTokenOutBalance] = useState();
   useEffect(async () => {
     try {
@@ -620,7 +616,7 @@ export const useSwapStatus = () => {
     let amountIn = parseEther(String(tokenAmountIn))
     const amountsOut = await dexRouterContract.getAmountsOut(amountIn, [tokenIn, tokenOut]);
     setTokenAmountOut(Number(formatEther((amountsOut[1]))));
-  }, [tokenAmountIn, dexRouterContract])
+  }, [tokenIn, tokenOut,  tokenAmountIn, dexRouterContract])
 
   const funcSwap = async () => {
     const tx = await dexRouterContract.swapExactTokensForTokens(
@@ -637,8 +633,118 @@ export const useSwapStatus = () => {
   }
 
   return {
+    tokenIn, tokenOut, setTokenIn, setTokenOut,
     tokenAmountIn, setTokenAmountIn, tokenAmountOut, setTokenAmountOut,
     tokenInBalance, tokenOutBalance,
     funcSwap
+  };
+};
+
+
+/**
+ * 
+ * @returns liquidity, pool status
+ */
+export const useLiquidityStatus = () => {
+  const { account } = useActiveWeb3React();
+  const network = useSelector((state) => state.network.chainId);
+
+  const dexRouterContract = useDEXRouterContract();
+
+  // Token in
+  const [tokenIn, setTokenIn] = useState();
+  const tokenInContract = useTokenContract(tokenIn);
+
+  const [tokenInBalance, setTokenInBalance] = useState();
+  useEffect(async () => {
+    try {
+      const balance = await tokenInContract.balanceOf(account);
+      setTokenInBalance(formatEther(balance));
+    } catch (error) {
+      console.error('Error fetching token balance:', error);
+    }
+  }, [tokenInContract]);
+
+  // Token out
+  const [tokenOut, setTokenOut] = useState();
+  const tokenOutContract = useTokenContract(tokenOut);
+  const [tokenOutBalance, setTokenOutBalance] = useState();
+  useEffect(async () => {
+    try {
+      const balance = await tokenOutContract.balanceOf(account);
+      setTokenOutBalance(formatEther(balance));
+    } catch (error) {
+      console.error('Error fetching token balance:', error);
+    }
+  }, [tokenOutContract]);
+
+  const [tokenAmountIn, setTokenAmountIn] = useState(0.01);
+  const [tokenAmountOut, setTokenAmountOut] = useState(0.02);
+
+  const funcAdd = async () => {
+    // approve
+    const token1AmountWei = parseEther(String(tokenAmountIn));
+    const token2AmountWei = parseEther(String(tokenAmountOut));
+
+    const allowance1 = await tokenInContract.allowance(account, DEX_ROUTERV2_ADDRESS[network]);
+    console.log(formatEther(allowance1))
+    if (allowance1.lt(token1AmountWei)) {
+      const tx = await tokenInContract.approve(
+        DEX_ROUTERV2_ADDRESS[network],
+        ethers.constants.MaxUint256 // Approve max token amount
+      );
+      await tx.wait();
+    } else {
+      console.log('Token1 transfer is already approved.');
+    }
+
+    const allowance2 = await tokenOutContract.allowance(account, DEX_ROUTERV2_ADDRESS[network]);
+    console.log(formatEther(allowance2))
+    if (allowance2.lt(token2AmountWei)) {
+      const tx = await tokenOutContract.approve(
+        DEX_ROUTERV2_ADDRESS[network],
+        ethers.constants.MaxUint256 // Approve max token amount
+      );
+      await tx.wait();
+    } else {
+      console.log('Token2 transfer is already approved.');
+    }
+
+
+    // const tx2 = await tokenOutContract.approve(
+    //   DEX_ROUTERV2_ADDRESS[network],
+    //   ethers.constants.MaxUint256 // Approve max token amount
+    // );
+    // await tx2.wait();
+
+    // add liquidity
+    // const tx = await dexRouterContract.addLiquidityETH(
+    //   '0xd3761e00fDd4e4eEeED5cE78ed0C7c41b6517a0f', // Replace with the token contract address
+    //   token2AmountWei,
+    //   '0',
+    //   '0',
+    //   account,
+    //   Math.floor(Date.now() / 1000) + 60 * 10, // 10 minutes deadline
+    //   { value: token1AmountWei } // Adjust the gas limit as needed
+    // );
+
+    const tx = await dexRouterContract.addLiquidity(
+      tokenIn,
+      tokenOut,
+      token1AmountWei,
+      token2AmountWei,
+      0,
+      0,
+      account,
+      Math.floor(Date.now() / 1000) + 60 * 10, // 10 minutes deadline
+    );
+    await tx.wait();
+  }
+
+  return {
+    tokenAmountIn, setTokenAmountIn, tokenAmountOut, setTokenAmountOut,
+    tokenInBalance, tokenOutBalance,
+    tokenIn, tokenOut, setTokenIn, setTokenOut,
+    funcAdd
   };
 };

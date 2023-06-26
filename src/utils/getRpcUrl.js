@@ -7,6 +7,7 @@ export const nodes ={
   [Number(process.env.REACT_APP_ETHEREUM_CHAINID)] : [process.env.REACT_APP_ETHEREUM_NODE],
   [Number(process.env.REACT_APP_SHARDEUM_APPSPHINX_CHAINID)] : [process.env.REACT_APP_SHARDEUM_APPSPHINX_NODE],
   [Number(process.env.REACT_APP_SHMSPHINX_CHAINID)] : [process.env.REACT_APP_SHMSPHINX_NODE],
+  [Number(process.env.REACT_APP_MUMBAI_CHAINID)] : [process.env.REACT_APP_MUMBAI_NODE],
 } 
 
 const getNodeUrl = (network) => {

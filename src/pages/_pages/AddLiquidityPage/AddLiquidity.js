@@ -3,43 +3,36 @@ import { Button, Box, Paper, InputBase, IconButton } from '@mui/material';
 import { Label } from 'components/_components/Label';
 import { RoundedLabel } from 'components/_components/Label';
 import { PrimaryButton } from 'components/_components/Button';
-
-import { useSwapStatus } from 'hooks/useMyStatus';
-import { useSelector } from "react-redux";
 import FilterBar from 'components/_components/FilterBar';
+import { useLiquidityStatus } from 'hooks/useMyStatus';
+import { CURRENCY_SYMBOL } from 'config/constants';
+import { useSelector } from "react-redux";
 import { DEX_COINS, DEX_COINS_LIST } from 'config/constants';
 
 function Page() {
   const { tokenAmountIn, setTokenAmountIn, tokenAmountOut, setTokenAmountOut,
     tokenInBalance, tokenOutBalance, tokenIn, tokenOut, setTokenIn, setTokenOut,
-    funcSwap } = useSwapStatus();
-
+    funcAdd } = useLiquidityStatus();
   const network = useSelector((state) => state.network.chainId);
-  const handleSwap = async () => {
+
+  const handleAdd = async () => {
     try {
-      await funcSwap()
+      await funcAdd()
     } catch (e) {
       console.log(e.message)
     }
   }
 
-  const [tokenInIcon, setTokenInIcon] = useState('')
-  const [tokenOutIcon, setTokenOutIcon] = useState('')
   const tokenAChanged = (tokenname) => {
-    if (DEX_COINS[tokenname].addresses[network]) {
+    if (DEX_COINS[tokenname].addresses[network])
       setTokenIn(DEX_COINS[tokenname].addresses[network])
-      setTokenInIcon(DEX_COINS[tokenname].icon)
-    }
-
     else
       alert(tokenname + " not exist")
   }
 
   const tokenBChanged = (tokenname) => {
-    if (DEX_COINS[tokenname].addresses[network]) {
+    if (DEX_COINS[tokenname].addresses[network])
       setTokenOut(DEX_COINS[tokenname].addresses[network])
-      setTokenOutIcon(DEX_COINS[tokenname].icon)
-    }
     else
       alert(tokenname + " not exist")
   }
@@ -55,8 +48,8 @@ function Page() {
           flexDirection: 'column',
           backgroundColor: '#000000'
         }}
-      >
-        <Label sx={{ marginTop: '60px' }} text={{ value: 'Swap SHMX', size: 40, color: 'green' }} />
+      >      
+        <Label sx={{ marginTop: '60px' }} text={{ value: 'Add Liquidity', size: 40, color: 'green' }} />
         <Box
           sx={{
             width: '600px',
@@ -80,7 +73,7 @@ function Page() {
             }}
           >
             <IconButton sx={{ p: '10px' }} disabled>
-              {tokenInIcon && <img src={tokenInIcon} alt="hello" width={50} />}
+              {/* <img src={"_img/icon/shmx.png"} alt="hello" width={50} /> */}
             </IconButton>
             <InputBase
               sx={{ ml: 1, flex: 1, fontSize: '26px', fontWeight: 700 }}
@@ -109,12 +102,12 @@ function Page() {
             }}
           >
             <IconButton sx={{ p: '10px' }} disabled>
-              {tokenOutIcon && <img src={tokenOutIcon} alt="hello" width={50} />}
+              {/* <img src="_img/icon/shmx.png" alt="hello" width={50} /> */}
             </IconButton>
             <InputBase
               sx={{ ml: 1, flex: 1, fontSize: '26px', fontWeight: 700 }}
               value={tokenAmountOut}
-            // onChange={(e) => setTokenAmountOut(e.target.value.replace(/[^0-9.]/g, ""))}
+              onChange={(e) => setTokenAmountOut(e.target.value.replace(/[^0-9.]/g, ""))}
             />
             <FilterBar options={DEX_COINS_LIST} onChangeAction={tokenBChanged} title="Select" />
           </Paper>
@@ -130,9 +123,9 @@ function Page() {
               minHeight: '85px',
               fontSize: '24px !important'
             }}
-            label="Swap"
+            label="Add Liquidity"
             hasFocus
-            onClick={handleSwap}
+            onClick={handleAdd}
           />
         </Box>
       </Box>

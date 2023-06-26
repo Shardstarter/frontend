@@ -61,7 +61,7 @@ const RenderElements = ({ poolInfo, idx, expanded, setExpanded }) => {
           token_decimal: decimals,
           wallet_balance: formatUnits(wallet_balance, decimals),
           staked: formatUnits(staked, decimals),
-          rewards: Number(formatUnits(rewards, decimals)).toExponential(2),
+          rewards: formatUnits(rewards, decimals),
           tvl: formatUnits(pool_tvl, decimals),
           lockingReleaseTime,
         });
@@ -379,7 +379,7 @@ const RenderElements = ({ poolInfo, idx, expanded, setExpanded }) => {
               size={38}
               btnValue="Harvest"
               label={`$${poolInfo.tokenSymbol}`}
-              value={data.rewards}
+              value={Number(data.rewards).toExponential(2)}
               onClick={() => handleHarvest()}
               readOnly={true}
             />

@@ -17,12 +17,12 @@ export default function Admin() {
   const network = useSelector((state) => state.network.chainId);
 
   useEffect(() => {
-    // var pwd = prompt('input admin password');
-    // if (pwd == 'shardstarter12345') {
+    var pwd = prompt('input admin password');
+    if (pwd == 'shardstarter12345') {
 
-    // } else {
-    //   window.location.href = "/"
-    // }
+    } else {
+      window.location.href = "/"
+    }
   }, []);
 
   const navigate = useNavigate();

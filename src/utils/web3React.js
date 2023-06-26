@@ -13,6 +13,7 @@ const injected = new InjectedConnector({
     Number(process.env.REACT_APP_BSC_CHAINID),
     Number(process.env.REACT_APP_SHARDEUM_APPSPHINX_CHAINID),
     Number(process.env.REACT_APP_SHMSPHINX_CHAINID),
+    Number(process.env.REACT_APP_MUMBAI_CHAINID),
   ]
 });
 
@@ -33,6 +34,7 @@ const bscConnector = new BscConnector({
     Number(process.env.REACT_APP_BSC_CHAINID),
     Number(process.env.REACT_APP_SHARDEUM_APPSPHINX_CHAINID),
     Number(process.env.REACT_APP_SHMSPHINX_CHAINID),
+    Number(process.env.REACT_APP_MUMBAI_CHAINID),
   ]
 });
 
