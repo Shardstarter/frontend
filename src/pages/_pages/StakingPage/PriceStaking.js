@@ -528,7 +528,7 @@ function PriceStaking() {
           {/* Staking */}
           {(activeId === 0) && (
             <Box sx={{ display: 'flex', rowGap: '20px', flexDirection: 'column' }}>
-              {pools.map((pool, idx) =>
+              {pools.filter((pool) => !pool.tokenName.includes('LP')).map((pool, idx) =>
                 <RenderElements key={idx} poolInfo={pool} idx={idx} expanded={expanded} setExpanded={setExpanded} />
               )}
             </Box>
@@ -536,7 +536,11 @@ function PriceStaking() {
 
           {/* Farming */}
           {(activeId === 1) && (
-            <></>
+            <Box sx={{ display: 'flex', rowGap: '20px', flexDirection: 'column' }}>
+              {pools.filter((pool) => pool.tokenName.includes('LP')).map((pool, idx) =>
+                <RenderElements key={idx} poolInfo={pool} idx={idx} expanded={expanded} setExpanded={setExpanded} />
+              )}
+            </Box>
           )}
 
           {/* Liquid Staking */}

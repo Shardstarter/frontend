@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 import {
   NETWORK_NAME, IDO_ADDRESS, PROJECT_MAIN_TOKEN_ADDRESS, MAIN_STAKING_CONTRACT_ADDRESS,
-  LIQUID_STAKING_CONTRACT_ADDRESS, LIQUID_STAKING_TOKEN_ADDRESS, USDC_TOKEN_ADDRESS, 
+  LIQUID_STAKING_CONTRACT_ADDRESS, LIQUID_STAKING_TOKEN_ADDRESS, USDC_TOKEN_ADDRESS,
   TIER_LEVEL, TIER_STAKING_AMOUNT
 } from 'config/constants';
 
@@ -49,10 +49,12 @@ export default function Admin() {
             <Grid item md={3} sm={3} xs={12} padding="5px">
               <Box
                 component="button"
-                width="100%"
                 borderRadius={1}
+                width="100%"
+                color="white"
+                border="1px solid #56C5FF"
                 padding="3px 8px"
-                style={{ backgroundColor: '#02FF7B', border: 'none', color: 'white' }}
+                backgroundColor="rgb(255, 255, 255, 0)"
                 onClick={() => navigate('/create-stake')}
               >
                 Create Staking POOLS
@@ -76,10 +78,12 @@ export default function Admin() {
             <Grid item md={3} sm={3} xs={12} padding="5px">
               <Box
                 component="button"
-                width="100%"
                 borderRadius={1}
+                width="100%"
+                color="white"
+                border="1px solid #56C5FF"
                 padding="3px 8px"
-                style={{ backgroundColor: '#02FF7B', border: 'none', color: 'white' }}
+                backgroundColor="rgb(255, 255, 255, 0)"
                 onClick={() => navigate('/create-vote')}
               >
                 Create Vote
@@ -100,6 +104,22 @@ export default function Admin() {
               >
                 <Box component={Link} to={'/manage-cards'} sx={{ textDecoration: 'none' }}>
                   Manage Homepage Cards
+                </Box>
+              </Box>
+            </Grid>
+
+            <Grid item md={3} sm={3} xs={12} padding="5px">
+              <Box
+                component="button"
+                borderRadius={1}
+                width="100%"
+                color="white"
+                border="1px solid #56C5FF"
+                padding="3px 8px"
+                backgroundColor="rgb(255, 255, 255, 0)"
+              >
+                <Box component={Link} to={'/addliquidity'} sx={{ textDecoration: 'none' }}>
+                  DEX: Add Liquidity
                 </Box>
               </Box>
             </Grid>
