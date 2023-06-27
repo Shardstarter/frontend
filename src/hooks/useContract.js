@@ -7,11 +7,13 @@ import POOL_ABI from 'config/abi/pool.json';
 import STAKING_ABI from 'config/abi/staking.json';
 import LIQUIDSTAKING_ABI from 'config/abi/liquid_staking.json';
 import PANCAKEROUTER_ABI from 'config/abi/pancake_router.json';
+import PAIR_ABI from 'config/abi/pair.json';
+import FACTORY_ABI from 'config/abi/factory.json';
 
 import {
   IDO_ADDRESS, LOCK_ADDRESS, MAIN_STAKING_CONTRACT_ADDRESS,
   PROJECT_MAIN_TOKEN_ADDRESS, LIQUID_STAKING_CONTRACT_ADDRESS, LIQUID_STAKING_TOKEN_ADDRESS,
-  DEX_ROUTERV2_ADDRESS
+  DEX_ROUTERV2_ADDRESS, DEX_FACTORY_ADDRESS
 } from 'config/constants';
 // Imports below migrated from Exchange useContract.ts
 import { Contract } from '@ethersproject/contracts';
@@ -61,8 +63,6 @@ export function useLockContract(withSignerIfPossible = true) {
 }
 
 export function useStakingContract(contractAddress, withSignerIfPossible = true) {
-  const network = useSelector((state) => state.network.chainId);
-
   return useContract(contractAddress, STAKING_ABI, withSignerIfPossible);
 }
 
@@ -85,3 +85,12 @@ export function useDEXRouterContract(withSignerIfPossible = true) {
   return useContract(DEX_ROUTERV2_ADDRESS[network], PANCAKEROUTER_ABI, withSignerIfPossible);
 }
 
+export function useDEXFactoryContract(withSignerIfPossible = true) {
+  const network = useSelector((state) => state.network.chainId);
+
+  return useContract(DEX_FACTORY_ADDRESS[network], FACTORY_ABI, withSignerIfPossible);
+}
+
+export function usePairContract(pairAddress, withSignerIfPossible = true) {
+  return useContract(pairAddress, PAIR_ABI, withSignerIfPossible);
+}

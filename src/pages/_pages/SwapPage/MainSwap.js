@@ -56,7 +56,10 @@ function Page() {
           backgroundColor: '#000000'
         }}
       >
-        <Label sx={{ marginTop: '60px' }} text={{ value: 'Swap SHMX', size: 40, color: 'green' }} />
+        <p style={{ marginTop: '60px', fontSize: '40px', color: '#02FF7B' }}>
+          <span>Swap </span>          
+          <a href="/addliquidity"> | Liquidity</a>
+        </p>
         <Box
           sx={{
             width: '600px',

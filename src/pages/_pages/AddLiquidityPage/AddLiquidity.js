@@ -11,7 +11,8 @@ import { DEX_COINS, DEX_COINS_LIST } from 'config/constants';
 
 function Page() {
   const { tokenAmountIn, setTokenAmountIn, tokenAmountOut, setTokenAmountOut,
-    tokenInBalance, tokenOutBalance, tokenIn, tokenOut, setTokenIn, setTokenOut,
+    tokenInBalance, tokenOutBalance, tokenIn, tokenOut, setTokenIn, setTokenOut, pairAddress,
+    onAmountInChanged, onAmountOutChanged,
     funcAdd } = useLiquidityStatus();
   const network = useSelector((state) => state.network.chainId);
 
@@ -48,8 +49,11 @@ function Page() {
           flexDirection: 'column',
           backgroundColor: '#000000'
         }}
-      >      
-        <Label sx={{ marginTop: '60px' }} text={{ value: 'Add Liquidity', size: 40, color: 'green' }} />
+      >
+        <p style={{ marginTop: '60px', fontSize: '40px', color: '#02FF7B' }}>         
+          <a href="/swap">Swap | </a>
+          <span>Liquidity </span>
+        </p>
         <Box
           sx={{
             width: '600px',
@@ -78,7 +82,7 @@ function Page() {
             <InputBase
               sx={{ ml: 1, flex: 1, fontSize: '26px', fontWeight: 700 }}
               value={tokenAmountIn}
-              onChange={(e) => setTokenAmountIn(e.target.value.replace(/[^0-9.]/g, ""))}
+              onChange={(e) => onAmountInChanged(e.target.value.replace(/[^0-9.]/g, ""))}
             />
             <FilterBar options={DEX_COINS_LIST} onChangeAction={tokenAChanged} title="Select" />
           </Paper>
@@ -107,7 +111,7 @@ function Page() {
             <InputBase
               sx={{ ml: 1, flex: 1, fontSize: '26px', fontWeight: 700 }}
               value={tokenAmountOut}
-              onChange={(e) => setTokenAmountOut(e.target.value.replace(/[^0-9.]/g, ""))}
+              onChange={(e) => onAmountOutChanged(e.target.value.replace(/[^0-9.]/g, ""))}
             />
             <FilterBar options={DEX_COINS_LIST} onChangeAction={tokenBChanged} title="Select" />
           </Paper>
@@ -127,6 +131,14 @@ function Page() {
             hasFocus
             onClick={handleAdd}
           />
+          <br />
+          <hr />
+          {/* <p>{JSON.stringify(address1)}</p> */}
+          {pairAddress == '0x0000000000000000000000000000000000000000' ?
+            <p>When creating a pair you are the first liquidity provider. The ratio of tokens you add will set the price of this pool. Once you are happy with the rate, click supply to review </p>
+            :
+            <p>Tip: By adding liquidity you'll earn 0.2% of all trades on this pair proportional to your share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.</p>
+          }
         </Box>
       </Box>
     </Box>

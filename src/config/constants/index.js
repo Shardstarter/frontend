@@ -72,6 +72,15 @@ export const DEX_ROUTERV2_ADDRESS = {
   [process.env.REACT_APP_MUMBAI_CHAINID]: ''
 };
 
+export const DEX_FACTORY_ADDRESS = {
+  [process.env.REACT_APP_ETHEREUM_CHAINID]: '',
+  [process.env.REACT_APP_BSC_CHAINID]: '0xb2833Cef41554FDc9c93d985F5A631468A996a8D',
+  [process.env.REACT_APP_LOCALHOST_CHAINID]: '',
+  [process.env.REACT_APP_SHARDEUM_APPSPHINX_CHAINID]: '0xf194FAAeE8a1c6d88b127d4197C0068C70397B2D',
+  [process.env.REACT_APP_SHMSPHINX_CHAINID]: '',
+  [process.env.REACT_APP_MUMBAI_CHAINID]: ''
+};
+
 export const DEX_COINS_LIST = [
   'SHMX',
   'USDC',

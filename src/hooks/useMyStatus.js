@@ -5,7 +5,8 @@ import { DEX_ROUTERV2_ADDRESS, TIER_LEVEL, TIER_STAKING_AMOUNT } from "config/co
 import {
   useTokenContract, useMainStakingContract, useProjectMainTokenContract, useIDOContract,
   usePoolContract, useLiquidStakingContract, useLiquidStakingTokenContract,
-  useDEXRouterContract
+  useDEXRouterContract,
+  useDEXFactoryContract, usePairContract
 } from "./useContract";
 import { LIQUID_STAKING_CONTRACT_ADDRESS, PROJECT_MAIN_TOKEN_ADDRESS } from "config/constants";
 import { useSelector } from "react-redux";
@@ -616,7 +617,7 @@ export const useSwapStatus = () => {
     let amountIn = parseEther(String(tokenAmountIn))
     const amountsOut = await dexRouterContract.getAmountsOut(amountIn, [tokenIn, tokenOut]);
     setTokenAmountOut(Number(formatEther((amountsOut[1]))));
-  }, [tokenIn, tokenOut,  tokenAmountIn, dexRouterContract])
+  }, [tokenIn, tokenOut, tokenAmountIn, dexRouterContract])
 
   const funcSwap = async () => {
     const tx = await dexRouterContract.swapExactTokensForTokens(
@@ -650,6 +651,7 @@ export const useLiquidityStatus = () => {
   const network = useSelector((state) => state.network.chainId);
 
   const dexRouterContract = useDEXRouterContract();
+  const dexFactoryContract = useDEXFactoryContract();
 
   // Token in
   const [tokenIn, setTokenIn] = useState();
@@ -678,8 +680,77 @@ export const useLiquidityStatus = () => {
     }
   }, [tokenOutContract]);
 
-  const [tokenAmountIn, setTokenAmountIn] = useState(0.01);
-  const [tokenAmountOut, setTokenAmountOut] = useState(0.02);
+
+
+
+  const [tokenAmountIn, setTokenAmountIn] = useState();
+  const [tokenAmountOut, setTokenAmountOut] = useState();
+
+  const [pairAddress, setPairAddress] = useState();
+  useEffect(async () => {
+    if (tokenIn && tokenOut) {
+      try {
+        const pairAddress = await dexFactoryContract.getPair(tokenIn, tokenOut);
+        setPairAddress(pairAddress)
+      } catch (error) {
+        console.error('Error pair:', error);
+      }
+    }
+  }, [tokenIn, tokenOut]);
+
+  const pairContract = usePairContract(pairAddress)
+  const [reserve1, setReserve1] = useState();
+  const [reserve2, setReserve2] = useState();
+  const [add1, setAdd1] = useState();
+  useEffect(async () => {
+    if (pairContract) {
+      try {
+        const [reserve1, reserve2] = await pairContract.getReserves();
+        setReserve1(Number(formatEther(reserve1)))
+        setReserve2(Number(formatEther(reserve2)))
+
+        const add1 = await pairContract.token0();
+        setAdd1(add1)
+      } catch (error) {
+        console.error('Error pair:', error);
+      }
+    }
+  }, [pairContract]);
+
+  const onAmountInChanged = async (amountIn) => {
+    setTokenAmountIn(amountIn)
+    if (pairContract && amountIn) {
+      try {
+        let amount2;
+        if (add1.toLowerCase() == tokenIn.toLowerCase())
+          amount2 = Number(amountIn) * reserve2 / reserve1
+        else
+          amount2 = Number(amountIn) * reserve1 / reserve2
+
+        setTokenAmountOut(amount2)
+      } catch (error) {
+        console.error('Error quote:', error);
+      }
+    }
+  }
+
+  const onAmountOutChanged = async (amountOut) => {
+    setTokenAmountOut(amountOut)
+    if (pairContract && amountOut) {
+      try {
+        let amount1;
+        if (add1.toLowerCase() == tokenIn.toLowerCase())
+          amount1 = Number(amountOut) * reserve1 / reserve2
+        else
+          amount1 = Number(amountOut) * reserve2 / reserve1
+
+        setTokenAmountIn(amount1)
+      } catch (error) {
+        console.error('Error quote:', error);
+      }
+    }
+  }
+
 
   const funcAdd = async () => {
     // approve
@@ -745,6 +816,8 @@ export const useLiquidityStatus = () => {
     tokenAmountIn, setTokenAmountIn, tokenAmountOut, setTokenAmountOut,
     tokenInBalance, tokenOutBalance,
     tokenIn, tokenOut, setTokenIn, setTokenOut,
+    pairAddress,
+    onAmountInChanged, onAmountOutChanged,
     funcAdd
   };
 };
