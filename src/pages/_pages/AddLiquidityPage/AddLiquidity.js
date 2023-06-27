@@ -11,7 +11,8 @@ import { DEX_COINS, DEX_COINS_LIST } from 'config/constants';
 
 function Page() {
   const { tokenAmountIn, setTokenAmountIn, tokenAmountOut, setTokenAmountOut,
-    tokenInBalance, tokenOutBalance, tokenIn, tokenOut, setTokenIn, setTokenOut, pairAddress,
+    tokenInBalance, tokenOutBalance, tokenIn, tokenOut, setTokenIn, setTokenOut,
+    pairAddress, sharepercent,
     onAmountInChanged, onAmountOutChanged,
     funcAdd } = useLiquidityStatus();
   const network = useSelector((state) => state.network.chainId);
@@ -50,7 +51,7 @@ function Page() {
           backgroundColor: '#000000'
         }}
       >
-        <p style={{ marginTop: '60px', fontSize: '40px', color: '#02FF7B' }}>         
+        <p style={{ marginTop: '60px', fontSize: '40px', color: '#02FF7B' }}>
           <a href="/swap">Swap | </a>
           <span>Liquidity </span>
         </p>
@@ -137,7 +138,10 @@ function Page() {
           {pairAddress == '0x0000000000000000000000000000000000000000' ?
             <p>When creating a pair you are the first liquidity provider. The ratio of tokens you add will set the price of this pool. Once you are happy with the rate, click supply to review </p>
             :
-            <p>Tip: By adding liquidity you'll earn 0.2% of all trades on this pair proportional to your share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.</p>
+            <>
+              <h5>Share of Pool:   <span style={{color:'#02FF7B'}}>{sharepercent}%</span> </h5>
+              <p>Tip: By adding liquidity you'll earn 0.2% of all trades on this pair proportional to your share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.</p>
+            </>
           }
         </Box>
       </Box>

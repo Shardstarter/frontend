@@ -6,7 +6,7 @@ const AccountPage = () => {
   return (
     <div>
       <MainAccount unclaimed={unclaimed} />
-      <PanelAccount handleUnclaimed={(value) => setUnclaimed(value)} />
+      {/* <PanelAccount handleUnclaimed={(value) => setUnclaimed(value)} /> */}
     </div>
   )
 };

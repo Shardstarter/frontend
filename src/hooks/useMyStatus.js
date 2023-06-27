@@ -702,6 +702,7 @@ export const useLiquidityStatus = () => {
   const [reserve1, setReserve1] = useState();
   const [reserve2, setReserve2] = useState();
   const [add1, setAdd1] = useState();
+  const [sharepercent, setSharepercent] = useState(0);
   useEffect(async () => {
     if (pairContract) {
       try {
@@ -721,13 +722,14 @@ export const useLiquidityStatus = () => {
     setTokenAmountIn(amountIn)
     if (pairContract && amountIn) {
       try {
-        let amount2;
-        if (add1.toLowerCase() == tokenIn.toLowerCase())
-          amount2 = Number(amountIn) * reserve2 / reserve1
-        else
-          amount2 = Number(amountIn) * reserve1 / reserve2
-
-        setTokenAmountOut(amount2)
+        if (add1.toLowerCase() == tokenIn.toLowerCase()) {
+          setTokenAmountOut(Number(amountIn) * reserve2 / reserve1)
+          setSharepercent(Math.round(Number(amountIn) / (Number(amountIn) + reserve1) * 100 * 100) / 100)
+        }
+        else {
+          setTokenAmountOut(Number(amountIn) * reserve1 / reserve2)
+          setSharepercent(Math.round(Number(amountIn) / (Number(amountIn) + reserve2) * 100 * 100) / 100)
+        }
       } catch (error) {
         console.error('Error quote:', error);
       }
@@ -738,13 +740,15 @@ export const useLiquidityStatus = () => {
     setTokenAmountOut(amountOut)
     if (pairContract && amountOut) {
       try {
-        let amount1;
-        if (add1.toLowerCase() == tokenIn.toLowerCase())
-          amount1 = Number(amountOut) * reserve1 / reserve2
-        else
-          amount1 = Number(amountOut) * reserve2 / reserve1
 
-        setTokenAmountIn(amount1)
+        if (add1.toLowerCase() == tokenIn.toLowerCase()) {
+          setTokenAmountIn(Number(amountOut) * reserve1 / reserve2)
+          setSharepercent(Math.round(Number(amountOut) / (Number(amountOut) + reserve2) * 100 * 100) / 100)
+        }
+        else {
+          setTokenAmountIn(Number(amountOut) * reserve2 / reserve1)
+          setSharepercent(Math.round(Number(amountOut) / (Number(amountOut) + reserve1) * 100 * 100) / 100)
+        }
       } catch (error) {
         console.error('Error quote:', error);
       }
@@ -816,7 +820,7 @@ export const useLiquidityStatus = () => {
     tokenAmountIn, setTokenAmountIn, tokenAmountOut, setTokenAmountOut,
     tokenInBalance, tokenOutBalance,
     tokenIn, tokenOut, setTokenIn, setTokenOut,
-    pairAddress,
+    pairAddress, sharepercent,
     onAmountInChanged, onAmountOutChanged,
     funcAdd
   };
