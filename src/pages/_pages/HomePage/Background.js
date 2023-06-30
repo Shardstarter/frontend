@@ -2,6 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import { PrimaryButton, SecondaryButton } from 'components/_components/Button';
 import { Label } from 'components/_components/Label';
+import { Link } from 'react-router-dom';
 
 const Background = () => {
   return (
@@ -63,20 +64,21 @@ const Background = () => {
                 marginTop: '20px'
               }}
             >
-              <PrimaryButton
-                label="Buy SHMX"
-                sx={{
-                  '@media (max-width: 800px)': {
-                    marginRight: '0px',
-                    marginBottom: '20px'
-                  },
-                  marginRight: '20px',
-                  width: '220px'
-                }}
-                hasFocus={true}
-                img={'_img/icon/shardstarter.png'}
-                onClick={() => window.open('https://app.swapped.finance/swap')}
-              />
+              <Link to="/swap">
+                <PrimaryButton
+                  label="Buy SHMX"
+                  sx={{
+                    '@media (max-width: 800px)': {
+                      marginRight: '0px',
+                      marginBottom: '20px'
+                    },
+                    marginRight: '20px',
+                    width: '220px'
+                  }}
+                  hasFocus={true}
+                  img={'_img/icon/shardstarter.png'}
+                />
+              </Link>
               <SecondaryButton label="How to Invest" sx={{ width: '220px' }} onClick={() => window.open('https://shardstarter-io.gitbook.io/shardstarter/the-tier-system')} />
             </Box>
           </Box>

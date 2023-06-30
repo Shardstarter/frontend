@@ -155,7 +155,7 @@ function MainAccount({unclaimed}) {
             }}
           >
             <RoundedLabel keyword={AccountInfo.balance.keyword} value={AccountInfo.balance.value} bgColor="#171717" />
-            <Link to="https://app.swapped.finance/swap">
+            <Link to="/swap">
               <RoundedLabel keyword={AccountInfo.buy.keyword} value={AccountInfo.buy.value} bgColor="#171717" />
             </Link>
           </Box>

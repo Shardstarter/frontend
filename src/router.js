@@ -54,6 +54,7 @@ export default function Router() {
         { path: '/account', element: <AccountPage /> },
         { path: '/swap', element: <SwapPage /> },
         { path: '/addliquidity', element: <AddLiquidityPage /> },
+        { path: '/removeliquidity', element: <RemoveLiquidityPage /> },
 
         { path: '/deals', element: <Deals /> },
         { path: '/idodeals', element: <IdoDeals /> },
@@ -116,6 +117,8 @@ const HomePage = Loadable(lazy(() => import('pages/_pages/HomePage')));
 const NotFound = Loadable(lazy(() => import('pages/Page404')));
 const SwapPage = Loadable(lazy(() => import('pages/_pages/SwapPage')));
 const AddLiquidityPage = Loadable(lazy(() => import('pages/_pages/AddLiquidityPage')));
+const RemoveLiquidityPage = Loadable(lazy(() => import('pages/_pages/RemoveLiquidityPage')));
+
 const ProjectPage = Loadable(lazy(() => import('pages/_pages/ProjectPage')));
 const StakingPage = Loadable(lazy(() => import('pages/_pages/StakingPage')));
 const VotePage = Loadable(lazy(() => import('pages/_pages/VotePage')));

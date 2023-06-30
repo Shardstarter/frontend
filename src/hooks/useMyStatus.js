@@ -686,7 +686,7 @@ export const useLiquidityStatus = () => {
   const [tokenAmountIn, setTokenAmountIn] = useState();
   const [tokenAmountOut, setTokenAmountOut] = useState();
 
-  const [pairAddress, setPairAddress] = useState();
+  const [pairAddress, setPairAddress] = useState('0x0000000000000000000000000000000000000000');
   useEffect(async () => {
     if (tokenIn && tokenOut) {
       try {
@@ -816,12 +816,43 @@ export const useLiquidityStatus = () => {
     await tx.wait();
   }
 
+  const funcRemove = async (percent) => {
+    // approve
+    let pairBalance = await pairContract.balanceOf(account);
+    pairBalance = Number(formatEther(pairBalance));
+
+    let removeAmount = pairBalance * Number(percent) / 100;
+    removeAmount = parseEther(String(removeAmount));
+
+    const allowance = await pairContract.allowance(account, DEX_ROUTERV2_ADDRESS[network]);
+    if (allowance.lt(removeAmount)) {
+      const tx = await pairContract.approve(
+        DEX_ROUTERV2_ADDRESS[network],
+        ethers.constants.MaxUint256 // Approve max token amount
+      );
+      await tx.wait();
+    } else {
+      console.log('Pair transfer is already approved.');
+    }
+
+    const tx = await dexRouterContract.removeLiquidity(
+      tokenIn,
+      tokenOut,
+      removeAmount,
+      0,
+      0,
+      account,
+      Math.floor(Date.now() / 1000) + 60 * 10, // 10 minutes deadline
+    );
+    await tx.wait();
+  }
+
   return {
     tokenAmountIn, setTokenAmountIn, tokenAmountOut, setTokenAmountOut,
     tokenInBalance, tokenOutBalance,
     tokenIn, tokenOut, setTokenIn, setTokenOut,
     pairAddress, sharepercent,
     onAmountInChanged, onAmountOutChanged,
-    funcAdd
+    funcAdd, funcRemove
   };
 };

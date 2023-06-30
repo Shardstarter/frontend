@@ -8,6 +8,7 @@ import { useLiquidityStatus } from 'hooks/useMyStatus';
 import { CURRENCY_SYMBOL } from 'config/constants';
 import { useSelector } from "react-redux";
 import { DEX_COINS, DEX_COINS_LIST } from 'config/constants';
+import { Link } from 'react-router-dom';
 
 function Page() {
   const { tokenAmountIn, setTokenAmountIn, tokenAmountOut, setTokenAmountOut,
@@ -132,6 +133,9 @@ function Page() {
             hasFocus
             onClick={handleAdd}
           />
+          <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+            <Link to="/removeliquidity">Remove Liquidity</Link>
+          </Box>
           <br />
           <hr />
           {/* <p>{JSON.stringify(address1)}</p> */}
@@ -139,7 +143,7 @@ function Page() {
             <p>When creating a pair you are the first liquidity provider. The ratio of tokens you add will set the price of this pool. Once you are happy with the rate, click supply to review </p>
             :
             <>
-              <h5>Share of Pool:   <span style={{color:'#02FF7B'}}>{sharepercent}%</span> </h5>
+              <h5>Share of Pool:   <span style={{ color: '#02FF7B' }}>{sharepercent}%</span> </h5>
               <p>Tip: By adding liquidity you'll earn 0.2% of all trades on this pair proportional to your share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.</p>
             </>
           }
