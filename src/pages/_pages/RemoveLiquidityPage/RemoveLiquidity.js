@@ -7,13 +7,14 @@ import FilterBar from 'components/_components/FilterBar';
 import { useLiquidityStatus } from 'hooks/useMyStatus';
 import { CURRENCY_SYMBOL } from 'config/constants';
 import { useSelector } from "react-redux";
-import { DEX_COINS, DEX_COINS_LIST } from 'config/constants';
+import { DEX_COINS, DEX_COINS_LIST, WETH_TOKEN_ADDRESS } from 'config/constants';
 
 function Page() {
   const { tokenAmountIn, setTokenAmountIn, tokenAmountOut, setTokenAmountOut,
     tokenInBalance, tokenOutBalance, tokenIn, tokenOut, setTokenIn, setTokenOut,
     pairAddress, sharepercent,
     onAmountInChanged, onAmountOutChanged,
+    pairTotalSupply, pairBalance,
     funcAdd, funcRemove } = useLiquidityStatus();
   const network = useSelector((state) => state.network.chainId);
 
@@ -28,15 +29,15 @@ function Page() {
   }
 
   const tokenAChanged = (tokenname) => {
-    if (DEX_COINS[tokenname].addresses[network])
-      setTokenIn(DEX_COINS[tokenname].addresses[network])
+    if (DEX_COINS[tokenname].isNative || DEX_COINS[tokenname].addresses[network])
+      setTokenIn(DEX_COINS[tokenname].isNative ? WETH_TOKEN_ADDRESS[network] : DEX_COINS[tokenname].addresses[network])
     else
       alert(tokenname + " not exist")
   }
 
   const tokenBChanged = (tokenname) => {
-    if (DEX_COINS[tokenname].addresses[network])
-      setTokenOut(DEX_COINS[tokenname].addresses[network])
+    if (DEX_COINS[tokenname].isNative || DEX_COINS[tokenname].addresses[network])
+      setTokenOut(DEX_COINS[tokenname].isNative ? WETH_TOKEN_ADDRESS[network]  : DEX_COINS[tokenname].addresses[network])
     else
       alert(tokenname + " not exist")
   }
@@ -86,43 +87,47 @@ function Page() {
             <p>No pair</p>
             :
             <>
-              {/* Percent */}
-              <Box sx={{
-                marginTop: '25px',
-              }}>
-                <RoundedLabel keyword="Percent of your shares to remove" />
-              </Box>
-              <Paper
-                component="form"
-                sx={{
-                  p: '2px 13px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginBottom: '5px',
-                  border: '1px solid #02FF7B',
-                  backgroundColor: '#171717',
-                  height: '96px'
-                }}
-              >
-                <InputBase
-                  sx={{ ml: 1, flex: 1, fontSize: '26px', fontWeight: 700 }}
-                  value={percent}
-                  onChange={(e) => setPercent(e.target.value.replace(/[^0-9.]/g, ""))}
-                />
-              </Paper>
+              <h4>You have {Number(pairBalance / pairTotalSupply * 100).toFixed(1)}% shares of pool liquidity</h4>
 
-              {/* Swap Button */}
-              <PrimaryButton
-                sx={{
-                  marginTop: '30px',
-                  width: '100%',
-                  minHeight: '85px',
-                  fontSize: '24px !important'
-                }}
-                label="Remove Liquidity"
-                hasFocus
-                onClick={handleRemove}
-              />
+
+              {pairBalance > 0 &&
+                <>
+                  <Box sx={{
+                    marginTop: '25px',
+                  }}>
+                    <RoundedLabel keyword="Percent of your shares to remove" />
+                  </Box>
+                  <Paper
+                    component="form"
+                    sx={{
+                      p: '2px 13px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      marginBottom: '5px',
+                      border: '1px solid #02FF7B',
+                      backgroundColor: '#171717',
+                      height: '96px'
+                    }}
+                  >
+                    <InputBase
+                      sx={{ ml: 1, flex: 1, fontSize: '26px', fontWeight: 700 }}
+                      value={percent}
+                      onChange={(e) => setPercent(e.target.value.replace(/[^0-9.]/g, ""))}
+                    />
+                  </Paper>
+                  <PrimaryButton
+                    sx={{
+                      marginTop: '30px',
+                      width: '100%',
+                      minHeight: '85px',
+                      fontSize: '24px !important'
+                    }}
+                    label="Remove Liquidity"
+                    hasFocus
+                    onClick={handleRemove}
+                  />
+                </>
+              }
             </>
           }
         </Box>

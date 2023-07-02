@@ -770,6 +770,8 @@ export const useLiquidityStatus = () => {
   const [reserve2, setReserve2] = useState();
   const [add1, setAdd1] = useState();
   const [sharepercent, setSharepercent] = useState(0);
+  const [pairTotalSupply, setPairTotalSupply] = useState();
+  const [pairBalance, setPairBalance] = useState();
   useEffect(async () => {
     if (pairContract) {
       try {
@@ -779,6 +781,12 @@ export const useLiquidityStatus = () => {
 
         const add1 = await pairContract.token0();
         setAdd1(add1)
+
+        let pairTotalSupply = await pairContract.totalSupply();
+        setPairTotalSupply(Number(formatEther(pairTotalSupply)));
+
+        let pairBalance = await pairContract.balanceOf(account);
+        setPairBalance(Number(formatEther(pairBalance)));
       } catch (error) {
         console.error('Error pair:', error);
       }
@@ -899,10 +907,6 @@ export const useLiquidityStatus = () => {
   }
 
   const funcRemove = async (percent) => {
-    // approve
-    let pairBalance = await pairContract.balanceOf(account);
-    pairBalance = Number(formatEther(pairBalance));
-
     let removeAmount = pairBalance * Number(percent) / 100;
     removeAmount = parseEther(String(removeAmount));
 
@@ -935,6 +939,7 @@ export const useLiquidityStatus = () => {
     tokenIn, tokenOut, setTokenIn, setTokenOut,
     pairAddress, sharepercent,
     onAmountInChanged, onAmountOutChanged,
+    pairTotalSupply, pairBalance,
     funcAdd, funcRemove
   };
 };
