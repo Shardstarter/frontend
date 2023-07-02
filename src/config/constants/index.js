@@ -82,12 +82,14 @@ export const DEX_FACTORY_ADDRESS = {
 };
 
 export const DEX_COINS_LIST = [
+  'SHM',
   'SHMX',
   'USDC',
   'USDT',
 ]
 
 export const DEX_COINS = {
+  'SHM': { name: "SHM", addresses: '0x0000000000000000000000000000000000000000', isNative: true, icon: '_img/icon/SHM.png' },
   'SHMX': { name: "SHMX", addresses: PROJECT_MAIN_TOKEN_ADDRESS, isNative: false, icon: '_img/icon/shmx.png' },
   'USDC': { name: "USDC", addresses: USDC_TOKEN_ADDRESS, isNative: false, icon: '_img/icon/USDC.png' },
   'USDT': { name: "USDT", addresses: USDT_TOKEN_ADDRESS, isNative: false, icon: '_img/icon/USDT.png' }

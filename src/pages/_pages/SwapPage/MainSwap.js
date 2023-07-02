@@ -21,13 +21,14 @@ function Page() {
     } catch (e) {
       console.log(e.message)
     }
+
   }
 
   const [tokenInIcon, setTokenInIcon] = useState('')
   const [tokenOutIcon, setTokenOutIcon] = useState('')
   const tokenAChanged = (tokenname) => {
-    if (DEX_COINS[tokenname].addresses[network]) {
-      setTokenIn(DEX_COINS[tokenname].addresses[network])
+    if (DEX_COINS[tokenname].isNative || DEX_COINS[tokenname].addresses[network]) {
+      setTokenIn(DEX_COINS[tokenname].isNative ? "0x0000000000000000000000000000000000000000" : DEX_COINS[tokenname].addresses[network])
       setTokenInIcon(DEX_COINS[tokenname].icon)
     }
 
@@ -36,8 +37,8 @@ function Page() {
   }
 
   const tokenBChanged = (tokenname) => {
-    if (DEX_COINS[tokenname].addresses[network]) {
-      setTokenOut(DEX_COINS[tokenname].addresses[network])
+    if (DEX_COINS[tokenname].isNative || DEX_COINS[tokenname].addresses[network]) {
+      setTokenOut(DEX_COINS[tokenname].isNative ? "0x0000000000000000000000000000000000000000" : DEX_COINS[tokenname].addresses[network])
       setTokenOutIcon(DEX_COINS[tokenname].icon)
     }
     else
@@ -57,7 +58,7 @@ function Page() {
         }}
       >
         <p style={{ marginTop: '60px', fontSize: '40px', color: '#02FF7B' }}>
-          <span>Swap </span>          
+          <span>Swap </span>
           <a href="/addliquidity"> | Liquidity</a>
         </p>
         <Box
@@ -117,7 +118,7 @@ function Page() {
             <InputBase
               sx={{ ml: 1, flex: 1, fontSize: '26px', fontWeight: 700 }}
               value={tokenAmountOut}
-            // onChange={(e) => setTokenAmountOut(e.target.value.replace(/[^0-9.]/g, ""))}
+              disabled
             />
             <FilterBar options={DEX_COINS_LIST} onChangeAction={tokenBChanged} title="Select" />
           </Paper>

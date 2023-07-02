@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import { formatUnits, parseUnits, formatEther, parseEther } from '@ethersproject/units';
 import { TIER_DEPOSIT_PERCENT } from "config/constants";
 import apis from "services";
-import { USDC_TOKEN_ADDRESS } from "config/constants";
+import { WETH_TOKEN_ADDRESS } from "config/constants";
 
 export const useMainStakingStatus = () => {
   const [tier, setTier] = useState(TIER_LEVEL.none_0);
@@ -577,7 +577,7 @@ export const useLiquidStakingStatus = () => {
  * @returns swap contract status
  */
 export const useSwapStatus = () => {
-  const { account } = useActiveWeb3React();
+  const { account, library } = useActiveWeb3React();
   const network = useSelector((state) => state.network.chainId);
 
   const dexRouterContract = useDEXRouterContract();
@@ -588,12 +588,17 @@ export const useSwapStatus = () => {
   const [tokenInBalance, setTokenInBalance] = useState();
   useEffect(async () => {
     try {
-      const balance = await tokenInContract.balanceOf(account);
-      setTokenInBalance(formatEther(balance));
+      if (tokenIn == '0x0000000000000000000000000000000000000000') {
+        let balance = await library.getBalance(account);
+        setTokenInBalance(formatEther(balance));
+      } else {
+        const balance = await tokenInContract.balanceOf(account);
+        setTokenInBalance(formatEther(balance));
+      }
     } catch (error) {
       console.error('Error fetching token balance:', error);
     }
-  }, [tokenInContract]);
+  }, [tokenInContract, tokenIn]);
 
   // Token out
   const [tokenOut, setTokenOut] = useState();
@@ -601,12 +606,18 @@ export const useSwapStatus = () => {
   const [tokenOutBalance, setTokenOutBalance] = useState();
   useEffect(async () => {
     try {
-      const balance = await tokenOutContract.balanceOf(account);
-      setTokenOutBalance(formatEther(balance));
+      if (tokenOut == '0x0000000000000000000000000000000000000000') {
+        let balance = await library.getBalance(account);
+        setTokenOutBalance(formatEther(balance));
+      } else {
+        const balance = await tokenOutContract.balanceOf(account);
+        setTokenOutBalance(formatEther(balance));
+      }
+
     } catch (error) {
       console.error('Error fetching token balance:', error);
     }
-  }, [tokenOutContract]);
+  }, [tokenOutContract, tokenOut]);
 
 
   const [tokenAmountIn, setTokenAmountIn] = useState(0.001);
@@ -614,23 +625,79 @@ export const useSwapStatus = () => {
 
   // Calculate Output from Input
   useEffect(async () => {
+    let caltokenIn = tokenIn == '0x0000000000000000000000000000000000000000' ? WETH_TOKEN_ADDRESS[network] : tokenIn;
+    let caltokenOut = tokenOut == '0x0000000000000000000000000000000000000000' ? WETH_TOKEN_ADDRESS[network] : tokenOut;
+
     let amountIn = parseEther(String(tokenAmountIn))
-    const amountsOut = await dexRouterContract.getAmountsOut(amountIn, [tokenIn, tokenOut]);
+    const amountsOut = await dexRouterContract.getAmountsOut(amountIn, [caltokenIn, caltokenOut]);
     setTokenAmountOut(Number(formatEther((amountsOut[1]))));
   }, [tokenIn, tokenOut, tokenAmountIn, dexRouterContract])
 
   const funcSwap = async () => {
-    const tx = await dexRouterContract.swapExactTokensForTokens(
-      parseEther(String(tokenAmountIn)),
-      0,
-      [
-        tokenIn,
-        tokenOut
-      ],
-      account,
-      Math.floor(Date.now() / 1000) + 300, // Set the deadline to 5 minutes from now
-    );
-    await tx.wait();
+    let caltokenIn = tokenIn == '0x0000000000000000000000000000000000000000' ? WETH_TOKEN_ADDRESS[network] : tokenIn;
+    let caltokenOut = tokenOut == '0x0000000000000000000000000000000000000000' ? WETH_TOKEN_ADDRESS[network] : tokenOut;
+
+    if (caltokenIn == WETH_TOKEN_ADDRESS[network]) {
+      const tx = await dexRouterContract.swapExactETHForTokens(
+        0,
+        [
+          caltokenIn,
+          caltokenOut
+        ],
+        account,
+        Math.floor(Date.now() / 1000) + 300, // Set the deadline to 5 minutes from now
+        { value: parseEther(String(tokenAmountIn)) }
+      );
+      await tx.wait();
+    } else if (caltokenOut == WETH_TOKEN_ADDRESS[network]) {
+      const allowance = await tokenInContract.allowance(account, DEX_ROUTERV2_ADDRESS[network]);
+      if (allowance.lt(parseEther(String(tokenAmountIn)))) {
+        const tx = await tokenInContract.approve(
+          DEX_ROUTERV2_ADDRESS[network],
+          ethers.constants.MaxUint256 // Approve max token amount
+        );
+        await tx.wait();
+      } else {
+        console.log('Token1 transfer is already approved.');
+      }
+
+      const tx = await dexRouterContract.swapExactTokensForETH(
+        parseEther(String(tokenAmountIn)),
+        0,
+        [
+          caltokenIn,
+          caltokenOut
+        ],
+        account,
+        Math.floor(Date.now() / 1000) + 300, // Set the deadline to 5 minutes from now       
+      );
+      await tx.wait();
+    } else {
+      const allowance = await tokenInContract.allowance(account, DEX_ROUTERV2_ADDRESS[network]);
+      if (allowance.lt(parseEther(String(tokenAmountIn)))) {
+        const tx = await tokenInContract.approve(
+          DEX_ROUTERV2_ADDRESS[network],
+          ethers.constants.MaxUint256 // Approve max token amount
+        );
+        await tx.wait();
+      } else {
+        console.log('Token1 transfer is already approved.');
+      }
+
+      const tx = await dexRouterContract.swapExactTokensForTokens(
+        parseEther(String(tokenAmountIn)),
+        0,
+        [
+          tokenIn,
+          tokenOut
+        ],
+        account,
+        Math.floor(Date.now() / 1000) + 300, // Set the deadline to 5 minutes from now
+      );
+      await tx.wait();
+    }
+
+
   }
 
   return {
@@ -761,59 +828,74 @@ export const useLiquidityStatus = () => {
     const token1AmountWei = parseEther(String(tokenAmountIn));
     const token2AmountWei = parseEther(String(tokenAmountOut));
 
-    const allowance1 = await tokenInContract.allowance(account, DEX_ROUTERV2_ADDRESS[network]);
-    console.log(formatEther(allowance1))
-    if (allowance1.lt(token1AmountWei)) {
-      const tx = await tokenInContract.approve(
-        DEX_ROUTERV2_ADDRESS[network],
-        ethers.constants.MaxUint256 // Approve max token amount
+
+    if (tokenIn !== '0x0000000000000000000000000000000000000000') {
+      const allowance1 = await tokenInContract.allowance(account, DEX_ROUTERV2_ADDRESS[network]);
+      console.log(formatEther(allowance1))
+      if (allowance1.lt(token1AmountWei)) {
+        const tx = await tokenInContract.approve(
+          DEX_ROUTERV2_ADDRESS[network],
+          ethers.constants.MaxUint256 // Approve max token amount
+        );
+        await tx.wait();
+      } else {
+        console.log('Token1 transfer is already approved.');
+      }
+    }
+
+    if (tokenOut !== '0x0000000000000000000000000000000000000000') {
+      const allowance2 = await tokenOutContract.allowance(account, DEX_ROUTERV2_ADDRESS[network]);
+      console.log(formatEther(allowance2))
+      if (allowance2.lt(token2AmountWei)) {
+        const tx = await tokenOutContract.approve(
+          DEX_ROUTERV2_ADDRESS[network],
+          ethers.constants.MaxUint256 // Approve max token amount
+        );
+        await tx.wait();
+      } else {
+        console.log('Token2 transfer is already approved.');
+      }
+    }
+
+
+    if (tokenIn == '0x0000000000000000000000000000000000000000') {
+      // addLiquidityETH
+      const tx = await dexRouterContract.addLiquidityETH(
+        tokenOut,
+        token2AmountWei,
+        0,
+        0,
+        account,
+        Math.floor(Date.now() / 1000) + 60 * 10, // 10 minutes deadline
+        { value: token1AmountWei }
+      );
+      await tx.wait();
+    } else if (tokenOut == '0x0000000000000000000000000000000000000000') {
+      // addLiquidityETH
+      const tx = await dexRouterContract.addLiquidityETH(
+        tokenIn,
+        token1AmountWei,
+        0,
+        0,
+        account,
+        Math.floor(Date.now() / 1000) + 60 * 10, // 10 minutes deadline
+        { value: token2AmountWei }
       );
       await tx.wait();
     } else {
-      console.log('Token1 transfer is already approved.');
-    }
-
-    const allowance2 = await tokenOutContract.allowance(account, DEX_ROUTERV2_ADDRESS[network]);
-    console.log(formatEther(allowance2))
-    if (allowance2.lt(token2AmountWei)) {
-      const tx = await tokenOutContract.approve(
-        DEX_ROUTERV2_ADDRESS[network],
-        ethers.constants.MaxUint256 // Approve max token amount
+      // addLiquidity
+      const tx = await dexRouterContract.addLiquidity(
+        tokenIn,
+        tokenOut,
+        token1AmountWei,
+        token2AmountWei,
+        0,
+        0,
+        account,
+        Math.floor(Date.now() / 1000) + 60 * 10, // 10 minutes deadline
       );
       await tx.wait();
-    } else {
-      console.log('Token2 transfer is already approved.');
     }
-
-
-    // const tx2 = await tokenOutContract.approve(
-    //   DEX_ROUTERV2_ADDRESS[network],
-    //   ethers.constants.MaxUint256 // Approve max token amount
-    // );
-    // await tx2.wait();
-
-    // add liquidity
-    // const tx = await dexRouterContract.addLiquidityETH(
-    //   '0xd3761e00fDd4e4eEeED5cE78ed0C7c41b6517a0f', // Replace with the token contract address
-    //   token2AmountWei,
-    //   '0',
-    //   '0',
-    //   account,
-    //   Math.floor(Date.now() / 1000) + 60 * 10, // 10 minutes deadline
-    //   { value: token1AmountWei } // Adjust the gas limit as needed
-    // );
-
-    const tx = await dexRouterContract.addLiquidity(
-      tokenIn,
-      tokenOut,
-      token1AmountWei,
-      token2AmountWei,
-      0,
-      0,
-      account,
-      Math.floor(Date.now() / 1000) + 60 * 10, // 10 minutes deadline
-    );
-    await tx.wait();
   }
 
   const funcRemove = async (percent) => {

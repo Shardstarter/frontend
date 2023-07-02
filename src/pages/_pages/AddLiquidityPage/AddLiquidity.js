@@ -26,16 +26,23 @@ function Page() {
     }
   }
 
+  const [tokenInIcon, setTokenInIcon] = useState('')
+  const [tokenOutIcon, setTokenOutIcon] = useState('')
+
   const tokenAChanged = (tokenname) => {
-    if (DEX_COINS[tokenname].addresses[network])
-      setTokenIn(DEX_COINS[tokenname].addresses[network])
+    if (DEX_COINS[tokenname].isNative || DEX_COINS[tokenname].addresses[network]) {
+      setTokenIn(DEX_COINS[tokenname].isNative ? "0x0000000000000000000000000000000000000000" : DEX_COINS[tokenname].addresses[network])
+      setTokenInIcon(DEX_COINS[tokenname].icon)
+    }
     else
       alert(tokenname + " not exist")
   }
 
   const tokenBChanged = (tokenname) => {
-    if (DEX_COINS[tokenname].addresses[network])
-      setTokenOut(DEX_COINS[tokenname].addresses[network])
+    if (DEX_COINS[tokenname].isNative || DEX_COINS[tokenname].addresses[network]) {
+      setTokenOut(DEX_COINS[tokenname].isNative ? "0x0000000000000000000000000000000000000000" : DEX_COINS[tokenname].addresses[network])
+      setTokenOutIcon(DEX_COINS[tokenname].icon)
+    }
     else
       alert(tokenname + " not exist")
   }
@@ -79,7 +86,7 @@ function Page() {
             }}
           >
             <IconButton sx={{ p: '10px' }} disabled>
-              {/* <img src={"_img/icon/shmx.png"} alt="hello" width={50} /> */}
+              {tokenInIcon && <img src={tokenInIcon} alt="hello" width={50} />}
             </IconButton>
             <InputBase
               sx={{ ml: 1, flex: 1, fontSize: '26px', fontWeight: 700 }}
@@ -108,7 +115,7 @@ function Page() {
             }}
           >
             <IconButton sx={{ p: '10px' }} disabled>
-              {/* <img src="_img/icon/shmx.png" alt="hello" width={50} /> */}
+              {tokenOutIcon && <img src={tokenOutIcon} alt="hello" width={50} />}
             </IconButton>
             <InputBase
               sx={{ ml: 1, flex: 1, fontSize: '26px', fontWeight: 700 }}
