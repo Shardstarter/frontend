@@ -130,7 +130,7 @@ export const ProjectCard = ({ project }) => {
               path: project.ipfs?.telegram
             },
             {
-              img: '_img/icon/reddit.png',
+              img: '_img/icon/discord.png',
               path: project.ipfs?.discord
             },
           ]} />

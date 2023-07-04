@@ -714,7 +714,7 @@ export const useSwapStatus = () => {
  * @returns liquidity, pool status
  */
 export const useLiquidityStatus = () => {
-  const { account } = useActiveWeb3React();
+  const { account, library } = useActiveWeb3React();
   const network = useSelector((state) => state.network.chainId);
 
   const dexRouterContract = useDEXRouterContract();
@@ -727,12 +727,18 @@ export const useLiquidityStatus = () => {
   const [tokenInBalance, setTokenInBalance] = useState();
   useEffect(async () => {
     try {
-      const balance = await tokenInContract.balanceOf(account);
-      setTokenInBalance(formatEther(balance));
+      if (tokenIn == '0x0000000000000000000000000000000000000000') {
+        let balance = await library.getBalance(account);
+        setTokenInBalance(formatEther(balance));
+      } else {
+        const balance = await tokenInContract.balanceOf(account);
+        setTokenInBalance(formatEther(balance));
+      }
+
     } catch (error) {
       console.error('Error fetching token balance:', error);
     }
-  }, [tokenInContract]);
+  }, [tokenInContract, tokenIn]);
 
   // Token out
   const [tokenOut, setTokenOut] = useState();
@@ -740,14 +746,17 @@ export const useLiquidityStatus = () => {
   const [tokenOutBalance, setTokenOutBalance] = useState();
   useEffect(async () => {
     try {
-      const balance = await tokenOutContract.balanceOf(account);
-      setTokenOutBalance(formatEther(balance));
+      if (tokenOut == '0x0000000000000000000000000000000000000000') {
+        let balance = await library.getBalance(account);
+        setTokenOutBalance(formatEther(balance));
+      } else {
+        const balance = await tokenOutContract.balanceOf(account);
+        setTokenOutBalance(formatEther(balance));
+      }      
     } catch (error) {
       console.error('Error fetching token balance:', error);
     }
-  }, [tokenOutContract]);
-
-
+  }, [tokenOutContract, tokenOut]);
 
 
   const [tokenAmountIn, setTokenAmountIn] = useState();

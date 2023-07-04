@@ -18,7 +18,7 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React';
 import { useStakingContract, useTokenContract } from 'hooks/useContract';
 import LiquidStaking from './LiquidStaking';
 
-const RenderElements = ({ poolInfo, idx, expanded, setExpanded }) => {
+const StakingCard = ({ poolInfo, idx, expanded, setExpanded, isfarming }) => {
   const { account } = useActiveWeb3React();
   const tokenContract = useTokenContract(poolInfo.tokenAddress);
   const stakingContract = useStakingContract(poolInfo.address);
@@ -73,7 +73,7 @@ const RenderElements = ({ poolInfo, idx, expanded, setExpanded }) => {
   var componentInfo = {
     imgUrl: poolInfo.logo,
     value: {
-      value: `$${poolInfo.tokenName.substring(0, 10)}`,
+      value: `$${poolInfo.tokenName}`,
       size: 30
     },
     label: {
@@ -98,7 +98,7 @@ const RenderElements = ({ poolInfo, idx, expanded, setExpanded }) => {
           height: 100
         }
       },
-      {
+      !isfarming && {
         label: {
           value: 'Duration',
           color: 'grey',
@@ -271,6 +271,7 @@ const RenderElements = ({ poolInfo, idx, expanded, setExpanded }) => {
           }}
         >
           {componentInfo.items.map((item, idx) => (
+            item &&
             <Box
               key={idx}
               sx={{
@@ -427,7 +428,10 @@ const RenderElements = ({ poolInfo, idx, expanded, setExpanded }) => {
             <br />
             <span>Your reward amount: {data.rewards}</span>
             <br />
-            <span>Your Lock time: {data.lockingReleaseTime}. Harvesting will reset the lock time.</span>
+            {
+              !isfarming &&
+              <span>Your Lock time: {data.lockingReleaseTime}. Harvesting will reset the lock time.</span>
+            }
           </Box>
         </Box>
       )}
@@ -512,7 +516,7 @@ function PriceStaking() {
       />
       <Box>
         <Box sx={{ marginTop: '10px' }}>
-          <Stack flexDirection="row" columnGap="28px" rowGap="15px  " sx={{'@media (max-width: 600px)': {gap:"10px"} }}>
+          <Stack flexDirection="row" columnGap="28px" rowGap="15px  " sx={{ '@media (max-width: 600px)': { gap: "10px" } }}>
             {StakingButtons.map((but, idx) => (
               <PrimaryButton
                 key={idx}
@@ -522,12 +526,12 @@ function PriceStaking() {
                   color: '#585858',
                   '@media (max-width: 1400px)': {
                     padding: '0px 10px 0px 10px',
-                    fontsize:"14px"
+                    fontsize: "14px"
                   },
                   '@media (max-width: 600px)': {
                     padding: '0px 10px 0px 10px',
                     fontSize: '14px',
-                    width:"fit-content",
+                    width: "fit-content",
                     height: '60px',
                   },
                 }}
@@ -544,7 +548,7 @@ function PriceStaking() {
               {pools
                 .filter((pool) => !pool.tokenName.includes('LP'))
                 .map((pool, idx) => (
-                  <RenderElements key={idx} poolInfo={pool} idx={idx} expanded={expanded} setExpanded={setExpanded} />
+                  <StakingCard key={idx} poolInfo={pool} idx={idx} expanded={expanded} setExpanded={setExpanded} />
                 ))}
             </Box>
           )}
@@ -555,7 +559,7 @@ function PriceStaking() {
               {pools
                 .filter((pool) => pool.tokenName.includes('LP'))
                 .map((pool, idx) => (
-                  <RenderElements key={idx} poolInfo={pool} idx={idx} expanded={expanded} setExpanded={setExpanded} />
+                  <StakingCard key={idx} poolInfo={pool} idx={idx} expanded={expanded} setExpanded={setExpanded} isfarming={true} />
                 ))}
             </Box>
           )}

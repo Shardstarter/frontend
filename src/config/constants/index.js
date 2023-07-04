@@ -218,10 +218,15 @@ export const TIER_LEVEL = {
 };
 
 export const TIER_STAKING_AMOUNT = {
-  amber_1: 3000,
-  chrome_2: 15000,
-  jade_3: 45000,
-  topaz_4: 70000,
+  amber_1: 3,
+  chrome_2: 15,
+  jade_3: 45,
+  topaz_4: 70,
+
+  // amber_1: 3000,
+  // chrome_2: 15000,
+  // jade_3: 45000,
+  // topaz_4: 70000,
 };
 
 export const TIER_DEPOSIT_PERCENT = {

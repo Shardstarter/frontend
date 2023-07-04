@@ -168,7 +168,7 @@ const Header = (props) => {
                 />
               ))}
             </Box>
-            {account && (
+            {/* {account && (
               <Label
                 key={10}
                 sx={{
@@ -182,7 +182,7 @@ const Header = (props) => {
                   weight: 100
                 }}
               />
-            )}
+            )} */}
             {account ? (
               <PrimaryButton
                 label={account.substring(0, 5) + '...' + account.substring(account.length - 4, account.length)}
