@@ -94,7 +94,10 @@ function LeftStaking() {
         display: 'flex',
         flexDirection: 'column',
         padding: '60px 0px 60px 65px',
-        width: '43%'
+        width: '43%',
+        '@media (max-width: 600px)': {
+          padding: '20px',
+        },
       }}
     >
       <Box

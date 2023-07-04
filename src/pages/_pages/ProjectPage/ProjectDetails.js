@@ -5,7 +5,7 @@ import { IconButtonGroup } from 'components/_components/Button';
 
 const RenderObjArr = (obj) =>
   Object.entries(obj).map(([objKey, val], index) => (
-    <Box key={index} sx={{ display: 'flex', columnGap: '4px' }}>
+    <Box key={index} sx={{ display: 'flex', columnGap: '4px', flexWrap:"wrap", gap:"10px" }}>
       <Label text={{ value: `${objKey}:`, weight: 100 }} />
       <span>
         {val.map((detail, idx) => (

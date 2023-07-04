@@ -19,7 +19,15 @@ const RenderRoundedCard = (props) => (
         justifyContent: 'center'
       }}
     >
-      <Label text={{ ...props.label }} />
+      <Label
+        text={{ ...props.label }}
+        sx={{
+          marginTop: '5px',
+          '@media (max-width: 1000px)': {
+            fontSize: 22
+          }
+        }}
+      />
     </Box>
     <Box
       sx={{
@@ -31,7 +39,15 @@ const RenderRoundedCard = (props) => (
         }
       }}
     >
-      <Label text={props.value} sx={{ marginTop: '5px' }} />
+      <Label
+        text={props.value}
+        sx={{
+          marginTop: '5px',
+          '@media (max-width: 1000px)': {
+            fontSize: 22
+          }
+        }}
+      />
       {props.id === 2 && (
         <Button
           sx={{
@@ -43,6 +59,9 @@ const RenderRoundedCard = (props) => (
             border: '1px solid #02FF7B',
             borderRadius: '8px',
             marginLeft: '35px',
+            '@media (max-width: 1000px)': {
+              fontSize: '12px'
+            },
             '@media (max-width: 500px)': {
               marginLeft: '0px',
               marginTop: '10px'
@@ -58,10 +77,19 @@ const RenderRoundedCard = (props) => (
 );
 
 function LiquidStaking() {
-  const { staked_amount, received_amount, rewards,
-    wallet_SHMX_balance, wallet_sSHMX_balance, sSHMX_marketcap,
-    totalStakedSHMX, totalStakers,
-    funcStake, funcUnstake, funcClaimRewards } = useLiquidStakingStatus();
+  const {
+    staked_amount,
+    received_amount,
+    rewards,
+    wallet_SHMX_balance,
+    wallet_sSHMX_balance,
+    sSHMX_marketcap,
+    totalStakedSHMX,
+    totalStakers,
+    funcStake,
+    funcUnstake,
+    funcClaimRewards
+  } = useLiquidStakingStatus();
 
   const [amount, setAmount] = useState(0);
 
@@ -198,37 +226,32 @@ function LiquidStaking() {
 
   const handleStake = async () => {
     try {
-      await funcStake(amount)
+      await funcStake(amount);
     } catch (e) {
-      console.log(e.message)
+      console.log(e.message);
     }
-
-  }
+  };
   const handleUnstake = async () => {
     try {
-      await funcUnstake(amount)
+      await funcUnstake(amount);
     } catch (e) {
-      console.log(e.message)
+      console.log(e.message);
     }
-
-  }
-
+  };
 
   return (
     <Box>
       <Box
         sx={{
           display: 'flex',
-          justifyContent: 'space-evenly',
+          justifyContent: 'space-between',
           padding: '50px 50px',
           backgroundColor: '#000000',
           border: '1px solid #7070704C',
           borderRadius: '20px',
           flexWrap: 'wrap',
           rowGap: '25px',
-          '@media (max-width: 500px)': {
-            flexDirection: 'column'
-          }
+          gap: '20px'
         }}
       >
         {LiquidParams.items.map((item, idx) => (
@@ -243,7 +266,8 @@ function LiquidStaking() {
           display: 'flex',
           alignItems: 'center',
           flexDirection: 'column',
-          backgroundColor: '#000000'
+          backgroundColor: '#000000',
+          padding: '5px'
         }}
       >
         <Label sx={{ marginTop: '60px' }} text={{ value: 'Stake SHMX', size: 40, color: 'green' }} />
@@ -279,7 +303,7 @@ function LiquidStaking() {
             <InputBase
               sx={{ ml: 1, flex: 1, fontSize: '26px', fontWeight: 700 }}
               value={amount}
-              onChange={(e) => setAmount(e.target.value.replace(/[^0-9.]/g, ""))}
+              onChange={(e) => setAmount(e.target.value.replace(/[^0-9.]/g, ''))}
             />
             <Button
               sx={{
@@ -297,9 +321,26 @@ function LiquidStaking() {
             </Button>
           </Paper>
 
-          <Box sx={{ display: 'flex', justifyContent: 'end' }}>
-            <RoundedLabel keyword="Balance" value={"$SHMX " + Number(wallet_SHMX_balance).toFixed(1)} bgColor="#171717" />
-            <RoundedLabel keyword="Balance" value={"$sSHMX " + Number(wallet_sSHMX_balance).toFixed(1)} bgColor="#171717" />
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'end',
+              '@media (max-width: 760px)': {
+                flexDirection:"column",
+                gap:"10px"
+              }
+            }}
+          >
+            <RoundedLabel
+              keyword="Balance"
+              value={'$SHMX ' + Number(wallet_SHMX_balance).toFixed(1)}
+              bgColor="#171717"
+            />
+            <RoundedLabel
+              keyword="Balance"
+              value={'$sSHMX ' + Number(wallet_sSHMX_balance).toFixed(1)}
+              bgColor="#171717"
+            />
           </Box>
           <PrimaryButton
             sx={{

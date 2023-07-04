@@ -35,18 +35,29 @@ const Footer = () => {
         }}
       >
         <Box>
-          <Box height={64} sx={{ marginBottom: '60px' }}>
-            <Link to="/home">
+          <Box
+            height={64}
+            sx={{
+              marginBottom: '60px',
+            }}
+          >
+            <Link nk to="/home">
               <img src="_img/footer.png" alt="Footer" height="100%" />
             </Link>
           </Box>
           <Label
-            text={{ value: "Developed on Shardeum, We are poised to enhance the DeFi, NFT, Metaverse, and Gaming ecosystems. Our platform rigorously selects high-quality projects through its unique project selection process.", weight: 100, color: '#D1D1D1' }}
+            text={{
+              value:
+                'Developed on Shardeum, We are poised to enhance the DeFi, NFT, Metaverse, and Gaming ecosystems. Our platform rigorously selects high-quality projects through its unique project selection process.',
+              weight: 100,
+              color: '#D1D1D1'
+            }}
             sx={{
               width: '612px',
               '@media (max-width: 1360px)': {
-                width: '400px',
-                marginBottom: '50px'
+                marginBottom: '50px',              },
+              '@media (max-width: 768px)': {
+                width: '400px'
               },
               '@media (max-width: 500px)': {
                 width: '100%',
@@ -60,8 +71,13 @@ const Footer = () => {
           <Box
             display="flex"
             sx={{
+              '@media (max-width: 768px)': {
+                width: '400px'
+              },
               '@media (max-width: 500px)': {
-                flexDirection: 'column'
+                flexDirection: 'column',
+                padding: '10px',
+                width: '350px'
               }
             }}
             flexDirection="row"
@@ -80,11 +96,19 @@ const Footer = () => {
             </span>
           </Box>
           <IconButtonGroup
-            sx={{ marginTop: '30px' }}
+            sx={{ marginTop: '30px', display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'center' }}
             size="50px"
-            elements={[linkedin, telegram,  twitter,  discord, medium, mirror]}
+            elements={[linkedin, telegram, twitter, discord, medium, mirror]}
           />
-          <Label text={{ value: privacyString, weight: 100 }} sx={{ marginTop: '40px' }} />
+          <Label
+            text={{ value: privacyString, weight: 100 }}
+            sx={{
+              marginTop: '40px',
+              '@media (max-width: 500px)': {
+                textAlign: 'center'
+              }
+            }}
+          />
         </Box>
       </Box>
       <Box

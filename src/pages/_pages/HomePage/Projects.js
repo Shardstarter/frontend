@@ -134,7 +134,7 @@ const Projects = () => {
               justifyContent: 'space-between',
               '@media (max-width: 1200px)': {
                 flexDirection: 'column',
-                rowGap: '20px'
+                rowGap: '20px',
               }
             }}
           >
@@ -144,9 +144,11 @@ const Projects = () => {
               flexWrap="wrap"
               justifyContent="space-between"
               rowGap="20px"
+              gap= "20px"
               sx={{
                 '@media (max-width: 1200px)': {
-                  width: '100%'
+                  width: '100%',
+                  justifyContent:"flex-start"
                 }
               }}
             >
@@ -160,8 +162,18 @@ const Projects = () => {
                 />
               ))}
             </Stack>
+            <Box sx={{
+            display: 'flex',
+            marginLeft:"10px",
+            gap:2,
+            '@media (max-width: 600px)': {
+              flexWrap:"wrap"
+            }
+            
+          }}>
             <SecondaryButton label="Calendar View" sx={{ width: '220px' }} onClick={() => window.open('/calender')} />
             <FilterBar options={['All', 'GTEDI', 'Bulkperks', 'Solchicks', 'SIDUS']} onChangeAction={setFilter} />
+            </Box>
           </Box>
         </Box>
         <Box

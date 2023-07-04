@@ -32,10 +32,18 @@ const Background = () => {
             '@media (max-width: 1500px)': {
               alignItems: 'center',
               flexDirection: 'column'
+            },
+            '@media (max-width: 800px)': {
+              padding: '10px 10px 10px 10px',
             }
           }}
         >
-          <Box sx={{ paddingTop: '62px' }}>
+          <Box
+            sx={{
+              paddingTop: '62px',
+              
+            }}
+          >
             <Box>
               <Label
                 sx={{
@@ -84,7 +92,7 @@ const Background = () => {
                   'transparent radial-gradient(closest-side at 142% 150%, #70C5A3 0%, #02FF7B 49%, #008540 100%) 0% 0% no-repeat padding-box'
               }}
             ></Box>
-            <img src="_img/vote.png" alt="coin" height={535} width={585} />
+            <img src="_img/vote.png" alt="coin" height={535} style={{ objectFit: 'contain' }} width={585} />
           </Box>
         </Box>
       </Box>

@@ -16,7 +16,6 @@ import apis from 'services';
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
 import { useMainStakingStatus } from 'hooks/useMyStatus';
 
-
 const Votes = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { account } = useActiveWeb3React();
@@ -31,7 +30,7 @@ const Votes = () => {
       const response = await apis.getVotes({});
 
       if (response.data.result) {
-        setVotes(response.data.data)
+        setVotes(response.data.data);
       } else {
         enqueueSnackbar(response.data.message, {
           variant: 'danger'
@@ -41,13 +40,14 @@ const Votes = () => {
   }, []);
 
   const [filter, setFilter] = useState('All'); //filter
-  const [showing_votes, setShowingVotes] = useState([]); //modified votes 
+  const [showing_votes, setShowingVotes] = useState([]); //modified votes
   useEffect(() => {
     var new_arr = votes
-      .filter(item => (filter == 'All' || item.ticker?.includes(filter)))
-      .filter(item => activeId == 0 || activeId == 1) //only for "All" and "Open" button
+      .filter((item) => filter == 'All' || item.ticker?.includes(filter))
+      .filter((item) => activeId == 0 || activeId == 1) //only for "All" and "Open" button
       .map((item) => {
-        let found = false, liked = false;
+        let found = false,
+          liked = false;
         item.participants.find((item) => {
           if (item.wallet_address == account) {
             found = true;
@@ -76,12 +76,12 @@ const Votes = () => {
             {
               img: '_img/icon/reddit.png',
               path: item.discord
-            },
+            }
           ],
-          liked: found ? (liked ? 1 : -1) : 0,  //1, -1, 0
-          percent: Number(item.up / tvl * 100).toFixed(1),
-          percent1_label: Number(item.up / tvl * 100).toFixed(1) + " %",
-          percent2_label: Number(item.down / tvl * 100).toFixed(1) + " %",
+          liked: found ? (liked ? 1 : -1) : 0, //1, -1, 0
+          percent: Number((item.up / tvl) * 100).toFixed(1),
+          percent1_label: Number((item.up / tvl) * 100).toFixed(1) + ' %',
+          percent2_label: Number((item.down / tvl) * 100).toFixed(1) + ' %',
           links: [
             {
               value: 'Whitepapers',
@@ -96,11 +96,11 @@ const Votes = () => {
               href: item.audit
             }
           ]
-        }
+        };
       })
       .reverse();
-    setShowingVotes(new_arr)
-  }, [votes, tvl, filter, activeId])
+    setShowingVotes(new_arr);
+  }, [votes, tvl, filter, activeId]);
 
   const placeVote = async (vote_id, isUp) => {
     try {
@@ -114,7 +114,7 @@ const Votes = () => {
         enqueueSnackbar('success', {
           variant: 'success'
         });
-        window.location.reload()
+        window.location.reload();
       } else {
         enqueueSnackbar(response.data.message, {
           variant: 'danger'
@@ -125,7 +125,7 @@ const Votes = () => {
         variant: 'danger'
       });
     }
-  }
+  };
 
   return (
     <Box
@@ -191,19 +191,31 @@ const Votes = () => {
                 <PrimaryButton
                   key={idx}
                   label={but}
-                  sx={{ padding: '20px 43px 20px 43px', color: '#585858' }}
+                  sx={{
+                    padding: '20px 43px 20px 43px',
+                    color: '#585858',
+                    '@media (max-width: 760px)': {
+                      padding: '0px 32px',
+                      fontSize: '16px',
+                    }
+                  }}
                   onClick={() => setActiveId(idx)}
                   hasFocus={activeId === idx}
                 />
               ))}
             </Stack>
-            <FilterBar options={['All', 'Governance', 'Funding', 'Project', 'Policy', 'Community']} onChangeAction={setFilter} />
+            <FilterBar
+              options={['All', 'Governance', 'Funding', 'Project', 'Policy', 'Community']}
+              onChangeAction={setFilter}
+            />
           </Box>
           <Box sx={{ marginTop: '60px', display: 'flex', flexDirection: 'column', rowGap: '20px' }}>
             {showing_votes.map((vote, idx) => (
-              <VoteCard key={idx} vote={vote}
-                onClickYes={() => vote.liked == 0 ? placeVote(vote.id, true) : alert('Already voted')}
-                onClickNo={() => vote.liked == 0 ? placeVote(vote.id, false) : alert('Already voted')}
+              <VoteCard
+                key={idx}
+                vote={vote}
+                onClickYes={() => (vote.liked == 0 ? placeVote(vote.id, true) : alert('Already voted'))}
+                onClickNo={() => (vote.liked == 0 ? placeVote(vote.id, false) : alert('Already voted'))}
               />
             ))}
           </Box>
@@ -212,7 +224,6 @@ const Votes = () => {
     </Box>
   );
 };
-
 
 const VoteCard = ({ vote, onClickYes, onClickNo }) => {
   return (
@@ -228,13 +239,33 @@ const VoteCard = ({ vote, onClickYes, onClickNo }) => {
         alignItems: 'center',
         display: 'flex',
         flexDirection: 'row',
-        zIndex: 100
+        zIndex: 100,
+        '@media (max-width: 500px)': {
+          padding: '20px'
+        }
       }}
     >
       <Box>
-        <Box sx={{ display: 'flex' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            '@media (max-width: 600px)': {
+              flexDirection: 'column',
+              gap: '20px'
+            }
+          }}
+        >
           <img src={vote.imgUrl} alt="imgUrl" width={100} />
-          <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '30px' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              marginLeft: '30px',
+              '@media (max-width: 600px)': {
+                marginLeft: '0px'
+              }
+            }}
+          >
             <Label text={{ value: vote.value, size: 30 }} />
             <RoundedCard bgColor="#171717" color="#02FF7B" label={vote.label} width={250} height={43} />
           </Box>
@@ -299,10 +330,13 @@ const VoteCard = ({ vote, onClickYes, onClickNo }) => {
         {vote.links.map((link, idx) => (
           <Box key={idx} sx={{ display: 'flex' }}>
             <Label text={{ value: link.value, type: 'text' }} sx={{ marginRight: '12px' }} />
-            <Link to={link.href} onClick={(event) => {
-              event.preventDefault();
-              window.open(event.currentTarget.href, '_blank');
-            }}>
+            <Link
+              to={link.href}
+              onClick={(event) => {
+                event.preventDefault();
+                window.open(event.currentTarget.href, '_blank');
+              }}
+            >
               <LaunchIcon />
             </Link>
           </Box>

@@ -16,7 +16,7 @@ import { NETWORK_NAME } from 'config/constants';
 const Logo = () => (
   <Box maxWidth={318} height={64}>
     <Link to="/home">
-      <img src="_img/logo.png" alt="Logo" height="64px" />
+      <img src="_img/logo.png" alt="Logo" height="64px" style={{objectFit:'contain'}} />
     </Link>
   </Box>
 );
@@ -33,7 +33,6 @@ const Header = (props) => {
     account,
     Number(network)
   );
-
 
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -71,7 +70,11 @@ const Header = (props) => {
         ))}
       </Box>
       <PrimaryButton
-        label={account ? account.substring(0, 5) + '...' + account.substring(account.length - 4, account.length) : "Connect Wallet"}
+        label={
+          account
+            ? account.substring(0, 5) + '...' + account.substring(account.length - 4, account.length)
+            : 'Connect Wallet'
+        }
         sx={{
           marginTop: '20px',
           padding: '8px',
@@ -91,6 +94,12 @@ const Header = (props) => {
       <CssBaseline />
       <AppBar
         sx={{
+          '@media (max-width: 1400px)': {
+            padding: '43px 2%'
+          },
+          '@media (max-width: 1200px)': {
+            padding: '43px 0%'
+          },
           '@media (max-width: 600px)': {
             padding: '43px 2%'
           },
@@ -137,7 +146,17 @@ const Header = (props) => {
                 <Label
                   key={idx}
                   sx={{
-                    marginRight: '60px'
+                    marginRight: '60px',
+                    '@media (max-width: 1440px)': {
+                      marginRight: '20px'
+                    },
+                    '@media (max-width: 1200px)': {
+                      marginRight: '15px',
+                      fontSize: '15px'
+                    },
+                    '@media (max-width: 1600px)': {
+                      marginRight: '40px'
+                    }
                   }}
                   text={{
                     type: 'link',
@@ -149,42 +168,54 @@ const Header = (props) => {
                 />
               ))}
             </Box>
-            {account &&
+            {account && (
               <Label
                 key={10}
                 sx={{
-                  marginRight: '20px',
+                  marginRight: '20px'
                 }}
                 text={{
-                  type: "text",
-                  color: "green",
+                  type: 'text',
+                  color: 'green',
                   value: NETWORK_NAME[network],
                   size: 15,
                   weight: 100
                 }}
-              />}
-            {account ?
+              />
+            )}
+            {account ? (
               <PrimaryButton
                 label={account.substring(0, 5) + '...' + account.substring(account.length - 4, account.length)}
                 sx={{
                   padding: '8px',
                   display: { xs: 'none', md: 'block' },
-                  width: '220px'
+                  width: '220px',
+                  '@media (max-width: 1440px)': {
+                    width: '180px',
+                    padding: '6px'
+                  }
                 }}
                 hasFocus={true}
                 onClick={onPresentAccountModal}
-              /> :
+              />
+            ) : (
               <PrimaryButton
                 label="Connect Wallet"
                 sx={{
                   padding: '8px',
                   display: { xs: 'none', md: 'block' },
-                  width: '220px'
+                  width: '220px',
+                  '@media (max-width: 1440px)': {
+                    width: '180px',
+                    padding: '6px',
+                    fontSize: '15px',
+                    height: '60px'
+                  }
                 }}
                 hasFocus={true}
                 onClick={onPresentConnectModal}
               />
-            }
+            )}
           </Box>
         </Toolbar>
       </AppBar>

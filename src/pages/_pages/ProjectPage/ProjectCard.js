@@ -12,30 +12,42 @@ import { ADMIN_WALLETS } from 'config/constants';
 
 const Projectcard = ({ projectInfo }) => {
   const { account, library } = useActiveWeb3React();
-  const { tier } = useMainStakingStatus()
-  const { myMaxDeposit, stage, stage_label,
-    action, action_label, action_description, action_available, handleFinalize, deletePool } = useIDOPoolStatus(projectInfo)
+  const { tier } = useMainStakingStatus();
+  const {
+    myMaxDeposit,
+    stage,
+    stage_label,
+    action,
+    action_label,
+    action_description,
+    action_available,
+    handleFinalize,
+    deletePool
+  } = useIDOPoolStatus(projectInfo);
 
   var componentInfo = {
     icon: projectInfo.logo,
     label: projectInfo.projectName,
     tier_label: tier,
     stage_label: stage_label,
-    pair_label: projectInfo.projectName + " / SHM",
+    pair_label: projectInfo.projectName + ' / SHM',
     price1: `1 SHM = ${projectInfo.presaleRate} ${projectInfo.projectName}`,
     price2: `1 ${projectInfo.projectName} = ${1 / projectInfo.presaleRate} SHM`,
     progress: {
       title: 'Fund raised',
-      currProg: Number(projectInfo.weiRaised / projectInfo.hardCap * 100).toFixed(1),
+      currProg: Number((projectInfo.weiRaised / projectInfo.hardCap) * 100).toFixed(1),
       text: projectInfo.weiRaised + ' SHM',
-      value: `${projectInfo.weiRaised * projectInfo.presaleRate} / ${projectInfo.hardCap * projectInfo.presaleRate}  ${projectInfo.projectName}`
+      value: `${projectInfo.weiRaised * projectInfo.presaleRate} / ${projectInfo.hardCap * projectInfo.presaleRate}  ${
+        projectInfo.projectName
+      }`
     },
     date_register: ' ~ ' + new Date(projectInfo.startDateTime).toUTCString(), //'Apr 14, 14:00 - Apr 16, 11:00 UTC'
-    date_sale: new Date(projectInfo.startDateTime).toUTCString() + ' - ' + new Date(projectInfo.endDateTime).toUTCString(), //'Apr 16, 14:00 - Apr 17, 14:00 UTC'
-    date_fcfs: new Date(projectInfo.endDateTime).toUTCString(),// 'Apr 17, 13:20 UTC'
-  }
+    date_sale:
+      new Date(projectInfo.startDateTime).toUTCString() + ' - ' + new Date(projectInfo.endDateTime).toUTCString(), //'Apr 16, 14:00 - Apr 17, 14:00 UTC'
+    date_fcfs: new Date(projectInfo.endDateTime).toUTCString() // 'Apr 17, 13:20 UTC'
+  };
 
-  const [amount, setAmount] = useState(0)
+  const [amount, setAmount] = useState(0);
 
   return (
     <Box
@@ -53,7 +65,7 @@ const Projectcard = ({ projectInfo }) => {
         backgroundSize: 'cover',
         borderRadius: '38px',
         padding: '50px',
-        marginLeft: '50px',
+        marginLeft: '50px'
       }}
     >
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -67,16 +79,16 @@ const Projectcard = ({ projectInfo }) => {
             <Box sx={{ display: 'flex', columnGap: '8px' }}>
               <RoundedCard
                 label={componentInfo.tier_label}
-                bgColor='#FF77774F'
-                color='#FF5D5D'
+                bgColor="#FF77774F"
+                color="#FF5D5D"
                 size={14}
                 width={90}
                 height={30}
               />
               <RoundedCard
                 label={componentInfo.stage_label}
-                bgColor='#FFD5002B'
-                color='#FFD500'
+                bgColor="#FFD5002B"
+                color="#FFD500"
                 size={14}
                 width={90}
                 height={30}
@@ -98,10 +110,11 @@ const Projectcard = ({ projectInfo }) => {
         >
           <Label
             sx={{ marginBottom: '25px', textAlign: 'center' }}
-            text={{ value: account ? action_description : "Please connect wallet", size: 18, weight: 100 }}
+            text={{ value: account ? action_description : 'Please connect wallet', size: 18, weight: 100 }}
           />
-          {account && action_available &&
-            ((stage == 1 || stage == 3) ?
+          {account &&
+            action_available &&
+            (stage == 1 || stage == 3 ? (
               <SubmitInput
                 sx={{
                   width: '30%',
@@ -117,7 +130,8 @@ const Projectcard = ({ projectInfo }) => {
                 value={amount}
                 onChangeValue={(value) => setAmount(value)}
                 onClick={() => action(amount)}
-              /> :
+              />
+            ) : (
               <PrimaryButton
                 label={action_label}
                 sx={{
@@ -127,9 +141,7 @@ const Projectcard = ({ projectInfo }) => {
                 hasFocus={true}
                 onClick={() => action()}
               />
-            )
-          }
-
+            ))}
         </Box>
         <Label
           sx={{ marginTop: '8px', textAlign: 'right' }}
@@ -168,54 +180,100 @@ const Projectcard = ({ projectInfo }) => {
           <Box sx={{ display: 'flex', rowGap: '15px', flexDirection: 'column' }}>
             <Box sx={{ display: 'flex' }}>
               <img src="_img/icon/wifi.png" width={31} height={31} />
-              <Label sx={{ marginLeft: '15px', minWidth: '75px' }} text={{
-                value: 'IDO and distribution on Shardeum chain',
-                size: 18,
-                weight: 100
-              }} />
+              <Label
+                sx={{ marginLeft: '15px', minWidth: '75px' }}
+                text={{
+                  value: 'IDO and distribution on Shardeum chain',
+                  size: 18,
+                  weight: 100
+                }}
+              />
             </Box>
-            <Box sx={{ display: 'flex' }}>
-              <img src="_img/icon/register.png" width={31} height={31} style={{ marginTop: '15px' }} />
-              <Label sx={{ marginLeft: '15px', minWidth: '75px' }} text={{
-                value: 'Register',
-                size: 18,
-                weight: 100
-              }} />
-              <Label sx={{ marginLeft: '40px' }} text={{
-                value: componentInfo.date_register,
-                size: 18
-              }} />
+            <Box
+              sx={{
+                display: 'flex',
+                '@media (max-width: 800px)': {
+                  flexWrap: 'wrap'
+                }
+              }}
+            >
+              <Box sx={{ display: 'flex',minWidth:"110px" }}>
+                <img src="_img/icon/register.png" width={31} height={31} style={{ marginTop: '15px' }} />
+                <Label
+                  sx={{ marginLeft: '15px', minWidth: '75px' }}
+                  text={{
+                    value: 'Register',
+                    size: 18,
+                    weight: 100
+                  }}
+                />
+              </Box>
+              <Label
+                sx={{ marginLeft: '40px' }}
+                text={{
+                  value: componentInfo.date_register,
+                  size: 18
+                }}
+              />
             </Box>
-            <Box sx={{ display: 'flex' }}>
-              <img src="_img/icon/money-bag.png" width={31} height={31} style={{ marginTop: '25px' }} />
-              <Label sx={{ marginLeft: '15px', minWidth: '75px' }} text={{
-                value: 'Sale',
-                size: 18,
-                weight: 100
-              }} />
-              <Label sx={{ marginLeft: '40px' }} text={{
-                value: componentInfo.date_sale,
-                size: 18
-              }} />
+            <Box
+              sx={{
+                display: 'flex',
+                '@media (max-width: 800px)': {
+                  flexWrap: 'wrap'
+                }
+              }}
+            >
+              <Box sx={{ display: 'flex',minWidth:"110px" }}>
+                <img src="_img/icon/money-bag.png" width={31} height={31} style={{ marginTop: '25px' }} />
+                <Label
+                  sx={{ marginLeft: '15px', minWidth: '75px' }}
+                  text={{
+                    value: 'Sale',
+                    size: 18,
+                    weight: 100
+                  }}
+                />
+              </Box>
+              <Label
+                sx={{ marginLeft: '40px' }}
+                text={{
+                  value: componentInfo.date_sale,
+                  size: 18
+                }}
+              />
             </Box>
-            <Box sx={{ display: 'flex' }}>
-              <img src="_img/icon/training.png" width={31} height={31} style={{ marginTop: '15px' }} />
-              <Label sx={{ marginLeft: '15px', minWidth: '75px' }} text={{
-                value: 'FCFS',
-                size: 18,
-                weight: 100
-              }} />
-              <Label sx={{ marginLeft: '40px' }} text={{
-                value: componentInfo.date_fcfs,
-                size: 18
-              }} />
+            <Box
+              sx={{
+                display: 'flex',
+                '@media (max-width: 800px)': {
+                  flexWrap: 'wrap'
+                }
+              }}
+            >
+              <Box sx={{ display: 'flex',minWidth:"110px" }}>
+                <img src="_img/icon/training.png" width={31} height={31} style={{ marginTop: '15px' }} />
+                <Label
+                  sx={{ marginLeft: '15px', minWidth: '75px' }}
+                  text={{
+                    value: 'FCFS',
+                    size: 18,
+                    weight: 100
+                  }}
+                />
+              </Box>
+              <Label
+                sx={{ marginLeft: '40px' }}
+                text={{
+                  value: componentInfo.date_fcfs,
+                  size: 18
+                }}
+              />
             </Box>
-
           </Box>
         </Box>
         {/* admin function */}
-        {
-          stage == 4 && ADMIN_WALLETS.includes(account) &&
+        {stage == 4 && ADMIN_WALLETS.includes(account) && (
           <PrimaryButton
             label="Admin: Finalize"
             sx={{
@@ -224,8 +282,9 @@ const Projectcard = ({ projectInfo }) => {
             }}
             hasFocus={true}
             onClick={() => handleFinalize()}
-          />}
-        {ADMIN_WALLETS.includes(account) &&
+          />
+        )}
+        {ADMIN_WALLETS.includes(account) && (
           <PrimaryButton
             label="Admin: Delete Pool"
             sx={{
@@ -234,7 +293,8 @@ const Projectcard = ({ projectInfo }) => {
             }}
             hasFocus={true}
             onClick={() => deletePool()}
-          />}
+          />
+        )}
       </Box>
     </Box>
   );

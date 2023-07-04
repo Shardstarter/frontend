@@ -30,7 +30,7 @@ const RenderElements = ({ poolInfo, idx, expanded, setExpanded }) => {
     staking_amount: 0, //input data
     unstaking_amount: 0, //input data
     tvl: 0, //pool information
-    lockingReleaseTime: '', //user information
+    lockingReleaseTime: '' //user information
   });
 
   useEffect(() => {
@@ -47,14 +47,13 @@ const RenderElements = ({ poolInfo, idx, expanded, setExpanded }) => {
         if (Number(lockingReleaseTime) > 0) {
           lockingReleaseTime = new Date(Number(lockingReleaseTime) * 1000);
           var year = lockingReleaseTime.getFullYear();
-          var month = ("0" + (lockingReleaseTime.getMonth() + 1)).slice(-2);
-          var day = ("0" + lockingReleaseTime.getDate()).slice(-2);
+          var month = ('0' + (lockingReleaseTime.getMonth() + 1)).slice(-2);
+          var day = ('0' + lockingReleaseTime.getDate()).slice(-2);
           var formattedDate = `${year}-${month}-${day}`;
           lockingReleaseTime = formattedDate;
         } else {
-          lockingReleaseTime = "~"
+          lockingReleaseTime = '~';
         }
-
 
         setData({
           ...data,
@@ -63,14 +62,12 @@ const RenderElements = ({ poolInfo, idx, expanded, setExpanded }) => {
           staked: formatUnits(staked, decimals),
           rewards: formatUnits(rewards, decimals),
           tvl: formatUnits(pool_tvl, decimals),
-          lockingReleaseTime,
+          lockingReleaseTime
         });
-
       } catch (error) {
-        console.log(error.message)
+        console.log(error.message);
       }
     })();
-
   }, [account, poolInfo, tokenContract]);
 
   var componentInfo = {
@@ -148,7 +145,7 @@ const RenderElements = ({ poolInfo, idx, expanded, setExpanded }) => {
   };
 
   const handleStake = async () => {
-    console.log(data)
+    console.log(data);
     var bignumber_staking_amount = parseUnits(String(data.staking_amount), data.token_decimal);
     // check allowance
     try {
@@ -166,7 +163,7 @@ const RenderElements = ({ poolInfo, idx, expanded, setExpanded }) => {
             changing_amount: Number(data.staking_amount)
           });
 
-          window.location.reload()
+          window.location.reload();
         }
       } else {
         const tx = await stakingContract.stake(bignumber_staking_amount);
@@ -178,7 +175,7 @@ const RenderElements = ({ poolInfo, idx, expanded, setExpanded }) => {
           changing_amount: Number(data.staking_amount)
         });
 
-        window.location.reload()
+        window.location.reload();
       }
     } catch (err) {
       console.log(err);
@@ -187,11 +184,10 @@ const RenderElements = ({ poolInfo, idx, expanded, setExpanded }) => {
   };
 
   const handleUnstake = async () => {
-    console.log(data)
+    console.log(data);
     try {
       if (new Date(data.lockingReleaseTime).getTime() > Date.now()) {
-        if (window.confirm("Unstaking before locktime can be take fee upto 25%. Are you ok?")) {
-
+        if (window.confirm('Unstaking before locktime can be take fee upto 25%. Are you ok?')) {
         } else {
           return;
         }
@@ -205,7 +201,7 @@ const RenderElements = ({ poolInfo, idx, expanded, setExpanded }) => {
         changing_amount: 0 - Number(data.unstaking_amount)
       });
 
-      window.location.reload()
+      window.location.reload();
     } catch (err) {
       console.log(err);
       return;
@@ -216,7 +212,7 @@ const RenderElements = ({ poolInfo, idx, expanded, setExpanded }) => {
     try {
       const tx = await stakingContract.getReward();
       await tx.wait();
-      window.location.reload()
+      window.location.reload();
     } catch (err) {
       console.log(err);
       return;
@@ -264,11 +260,13 @@ const RenderElements = ({ poolInfo, idx, expanded, setExpanded }) => {
             width: '70%',
             flexWrap: 'wrap',
             justifyContent: 'space-around',
+            gap: '25px',
             '@media (max-width: 1500px)': {
               width: '100%'
             },
-            '@media (max-width: 600px)': {
-              flexDirection: 'column'
+            '@media (max-width: 760px)': {
+              justifyContent: 'flex-start',
+              gap: '40px'
             }
           }}
         >
@@ -420,14 +418,16 @@ const RenderElements = ({ poolInfo, idx, expanded, setExpanded }) => {
             sx={{
               columnGap: '35px',
               rowGap: '25px',
-              padding: '5px 30px',
+              padding: '5px 30px'
             }}
           >
-            <span>Your wallet {poolInfo.tokenSymbol} balance: {data.wallet_balance}</span>
+            <span>
+              Your wallet {poolInfo.tokenSymbol} balance: {data.wallet_balance}
+            </span>
             <br />
             <span>Your reward amount: {data.rewards}</span>
             <br />
-            <span>Your Lock time: {data.lockingReleaseTime}.  Harvesting will reset the lock time.</span>
+            <span>Your Lock time: {data.lockingReleaseTime}. Harvesting will reset the lock time.</span>
           </Box>
         </Box>
       )}
@@ -512,12 +512,25 @@ function PriceStaking() {
       />
       <Box>
         <Box sx={{ marginTop: '10px' }}>
-          <Stack flexWrap="wrap" flexDirection="row" columnGap="28px" rowGap="15px">
+          <Stack flexDirection="row" columnGap="28px" rowGap="15px  " sx={{'@media (max-width: 600px)': {gap:"10px"} }}>
             {StakingButtons.map((but, idx) => (
               <PrimaryButton
                 key={idx}
                 label={but}
-                sx={{ padding: '20px 43px 20px 43px', color: '#585858' }}
+                sx={{
+                  padding: '20px 43px 20px 43px',
+                  color: '#585858',
+                  '@media (max-width: 1400px)': {
+                    padding: '0px 10px 0px 10px',
+                    fontsize:"14px"
+                  },
+                  '@media (max-width: 600px)': {
+                    padding: '0px 10px 0px 10px',
+                    fontSize: '14px',
+                    width:"fit-content",
+                    height: '60px',
+                  },
+                }}
                 onClick={() => setActiveId(idx)}
                 hasFocus={activeId === idx}
               />
@@ -526,20 +539,24 @@ function PriceStaking() {
         </Box>
         <Box sx={{ marginTop: '60px' }}>
           {/* Staking */}
-          {(activeId === 0) && (
+          {activeId === 0 && (
             <Box sx={{ display: 'flex', rowGap: '20px', flexDirection: 'column' }}>
-              {pools.filter((pool) => !pool.tokenName.includes('LP')).map((pool, idx) =>
-                <RenderElements key={idx} poolInfo={pool} idx={idx} expanded={expanded} setExpanded={setExpanded} />
-              )}
+              {pools
+                .filter((pool) => !pool.tokenName.includes('LP'))
+                .map((pool, idx) => (
+                  <RenderElements key={idx} poolInfo={pool} idx={idx} expanded={expanded} setExpanded={setExpanded} />
+                ))}
             </Box>
           )}
 
           {/* Farming */}
-          {(activeId === 1) && (
+          {activeId === 1 && (
             <Box sx={{ display: 'flex', rowGap: '20px', flexDirection: 'column' }}>
-              {pools.filter((pool) => pool.tokenName.includes('LP')).map((pool, idx) =>
-                <RenderElements key={idx} poolInfo={pool} idx={idx} expanded={expanded} setExpanded={setExpanded} />
-              )}
+              {pools
+                .filter((pool) => pool.tokenName.includes('LP'))
+                .map((pool, idx) => (
+                  <RenderElements key={idx} poolInfo={pool} idx={idx} expanded={expanded} setExpanded={setExpanded} />
+                ))}
             </Box>
           )}
 

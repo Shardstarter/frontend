@@ -8,8 +8,14 @@ const Background = () => {
   return (
     <Box
       sx={{
+        '@media (max-width: 1400px)': {
+          padding: '60px 4%'
+        },
         '@media (max-width: 600px)': {
           padding: '60px 2%'
+        },
+        '@media (max-width: 480px)': {
+          padding: '60px 0%'
         },
         position: 'unset',
         padding: '60px 8%'
@@ -33,6 +39,9 @@ const Background = () => {
             '@media (max-width: 1500px)': {
               alignItems: 'center',
               flexDirection: 'column'
+            },
+            '@media (max-width: 800px)': {
+              padding: '10px 10px 0px 10px',
             }
           }}
         >
@@ -89,7 +98,7 @@ const Background = () => {
                   'transparent radial-gradient(closest-side at 142% 150%, #70C5A3 0%, #02FF7B 49%, #008540 100%) 0% 0% no-repeat padding-box'
               }}
             ></Box>
-            <img src="_img/coin.png" alt="coin" height={575} />
+            <img src="_img/coin.png" alt="coin" height={575} style={{objectFit:"contain"}}/>
           </Box>
         </Box>
       </Box>
