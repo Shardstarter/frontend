@@ -42,7 +42,7 @@ const ProjectDetails = ({ projectInfo }) => {
         path: projectInfo.ipfs?.telegram
       },
       {
-        img: '_img/icon/reddit.png',
+        img: '_img/icon/discord.png',
         path: projectInfo.ipfs?.discord
       },
 

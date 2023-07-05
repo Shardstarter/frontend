@@ -74,7 +74,7 @@ const Votes = () => {
               path: item.telegram
             },
             {
-              img: '_img/icon/reddit.png',
+              img: '_img/icon/discord.png',
               path: item.discord
             }
           ],

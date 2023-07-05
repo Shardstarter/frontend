@@ -529,7 +529,8 @@ function MainAccount({ unclaimed }) {
           alt="dot"
           style={{ position: 'absolute', bottom: '40px', right: '100px', width: '89px' }}
         />{' '}
-        <Box>
+
+        {/* <Box>
           <Box
             sx={{ padding: '20px', background: 'black', '@media (max-width: 1260px)': {} }}
             className={classes.root}
@@ -564,7 +565,7 @@ function MainAccount({ unclaimed }) {
               </Table>
             </TableContainer>
           </Box>
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );
