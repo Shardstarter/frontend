@@ -96,8 +96,8 @@ const Footer = () => {
             </span>
           </Box>
           <IconButtonGroup
-            sx={{ marginTop: '30px', display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'center' }}
-            size="50px"
+            sx={{ marginTop: '30px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}
+            size="30px"
             elements={[linkedin, telegram, twitter, discord, medium, mirror]}
           />
           <Label

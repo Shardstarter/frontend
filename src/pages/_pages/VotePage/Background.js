@@ -20,53 +20,57 @@ const Background = () => {
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
           borderRadius: '50px',
-          minHeight: '700px'
+          minHeight: '550px'
         }}
       >
         <Box
           sx={{
-            padding: '88px 120px 78px 76px',
+            // padding: '88px 120px 78px 76px',
+            padding: '75px 70px 8px 70px',
             display: 'flex',
             justifyContent: 'space-between',
             flexDirection: 'row',
-            '@media (max-width: 1500px)': {
-              alignItems: 'center',
-              flexDirection: 'column'
-            },
-            '@media (max-width: 800px)': {
+            alignItems: 'center',
+            // '@media (max-width: 1500px)': {
+            //   alignItems: 'center',
+              
+            // },
+            '@media (max-width: 820px)': {
               padding: '10px 10px 10px 10px',
+              flexDirection: 'column',
             }
           }}
         >
           <Box
             sx={{
-              paddingTop: '62px',
+              // paddingTop: '60px',
               
             }}
           >
             <Box>
               <Label
                 sx={{
-                  '@media (max-width: 600px)': {
-                    fontSize: '45px'
+                  '@media (max-width: 1200px)': {
+                    fontSize: '34px'
                   }
                 }}
-                text={{ value: 'Vote For Projects', size: 60 }}
+                text={{ value: 'Vote For Projects', size: 44 }}
               />
               <Label
                 sx={{
-                  '@media (max-width: 600px)': {
-                    fontSize: '45px'
+                  '@media (max-width: 1200px)': {
+                    fontSize: '36px'
                   }
                 }}
-                text={{ value: 'Shardstarter', color: 'green', size: 60 }}
+                text={{ value: 'Shardstarter', color: 'green', size: 44 }}
               />
             </Box>
             <Box
               sx={{
                 display: 'flex',
                 '@media (max-width: 800px)': {
-                  flexDirection: 'column'
+                  flexDirection: 'row',
+                  gap:"0.4rem",
                 },
                 marginTop: '20px'
               }}
@@ -92,7 +96,7 @@ const Background = () => {
                   'transparent radial-gradient(closest-side at 142% 150%, #70C5A3 0%, #02FF7B 49%, #008540 100%) 0% 0% no-repeat padding-box'
               }}
             ></Box>
-            <img src="_img/vote.png" alt="coin" height={535} style={{ objectFit: 'contain' }} width={585} />
+            <img src="_img/vote.png" alt="coin" height={450} style={{ objectFit: 'contain' }} />
           </Box>
         </Box>
       </Box>

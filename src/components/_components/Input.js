@@ -86,6 +86,9 @@ export const SubmitInput = ({ label='$SHMX', value, size, btnValue, sx, onClick,
           position: 'absolute',
           top: '13px',
           right: '13px',
+          '@media (max-width: 1650px)': {
+            width: '100px',
+          },
           '@media (max-width: 500px)': {
             top: '109px',
             right: '0px',

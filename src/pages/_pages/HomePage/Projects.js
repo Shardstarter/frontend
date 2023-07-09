@@ -132,6 +132,7 @@ const Projects = () => {
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
+              gap:"10px",
               '@media (max-width: 1200px)': {
                 flexDirection: 'column',
                 rowGap: '20px',
@@ -142,9 +143,9 @@ const Projects = () => {
               width="725px"
               direction="row"
               flexWrap="wrap"
-              justifyContent="space-between"
+              justifyContent="flex-start"
               rowGap="20px"
-              gap= "20px"
+              gap= "10px"
               sx={{
                 '@media (max-width: 1200px)': {
                   width: '100%',
@@ -156,7 +157,11 @@ const Projects = () => {
                 <PrimaryButton
                   key={idx}
                   label={but}
-                  sx={{ padding: '20px 43px 20px 43px', color: '#585858' }}
+                  sx={{ padding: '20px 23px 20px 23px', color: '#585858',
+                  '@media (max-width: 850px)': {
+                    width: '100%',
+                  }
+                  }}
                   onClick={() => setActiveId(idx)}
                   hasFocus={activeId === idx}
                 />
@@ -165,13 +170,14 @@ const Projects = () => {
             <Box sx={{
             display: 'flex',
             marginLeft:"10px",
+            justifyContent:"flex-end",
             gap:2,
             '@media (max-width: 600px)': {
               flexWrap:"wrap"
             }
             
           }}>
-            <SecondaryButton label="Calendar View" sx={{ width: '220px' }} onClick={() => window.open('/calender')} />
+            <SecondaryButton label="Calendar View" sx={{ width: '250px' }} onClick={() => window.open('/calender')} />
             <FilterBar options={['All', 'GTEDI', 'Bulkperks', 'Solchicks', 'SIDUS']} onChangeAction={setFilter} />
             </Box>
           </Box>

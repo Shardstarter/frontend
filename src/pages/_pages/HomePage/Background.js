@@ -27,7 +27,7 @@ const Background = () => {
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
           borderRadius: '50px',
-          minHeight: '700px'
+          minHeight: '550px'
         }}
       >
         <Box
@@ -38,37 +38,38 @@ const Background = () => {
             flexDirection: 'row',
             '@media (max-width: 1500px)': {
               alignItems: 'center',
-              flexDirection: 'column'
             },
-            '@media (max-width: 800px)': {
+            '@media (max-width: 820px)': {
               padding: '10px 10px 0px 10px',
+              flexDirection: 'column',
             }
           }}
         >
-          <Box sx={{ paddingTop: '75px' }}>
+          <Box sx={{ paddingTop: '0px' }}>
             <Box>
               <Label
                 sx={{
                   '@media (max-width: 600px)': {
-                    fontSize: '45px'
+                    fontSize: '34px'
                   }
                 }}
-                text={{ value: 'Start Investing With', size: 60 }}
+                text={{ value: 'Start Investing With', size: 44 }}
               />
               <Label
                 sx={{
                   '@media (max-width: 600px)': {
-                    fontSize: '45px'
+                    fontSize: '36px'
                   }
                 }}
-                text={{ value: 'Shardstarter', color: 'green', size: 60 }}
+                text={{ value: 'Shardstarter', color: 'green', size: 44 }}
               />
             </Box>
             <Box
               sx={{
                 display: 'flex',
                 '@media (max-width: 800px)': {
-                  flexDirection: 'column'
+                  flexDirection: 'row',
+                  gap:"0.4rem"
                 },
                 marginTop: '20px'
               }}
@@ -79,7 +80,8 @@ const Background = () => {
                   sx={{
                     '@media (max-width: 800px)': {
                       marginRight: '0px',
-                      marginBottom: '20px'
+                      marginBottom: '20px',
+                      width:"180px"
                     },
                     marginRight: '20px',
                     width: '220px'
@@ -88,7 +90,7 @@ const Background = () => {
                   img={'_img/icon/shardstarter.png'}
                 />
               </Link>
-              <SecondaryButton label="How to Invest" sx={{ width: '220px' }} onClick={() => window.open('https://shardstarter-io.gitbook.io/shardstarter/the-tier-system')} />
+              <SecondaryButton label="How to Invest" sx={{ width: '170px' }} onClick={() => window.open('https://shardstarter-io.gitbook.io/shardstarter/the-tier-system')} />
             </Box>
           </Box>
           <Box>
@@ -98,7 +100,7 @@ const Background = () => {
                   'transparent radial-gradient(closest-side at 142% 150%, #70C5A3 0%, #02FF7B 49%, #008540 100%) 0% 0% no-repeat padding-box'
               }}
             ></Box>
-            <img src="_img/coin.png" alt="coin" height={575} style={{objectFit:"contain"}}/>
+            <img src="_img/coin.png" alt="coin" height={450} style={{objectFit:"contain"}}/>
           </Box>
         </Box>
       </Box>

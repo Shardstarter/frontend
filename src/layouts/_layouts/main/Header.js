@@ -60,7 +60,7 @@ const Header = (props) => {
                 type: 'link',
                 value: item.text.toUpperCase(),
                 href: item.href,
-                size: 18,
+                size: 16,
                 weight: 100
               }}
               onClick={handleDrawerToggle}
@@ -146,23 +146,25 @@ const Header = (props) => {
                 <Label
                   key={idx}
                   sx={{
+                    '@media (max-width: 1600px)': {
+                      marginRight: '40px',
+                    },
                     marginRight: '60px',
                     '@media (max-width: 1440px)': {
+                      fontSize: '15px',
                       marginRight: '20px'
                     },
                     '@media (max-width: 1200px)': {
                       marginRight: '15px',
                       fontSize: '15px'
                     },
-                    '@media (max-width: 1600px)': {
-                      marginRight: '40px'
-                    }
+                    
                   }}
                   text={{
                     type: 'link',
                     value: item.text.toUpperCase(),
                     href: item.href,
-                    size: 18,
+                    size: 16,
                     weight: 100
                   }}
                 />
