@@ -56,6 +56,8 @@ export default function CreateStake() {
   const signer = library?.getSigner();
   const network = useSelector((state) => state.network.chainId);
   //input
+  const [poolname, setPoolName] = useState('');
+  const [poolticker, setPoolTicker] = useState('');
   const [token, setToken] = useState('');
   const [tokenError, setTokenError] = useState('');
   const [logo, setLogo] = useState('https://snipboard.io/rcMq0f.jpg');
@@ -243,8 +245,8 @@ export default function CreateStake() {
             address: poolAddress,
             owner: account,
             tokenAddress: token,
-            tokenName: tokenInfo.symbol, //show symbol instead of name
-            tokenSymbol: tokenInfo.symbol,
+            tokenName: poolname,
+            tokenSymbol: poolticker,
             tokenAddress: token,
             rewardRate: rewardRate,
             logo: logo,
@@ -292,9 +294,29 @@ export default function CreateStake() {
             }
           }}
         >
-          <Typography variant="h4">Create Your STAKING POOL</Typography>
+          <Typography variant="h4">Create Your Staking & Farming POOL</Typography>
           <Divider />
           <Stack sx={{ mt: 2 }} spacing={3}>
+            <TextField
+              fullWidth
+              label="Pool Name (less than 20 letters)"
+              value={poolname}
+              onChange={(e) => setPoolName(e.target.value)}
+              sx={{
+                width: 1
+              }}
+              placeholder='SHMX+USDC LP'
+            />
+            <TextField
+              fullWidth
+              label="Pool Ticker"
+              value={poolticker}
+              onChange={(e) => setPoolTicker(e.target.value)}
+              sx={{
+                width: 1
+              }}
+              placeholder='SHMX / USDC'
+            />
             <TextField
               fullWidth
               label="Token Address"
@@ -320,16 +342,6 @@ export default function CreateStake() {
                 <Stack direction="row" justifyContent="space-between">
                   <span>Symbol</span>
                   <span>{tokenInfo.symbol}</span>
-                </Stack>
-                <Divider sx={{ my: 1.5, borderColor: 'rgba(255, 255, 255, 0.3)' }} />
-                <Stack direction="row" justifyContent="space-between">
-                  <span>Total Supply</span>
-                  <span>{commify(formatUnits(tokenInfo.totalSupply, tokenInfo.decimals))}</span>
-                </Stack>
-                <Divider sx={{ my: 1.5, borderColor: 'rgba(255, 255, 255, 0.3)' }} />
-                <Stack direction="row" justifyContent="space-between">
-                  <span>Decimals</span>
-                  <span>{tokenInfo.decimals}</span>
                 </Stack>
                 <Divider sx={{ my: 1.5, borderColor: 'rgba(255, 255, 255, 0.3)' }} />
                 <Stack direction="row" justifyContent="space-between">

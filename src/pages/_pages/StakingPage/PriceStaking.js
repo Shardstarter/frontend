@@ -73,12 +73,12 @@ const StakingCard = ({ poolInfo, idx, expanded, setExpanded, isfarming }) => {
   var componentInfo = {
     imgUrl: poolInfo.logo,
     value: {
-      value: `$${poolInfo.tokenName}`,
+      value: `${poolInfo.tokenName.substring(0, 20)}`,
       size: 30
     },
     label: {
       bgColor: '#171717',
-      label: `$${poolInfo.tokenSymbol.substring(0, 5)} / ${poolInfo.tokenSymbol.substring(0, 5)}`,
+      label: `${poolInfo.tokenSymbol}`,
       color: 'green',
       size: 20,
       width: 197,
@@ -377,7 +377,7 @@ const StakingCard = ({ poolInfo, idx, expanded, setExpanded, isfarming }) => {
               }}
               size={38}
               btnValue="Harvest"
-              label={`$${poolInfo.tokenSymbol}`}
+              label={`${poolInfo.tokenSymbol}`}
               value={Number(data.rewards).toExponential(2)}
               onClick={() => handleHarvest()}
               readOnly={true}
@@ -393,7 +393,7 @@ const StakingCard = ({ poolInfo, idx, expanded, setExpanded, isfarming }) => {
               }}
               size={26}
               btnValue="Stake"
-              label={`$${poolInfo.tokenSymbol}`}
+              label={`${poolInfo.tokenSymbol}`}
               value={data.staking_amount}
               onClick={() => handleStake()}
               onChangeValue={(value) => setData({ ...data, staking_amount: value })}
@@ -409,7 +409,7 @@ const StakingCard = ({ poolInfo, idx, expanded, setExpanded, isfarming }) => {
               }}
               size={26}
               btnValue="Unstake"
-              label={`$${poolInfo.tokenSymbol}`}
+              label={`${poolInfo.tokenSymbol}`}
               value={data.unstaking_amount}
               onClick={() => handleUnstake()}
               onChangeValue={(value) => setData({ ...data, unstaking_amount: value })}

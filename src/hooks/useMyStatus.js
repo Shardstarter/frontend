@@ -456,7 +456,7 @@ export const useIDOPoolStatus = (poolInfo) => {
 
   return {
     tokenBalance,
-    myCollaboration,
+    myCollaboration, myMaxDeposit,
     stage, stage_label,
     action, action_label, action_description, action_available,
     handleFinalize, deletePool,

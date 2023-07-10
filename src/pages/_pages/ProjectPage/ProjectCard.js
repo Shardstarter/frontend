@@ -132,7 +132,7 @@ const Projectcard = ({ projectInfo }) => {
                   onClick={() => action(amount)}
                 />
                 <Box sx={{ width: "350px", display: 'flex', justifyContent: 'end', cursor: 'pointer', color: '#02FF7B' }}
-                  onClick={() => setAmount(Number(tokenBalance).toFixed(3))}>
+                  onClick={() => setAmount(Number(myMaxDeposit))}>
                   <p>max</p>
                 </Box>
               </>
