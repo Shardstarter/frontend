@@ -173,7 +173,7 @@ const ProjectDetails = ({ projectInfo }) => {
           color: 'grey'
         },
         {
-          value: 'SHM ' + projectInfo.hardCap,
+          value:  projectInfo.hardCap + " SHM",
           color: 'green'
         }
       ],
@@ -240,7 +240,7 @@ const ProjectDetails = ({ projectInfo }) => {
       <Box sx={{ marginTop: '30px' }}>
         <span style={{ color: '#A7A7A7', fontSize: '20px' }}>
           Your investment is protected, this sale is under the{' '}
-          <a href="/" style={{ textDecoration: 'underline' }}>
+          <a href="https://shardstarter-io.gitbook.io/shardstarter/" style={{ textDecoration: 'underline' }}>
             <span style={{ color: '#02FF7B' }}>SafeGuarded Launch Protocol</span>
           </a>{' '}
           rules.

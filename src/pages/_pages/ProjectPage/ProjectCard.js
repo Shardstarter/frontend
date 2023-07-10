@@ -158,7 +158,7 @@ const Projectcard = ({ projectInfo }) => {
             color: 'grey',
             weight: 300,
             underlined: true,
-            href: ''
+            href: 'https://shardstarter-io.gitbook.io/shardstarter/the-tier-system'
           }}
         />
         <Label
