@@ -50,7 +50,12 @@ const Background = () => {
               <Label
                 sx={{
                   '@media (max-width: 600px)': {
+                    paddingTop: '60px',
                     fontSize: '34px'
+                  },
+                  '@media (max-width: 1200px)': {
+                    paddingTop: '60px',
+                    fontSize: '30px'
                   }
                 }}
                 text={{ value: 'Start Investing With', size: 44 }}
@@ -59,6 +64,9 @@ const Background = () => {
                 sx={{
                   '@media (max-width: 600px)': {
                     fontSize: '36px'
+                  },
+                  '@media (max-width: 1200px)': {
+                    fontSize: '32px'
                   }
                 }}
                 text={{ value: 'Shardstarter', color: 'green', size: 44 }}
@@ -70,6 +78,10 @@ const Background = () => {
                 '@media (max-width: 800px)': {
                   flexDirection: 'row',
                   gap:"0.4rem"
+                },
+                '@media (max-width: 1200px)': {
+                  flexDirection: 'row',
+                  gap:"0.8rem"
                 },
                 marginTop: '20px'
               }}
@@ -83,6 +95,13 @@ const Background = () => {
                       marginBottom: '20px',
                       width:"180px"
                     },
+                    '@media (max-width: 1200px)': {
+                      marginRight: '0px',
+                      marginBottom: '20px',
+                      width:"150px",
+                      fontSize: '0.8rem',
+                      height: '3rem',
+                    },
                     marginRight: '20px',
                     width: '220px'
                   }}
@@ -90,7 +109,16 @@ const Background = () => {
                   img={'_img/icon/shardstarter.png'}
                 />
               </Link>
-              <SecondaryButton label="How to Invest" sx={{ width: '170px' }} onClick={() => window.open('https://shardstarter-io.gitbook.io/shardstarter/the-tier-system')} />
+              <SecondaryButton label="How to Invest" 
+                sx={{ 
+                  width: '170px',
+                  '@media (max-width: 1200px)':{
+                    width: '140px',
+                    fontSize: '0.8rem',
+                    height: '3rem',
+                  },
+                }} 
+                onClick={() => window.open('https://shardstarter-io.gitbook.io/shardstarter/the-tier-system')} />
             </Box>
           </Box>
           <Box>
@@ -100,7 +128,7 @@ const Background = () => {
                   'transparent radial-gradient(closest-side at 142% 150%, #70C5A3 0%, #02FF7B 49%, #008540 100%) 0% 0% no-repeat padding-box'
               }}
             ></Box>
-            <img src="_img/coin.png" alt="coin" height={450} style={{objectFit:"contain"}}/>
+            <img src="_img/coin.png" alt="coin" height={400} style={{objectFit:"contain"}}/>
           </Box>
         </Box>
       </Box>

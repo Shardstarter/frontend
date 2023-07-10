@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux';
 import { NETWORK_NAME } from 'config/constants';
 
 const Logo = () => (
-  <Box maxWidth={318} height={64}>
+  <Box maxWidth={218} height={64}>
     <Link to="/home">
       <img src="_img/logo.png" alt="Logo" height="64px" style={{objectFit:'contain'}} />
     </Link>
@@ -95,17 +95,17 @@ const Header = (props) => {
       <AppBar
         sx={{
           '@media (max-width: 1400px)': {
-            padding: '43px 2%'
+            padding: '13px 2%'
           },
           '@media (max-width: 1200px)': {
-            padding: '43px 0%'
+            padding: '13px 0%'
           },
           '@media (max-width: 600px)': {
-            padding: '43px 2%'
+            padding: '13px 2%'
           },
           position: 'unset',
-          padding: '43px 8%',
-          height: '150px',
+          padding: '13px 8%',
+          height: '90px',
           borderBottom: '1px solid #002B15',
           boxShadow: 'none',
           backgroundColor: '#000'
@@ -208,10 +208,10 @@ const Header = (props) => {
                   display: { xs: 'none', md: 'block' },
                   width: '220px',
                   '@media (max-width: 1440px)': {
-                    width: '180px',
-                    padding: '6px',
+                    width: '160px',
+                    padding: '6px 0',
                     fontSize: '15px',
-                    height: '60px'
+                    height: '50px'
                   }
                 }}
                 hasFocus={true}

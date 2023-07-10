@@ -524,8 +524,9 @@ function PriceStaking() {
                 sx={{
                   padding: '20px 43px 20px 43px',
                   color: '#585858',
+                  height: '4rem',
                   '@media (max-width: 1400px)': {
-                    padding: '0px 10px 0px 10px',
+                    padding: '0px 30px 0px 30px',
                     fontsize: "14px"
                   },
                   '@media (max-width: 600px)': {

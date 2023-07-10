@@ -69,6 +69,17 @@ const StyledButton = styled(Button, { shouldForwardProp: () => true })(
     top: 0;
     right: 10px;
   }
+  @media(max-width: 800px){
+    &{
+      min-width: 320px;
+    }
+  }
+  @media(max-width: 600px){
+    &{
+      min-width: 180px;
+    }
+  }
+  
   `
 );
 

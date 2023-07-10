@@ -38,7 +38,8 @@ const Cards = () => {
           {cards.map((project, idx) => (
             <Box
               width={320}
-              height={150}
+              // height={150}
+              height={110}
               sx={{
                 ...project.sx,
                 backgroundImage: 'url("_img/cards/background.png")',
@@ -54,7 +55,7 @@ const Cards = () => {
               </Box>
               <Box sx={{ marginLeft: '15px', display: 'flex', justifyContent: 'space-around', flexFlow: 'column' }}>
                 <Label text={{ value: project.title, size: 18 }} />
-                <Label text={{ value: project.description, size: 30, color: 'green' }} />
+                <Label text={{ value: project.description, size: 25, color: 'green' }} />
               </Box>
             </Box>
 

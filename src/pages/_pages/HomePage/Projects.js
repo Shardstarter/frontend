@@ -136,7 +136,7 @@ const Projects = () => {
               '@media (max-width: 1200px)': {
                 flexDirection: 'column',
                 rowGap: '20px',
-              }
+              },
             }}
           >
             <Stack
@@ -157,10 +157,15 @@ const Projects = () => {
                 <PrimaryButton
                   key={idx}
                   label={but}
-                  sx={{ padding: '20px 23px 20px 23px', color: '#585858',
-                  '@media (max-width: 850px)': {
-                    width: '100%',
-                  }
+                  sx={{ padding: '5px 30px 5px 30px', color: '#585858', fontSize: '16px',
+                  // '@media (max-width: 850px)': {
+                  //   width: '100%',
+                  // }
+                  '@media (max-width: 600px)': {
+                    padding: '0px 10px',
+                    fontSize: '0.9rem',
+                    height: '3.5rem',
+                  },
                   }}
                   onClick={() => setActiveId(idx)}
                   hasFocus={activeId === idx}
@@ -168,17 +173,49 @@ const Projects = () => {
               ))}
             </Stack>
             <Box sx={{
-            display: 'flex',
-            marginLeft:"10px",
-            justifyContent:"flex-end",
-            gap:2,
-            '@media (max-width: 600px)': {
-              flexWrap:"wrap"
-            }
-            
-          }}>
-            <SecondaryButton label="Calendar View" sx={{ width: '250px' }} onClick={() => window.open('/calender')} />
-            <FilterBar options={['All', 'GTEDI', 'Bulkperks', 'Solchicks', 'SIDUS']} onChangeAction={setFilter} />
+              display: 'flex',
+              marginLeft:"10px",
+              justifyContent:"flex-end",
+              gap:2,
+              '@media (max-width: 1100px)': {
+                // flexWrap:"wrap",
+                marginLeft:"0px",
+                flexDirection: 'row',
+                justifyContent:"inherit",
+              },
+              '@media (max-width: 600px)': {
+                // flexWrap:"wrap",
+                marginLeft:"0px",
+                flexDirection: 'row',
+                justifyContent:"center",
+              }
+              
+            }}>
+              <SecondaryButton label="Calendar View" 
+                sx={{ 
+                  width: '250px', 
+                  '@media (max-width: 1100px)': {
+                    width: '180px',
+                  },
+                  '@media (max-width: 800px)': {
+                    width: '50%',
+                    fontSize: '1rem',
+                  }, 
+                  '@media (max-width: 600px)': {
+                    width: '50%',
+                    fontSize: '1rem',
+                  },  
+                }} onClick={() => window.open('/calender')} />
+              <FilterBar
+                sx={{ 
+                  width: '250px',
+                  '@media (max-width: 600px)': {
+                    minWidth: '180px',
+                    maxWidth: '180px',
+                    fontSize: '1rem',
+                  },  
+                }}
+                options={['All', 'GTEDI', 'Bulkperks', 'Solchicks', 'SIDUS']} onChangeAction={setFilter} />
             </Box>
           </Box>
         </Box>
