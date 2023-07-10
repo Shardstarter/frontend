@@ -14,7 +14,7 @@ const Projectcard = ({ projectInfo }) => {
   const { account, library } = useActiveWeb3React();
   const { tier } = useMainStakingStatus();
   const {
-    myMaxDeposit,
+    myMaxDeposit, tokenBalance,
     stage,
     stage_label,
     action,
@@ -37,9 +37,8 @@ const Projectcard = ({ projectInfo }) => {
       title: 'Fund raised',
       currProg: Number((projectInfo.weiRaised / projectInfo.hardCap) * 100).toFixed(1),
       text: projectInfo.weiRaised + ' SHM',
-      value: `${projectInfo.weiRaised * projectInfo.presaleRate} / ${projectInfo.hardCap * projectInfo.presaleRate}  ${
-        projectInfo.projectName
-      }`
+      value: `${projectInfo.weiRaised * projectInfo.presaleRate} / ${projectInfo.hardCap * projectInfo.presaleRate}  ${projectInfo.projectName
+        }`
     },
     date_register: ' ~ ' + new Date(projectInfo.startDateTime).toUTCString(), //'Apr 14, 14:00 - Apr 16, 11:00 UTC'
     date_sale:
@@ -107,30 +106,37 @@ const Projectcard = ({ projectInfo }) => {
             borderRadius: '8px',
             padding: '15px 0px'
           }}
-        >
+        > 
           <Label
             sx={{ marginBottom: '25px', textAlign: 'center' }}
             text={{ value: account ? action_description : 'Please connect wallet', size: 18, weight: 100 }}
-          />
+          />        
           {account &&
             action_available &&
             (stage == 1 || stage == 3 ? (
-              <SubmitInput
-                sx={{
-                  width: '30%',
-                  minWidth: '330px',
-                  '@media (max-width: 1000px)': {
-                    width: '100%',
-                    minWidth: 'fit-content'
-                  }
-                }}
-                size={38}
-                btnValue={action_label}
-                label={`SHM`}
-                value={amount}
-                onChangeValue={(value) => setAmount(value)}
-                onClick={() => action(amount)}
-              />
+              <>
+                <SubmitInput
+                  sx={{
+                    width: '30%',
+                    minWidth: '350px',
+                    '@media (max-width: 1000px)': {
+                      width: '100%',
+                      minWidth: 'fit-content'
+                    }
+                  }}
+                  size={38}
+                  btnValue={action_label}
+                  label={`SHM`}
+                  value={amount}
+                  onChangeValue={(value) => setAmount(value)}
+                  onClick={() => action(amount)}
+                />
+                <Box sx={{ width: "350px", display: 'flex', justifyContent: 'end', cursor: 'pointer', color: '#02FF7B' }}
+                  onClick={() => setAmount(Number(tokenBalance).toFixed(3))}>
+                  <p>max</p>
+                </Box>
+              </>
+
             ) : (
               <PrimaryButton
                 label={action_label}
@@ -197,7 +203,7 @@ const Projectcard = ({ projectInfo }) => {
                 }
               }}
             >
-              <Box sx={{ display: 'flex',minWidth:"110px" }}>
+              <Box sx={{ display: 'flex', minWidth: "110px" }}>
                 <img src="_img/icon/register.png" width={31} height={31} style={{ marginTop: '15px' }} />
                 <Label
                   sx={{ marginLeft: '15px', minWidth: '75px' }}
@@ -224,7 +230,7 @@ const Projectcard = ({ projectInfo }) => {
                 }
               }}
             >
-              <Box sx={{ display: 'flex',minWidth:"110px" }}>
+              <Box sx={{ display: 'flex', minWidth: "110px" }}>
                 <img src="_img/icon/money-bag.png" width={31} height={31} style={{ marginTop: '25px' }} />
                 <Label
                   sx={{ marginLeft: '15px', minWidth: '75px' }}
@@ -251,7 +257,7 @@ const Projectcard = ({ projectInfo }) => {
                 }
               }}
             >
-              <Box sx={{ display: 'flex',minWidth:"110px" }}>
+              <Box sx={{ display: 'flex', minWidth: "110px" }}>
                 <img src="_img/icon/training.png" width={31} height={31} style={{ marginTop: '15px' }} />
                 <Label
                   sx={{ marginLeft: '15px', minWidth: '75px' }}

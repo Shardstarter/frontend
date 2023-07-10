@@ -243,7 +243,7 @@ export default function CreateStake() {
             address: poolAddress,
             owner: account,
             tokenAddress: token,
-            tokenName: tokenInfo.name,
+            tokenName: tokenInfo.symbol, //show symbol instead of name
             tokenSymbol: tokenInfo.symbol,
             tokenAddress: token,
             rewardRate: rewardRate,
@@ -374,7 +374,7 @@ export default function CreateStake() {
             />
             <TextField
               fullWidth
-              label="Reward Rate"
+              label="Monthly Reward Percent(APR will be 12x of this value)"
               type="number"
               // error={Boolean(amountError)}
               // helperText={amountError}

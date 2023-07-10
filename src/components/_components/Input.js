@@ -34,9 +34,7 @@ export const SearchInput = (props) => {
 };
 
 
-export const SubmitInput = ({ label='$SHMX', value, size, btnValue, sx, onClick, onChangeValue, readOnly }) => {
-  const [inputValue, setInputValue] = useState(value);
-
+export const SubmitInput = ({ label = '$SHMX', value, size, btnValue, sx, onClick, onChangeValue, readOnly }) => {
   return (
     <Box
       sx={{
@@ -52,8 +50,8 @@ export const SubmitInput = ({ label='$SHMX', value, size, btnValue, sx, onClick,
     >
       <input
         type="number"
-        value={inputValue}
-        onChange={(e) => { if (!readOnly) { setInputValue(e.target.value); onChangeValue(e.target.value) } }}
+        value={value}
+        onChange={(e) => { if (!readOnly) { onChangeValue(e.target.value) } }}
         style={{
           display: 'flex',
           width: '100%',
