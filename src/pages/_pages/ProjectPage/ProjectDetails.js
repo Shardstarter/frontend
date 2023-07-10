@@ -2,10 +2,11 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import { Label, Span } from 'components/_components/Label';
 import { IconButtonGroup } from 'components/_components/Button';
+import { useIDOPoolStatus, useMainStakingStatus } from 'hooks/useMyStatus';
 
 const RenderObjArr = (obj) =>
   Object.entries(obj).map(([objKey, val], index) => (
-    <Box key={index} sx={{ display: 'flex', columnGap: '4px', flexWrap:"wrap", gap:"10px" }}>
+    <Box key={index} sx={{ display: 'flex', columnGap: '4px', flexWrap: "wrap", gap: "10px" }}>
       <Label text={{ value: `${objKey}:`, weight: 100 }} />
       <span>
         {val.map((detail, idx) => (
@@ -16,6 +17,19 @@ const RenderObjArr = (obj) =>
   ));
 
 const ProjectDetails = ({ projectInfo }) => {
+  const {
+    myCollaboration, myMaxDeposit, tokenBalance,
+    stage,
+    stage_label,
+    action,
+    action_label,
+    action_description,
+    action_available,
+    handleFinalize,
+    deletePool
+  } = useIDOPoolStatus(projectInfo);
+  const { tier } = useMainStakingStatus();
+
   var componentInfo = {
     icon: projectInfo.logo,
     label: projectInfo.projectName,
@@ -47,13 +61,27 @@ const ProjectDetails = ({ projectInfo }) => {
       },
 
     ],
-    poolDetail: {
+    yourDetail: {
       'Access Type': [
         {
-          value: 'Levels',
+          value: tier,
           color: 'grey'
         }
       ],
+      'Current Allocation': [
+        {
+          value: myCollaboration + ' SHM',
+          color: 'grey'
+        }
+      ],
+      'Amount can deposit': [
+        {
+          value: myMaxDeposit + ' SHM',
+          color: 'grey'
+        }
+      ]
+    },
+    poolDetail: {
       'Hard Cap': [
         {
           value: projectInfo.hardCap + ' SHM',
@@ -145,7 +173,7 @@ const ProjectDetails = ({ projectInfo }) => {
           color: 'grey'
         },
         {
-          value: 'SHM '+ projectInfo.hardCap,
+          value: 'SHM ' + projectInfo.hardCap,
           color: 'green'
         }
       ],
@@ -225,6 +253,12 @@ const ProjectDetails = ({ projectInfo }) => {
         <Label text={{ color: 'green', value: 'POOL DETAILS', size: 30 }} sx={{ marginBottom: '15px' }} />
         <Box sx={{ marginTop: '15px', display: 'flex', flexDirection: 'column', rowGap: '15px' }}>
           {RenderObjArr(componentInfo.poolDetail)}
+        </Box>
+      </Box>
+      <Box sx={{ marginTop: '50px' }}>
+        <Label text={{ color: 'green', value: 'YOUR INFO', size: 30 }} />
+        <Box sx={{ marginTop: '15px', display: 'flex', flexDirection: 'column', rowGap: '15px' }}>
+          {RenderObjArr(componentInfo.yourDetail)}
         </Box>
       </Box>
       <Box sx={{ marginTop: '50px' }}>

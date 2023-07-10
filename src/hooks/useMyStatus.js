@@ -181,21 +181,14 @@ export const useIDOPoolStatus = (poolInfo) => {
   useEffect(() => { //setMyMaxDeposit
     if (!account || !poolInfo.address) return;
 
-    if (poolInfo?.whitelistable) {//whitelist
-      if (poolInfo?.whiteLists?.includes(account)) { //included in whitelists
-        setMyMaxDeposit(poolInfo.whitelistMaxDeposit)
-      } else { //not included in whitelists, follow tier system
-        var tier_count = Number(myTierLevelCount) ? Number(myTierLevelCount) : 1;
-        var mymax = Number(poolInfo?.hardCap) * Number(TIER_DEPOSIT_PERCENT[tier]) / 100 / tier_count;
-        setMyMaxDeposit(mymax)
-      }
-
-    } else { //public, tier system
+    if (poolInfo?.whitelistable && poolInfo?.whiteLists?.includes(account)) {// if pool is whitelist and user is included
+      setMyMaxDeposit(Number(poolInfo.whitelistMaxDeposit) - Number(myCollaboration))
+    } else { //if user is not included in whitelist or pool is public, then follow tier system
       var tier_count = Number(myTierLevelCount) ? Number(myTierLevelCount) : 1;
       var mymax = Number(poolInfo?.hardCap) * Number(TIER_DEPOSIT_PERCENT[tier]) / 100 / tier_count;
-      setMyMaxDeposit(mymax)
+      setMyMaxDeposit(Number(mymax) - Number(myCollaboration))
     }
-  }, [tier, myTierLevelCount, poolInfo, account])
+  }, [tier, myTierLevelCount, poolInfo, account, myCollaboration])
 
 
 
@@ -277,15 +270,15 @@ export const useIDOPoolStatus = (poolInfo) => {
   // functions
   const buy = async (buyingAmount) => {
     try {
-      if (buyingAmount > tokenBalance) {
-        alert('It greater than wallet balance.');
+      if (Number(buyingAmount) > Number(tokenBalance)) {
+        alert('It is greater than wallet balance.');
         return;
       }
-      if (buyingAmount < poolInfo.minAllocationPerUser) {
+      if (Number(buyingAmount) < Number(poolInfo.minAllocationPerUser)) {
         alert('Should be greater than min allocation');
         return;
       }
-      if (buyingAmount > myMaxDeposit) {
+      if (Number(buyingAmount) > Number(myMaxDeposit)) {
         alert('Should be less than max allocation of tier level');
         return;
       }
@@ -753,7 +746,7 @@ export const useLiquidityStatus = () => {
       } else {
         const balance = await tokenOutContract.balanceOf(account);
         setTokenOutBalance(formatEther(balance));
-      }      
+      }
     } catch (error) {
       console.error('Error fetching token balance:', error);
     }
