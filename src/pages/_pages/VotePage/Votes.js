@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
+import { Button, Box, Stack } from '@mui/material';
 import { Label } from 'components/_components/Label';
 import { PrimaryButton } from 'components/_components/Button';
 import { VoteButtons } from 'utils/_utils/EntityFieldDefs';
@@ -11,7 +10,7 @@ import { IconButtonGroup } from 'components/_components/Button';
 import LaunchIcon from '@mui/icons-material/Launch';
 import { Link } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
-
+import { ADMIN_WALLETS } from 'config/constants';
 import apis from 'services';
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
 import { useMainStakingStatus } from 'hooks/useMyStatus';
@@ -226,6 +225,32 @@ const Votes = () => {
 };
 
 const VoteCard = ({ vote, onClickYes, onClickNo }) => {
+  const { account, library } = useActiveWeb3React();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const onClickDelete = async (vote_id) => {
+    try {
+      if (window.confirm('Are you sure to remove this?')) {
+        const response = await apis.deleteVote({
+          vote_id,
+        });
+        if (response.data.result) {
+          enqueueSnackbar('success', {
+            variant: 'success'
+          });
+          window.location.reload();
+        } else {
+          enqueueSnackbar(response.data.message, {
+            variant: 'danger'
+          });
+        }
+      }
+    } catch (error) {
+      enqueueSnackbar(error.message, {
+        variant: 'danger'
+      });
+    }
+  };
   return (
     <Box
       sx={{
@@ -341,6 +366,20 @@ const VoteCard = ({ vote, onClickYes, onClickNo }) => {
             </Link>
           </Box>
         ))}
+        {ADMIN_WALLETS.includes(account) &&
+          <Button
+            variant="contained"
+            sx={{
+              color: '#000',
+              backgroundColor: '#02FF7B',
+              fontSize: '15px',
+              height: '40px',
+              margin: '10px'
+            }}
+            onClick={() => onClickDelete(vote.id)}
+          >
+            Admin: Delete
+          </Button>}
       </Box>
     </Box>
   );

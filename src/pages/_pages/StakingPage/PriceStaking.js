@@ -11,7 +11,7 @@ import { StakingButtons, LiquidParams } from 'utils/_utils/EntityFieldDefs';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { useSnackbar } from 'notistack';
-
+import { ADMIN_WALLETS } from 'config/constants';
 import { formatUnits, parseUnits } from '@ethersproject/units';
 import apis from 'services';
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
@@ -20,6 +20,7 @@ import LiquidStaking from './LiquidStaking';
 
 const StakingCard = ({ poolInfo, idx, expanded, setExpanded, isfarming }) => {
   const { account } = useActiveWeb3React();
+  const { enqueueSnackbar } = useSnackbar();
   const tokenContract = useTokenContract(poolInfo.tokenAddress);
   const stakingContract = useStakingContract(poolInfo.address);
   const [data, setData] = useState({
@@ -216,6 +217,30 @@ const StakingCard = ({ poolInfo, idx, expanded, setExpanded, isfarming }) => {
     } catch (err) {
       console.log(err);
       return;
+    }
+  };
+
+  const onClickDelete = async (pool_id) => {
+    try {
+      if (window.confirm('Are you sure to remove this?')) {
+        const response = await apis.deleteStakingPool({
+          pool_id,
+        });
+        if (response.data.result) {
+          enqueueSnackbar('success', {
+            variant: 'success'
+          });
+          window.location.reload();
+        } else {
+          enqueueSnackbar(response.data.message, {
+            variant: 'danger'
+          });
+        }
+      }
+    } catch (error) {
+      enqueueSnackbar(error.message, {
+        variant: 'danger'
+      });
     }
   };
 
@@ -432,6 +457,20 @@ const StakingCard = ({ poolInfo, idx, expanded, setExpanded, isfarming }) => {
               !isfarming &&
               <span>Your Lock time: {data.lockingReleaseTime}. Harvesting will reset the lock time.</span>
             }
+            {ADMIN_WALLETS.includes(account) &&
+              <Button
+                variant="contained"
+                sx={{
+                  color: '#000',
+                  backgroundColor: '#02FF7B',
+                  fontSize: '15px',
+                  height: '40px',
+                  margin: '10px'
+                }}
+                onClick={() => onClickDelete(poolInfo._id)}
+              >
+                Admin: Delete
+              </Button>}
           </Box>
         </Box>
       )}
@@ -466,6 +505,7 @@ function PriceStaking() {
       }
     })();
   }, [account]);
+
 
   return (
     <Box

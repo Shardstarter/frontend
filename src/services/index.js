@@ -34,6 +34,7 @@ const createBackendServer = (baseURL) => {
   const getStakingPools = async (body) => api.get('api/bsc/stake', body);
   const updateUserStaking = async (body) => api.post('api/stake/updateUserStaking', body);
   const getCountForTierLevel = async (body) => api.post('api/stake/getCountForTierLevel', body);
+  const deleteStakingPool = async (body) => api.post('api/stake/delete', body);
 
   const getUserInfo = async (body) => api.post('api/user/getInfo', body);
   const setUserEmail = async (body) => api.post('api/user/setEmail', body);
@@ -43,6 +44,7 @@ const createBackendServer = (baseURL) => {
   const createVote = async (body) => api.post('api/vote/create', body);
   const getVotes = async (body) => api.post('api/vote/get', body);
   const placeVote = async (body) => api.post('api/vote/place', body);
+  const deleteVote = async (body) => api.post('api/vote/delete', body);
 
   const createCards = async (body) => api.post('api/card/create', body);
   const getCards = async (body) => api.post('api/card/get', body);
@@ -50,9 +52,9 @@ const createBackendServer = (baseURL) => {
   return {
     createBscIdo, updateIDOWeiRaised, getBscIdo, getVCDeals, getProjectDetails, getDeals, getEvent, saveEvent, getFollowers, getRandomImages, ipfs,
     setApproval, getApproval, updateUserDeposit, countApproval, deletePool,
-    getStakingPools, updateUserStaking, getCountForTierLevel,
+    getStakingPools, updateUserStaking, getCountForTierLevel, deleteStakingPool,
     getUserInfo, setUserEmail, setUserNonEVM, getUserParticipations,
-    createVote, getVotes, placeVote,
+    createVote, getVotes, placeVote,deleteVote,
     createCards, getCards,
   };
 };

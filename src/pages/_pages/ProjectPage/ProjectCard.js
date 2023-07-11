@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import { Label } from 'components/_components/Label';
 import { RoundedCard } from 'components/_components/Card';
@@ -106,11 +107,11 @@ const Projectcard = ({ projectInfo }) => {
             borderRadius: '8px',
             padding: '15px 0px'
           }}
-        > 
+        >
           <Label
             sx={{ marginBottom: '25px', textAlign: 'center' }}
             text={{ value: account ? action_description : 'Please connect wallet', size: 18, weight: 100 }}
-          />        
+          />
           {account &&
             action_available &&
             (stage == 1 || stage == 3 ? (
@@ -280,26 +281,32 @@ const Projectcard = ({ projectInfo }) => {
         </Box>
         {/* admin function */}
         {stage == 4 && ADMIN_WALLETS.includes(account) && (
-          <PrimaryButton
-            label="Admin: Finalize"
+          <Button
             sx={{
-              margin: '8px',
-              width: '220px'
+              color: '#000',
+              backgroundColor: '#02FF7B',
+              fontSize: '15px',
+              height: '40px',
+              margin: '10px'
             }}
-            hasFocus={true}
             onClick={() => handleFinalize()}
-          />
+          >
+            Admin: Finalize
+          </Button>
         )}
         {ADMIN_WALLETS.includes(account) && (
-          <PrimaryButton
-            label="Admin: Delete Pool"
+          <Button
             sx={{
-              marginTop: '50px',
-              width: '220px'
+              color: '#000',
+              backgroundColor: '#02FF7B',
+              fontSize: '15px',
+              height: '40px',
+              margin: '10px'
             }}
-            hasFocus={true}
             onClick={() => deletePool()}
-          />
+          >
+            Admin: Delete Pool
+          </Button>
         )}
       </Box>
     </Box>
