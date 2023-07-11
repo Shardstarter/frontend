@@ -30,6 +30,14 @@ function Page() {
   );
 
 
+  useEffect(() => {
+    if (network) {
+      tokenAChanged('SHM')
+      tokenBChanged('SHMX')
+    }
+  }, [account, network])
+
+
   const handleSwap = async () => {
     try {
       await funcSwap()
@@ -210,7 +218,7 @@ function Page() {
                 marginTop: '15px',
               }}
             >
-              <FilterBar options={DEX_COINS_LIST} onChangeAction={tokenAChanged} title="Select"
+              <FilterBar options={DEX_COINS_LIST} onChangeAction={tokenAChanged} title={tokenInName}
                 sx={{ fontSize: '18px', height: '40px', padding: "5px 24px", minWidth: "160px" }} />
               <p style={{ textAlign: 'right' }}>
                 <svg
@@ -261,7 +269,7 @@ function Page() {
                 marginTop: '15px'
               }}
             >
-              <FilterBar options={DEX_COINS_LIST} onChangeAction={tokenBChanged} title="Select"
+              <FilterBar options={DEX_COINS_LIST} onChangeAction={tokenBChanged} title={tokenOutName}
                 sx={{ fontSize: '18px', height: '40px', padding: "5px 24px", minWidth: "160px" }} />
               <p style={{ textAlign: 'right' }}>
                 <svg

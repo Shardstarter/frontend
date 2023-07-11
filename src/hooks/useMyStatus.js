@@ -615,7 +615,7 @@ export const useSwapStatus = () => {
   }, [tokenOutContract, tokenOut]);
 
 
-  const [tokenAmountIn, setTokenAmountIn] = useState(0.001);
+  const [tokenAmountIn, setTokenAmountIn] = useState(0.1);
   const [tokenAmountOut, setTokenAmountOut] = useState('');
 
   // Calculate Output from Input
