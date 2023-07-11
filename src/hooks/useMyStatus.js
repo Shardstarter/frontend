@@ -941,9 +941,12 @@ export const useLiquidityStatus = () => {
       console.log('Pair transfer is already approved.');
     }
 
+    let caltokenIn = tokenIn == '0x0000000000000000000000000000000000000000' ? WETH_TOKEN_ADDRESS[network] : tokenIn;
+    let caltokenOut = tokenOut == '0x0000000000000000000000000000000000000000' ? WETH_TOKEN_ADDRESS[network] : tokenOut;
+
     const tx = await dexRouterContract.removeLiquidity(
-      tokenIn,
-      tokenOut,
+      caltokenIn,
+      caltokenOut,
       removeAmount,
       0,
       0,
