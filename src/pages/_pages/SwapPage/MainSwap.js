@@ -175,7 +175,7 @@ function Page() {
               marginTop: "20px"
             }}
           >
-            <Box component="img" src="logo.png" sx={{ width: '30px', height: '30px', margin: '0 20px' }} />
+            <Box component="img" src={tokenInIcon} sx={{ width: '30px', height: '30px', margin: '0 20px' }} />
             <p style={{ padding: '0 10px', margin: '0' }}>
               1 {tokenInName} = <span style={{ color: 'rgb(2,255,123)' }}>{Number(exchangeRate).toFixed(6)} {tokenOutName}</span>
             </p>

@@ -728,12 +728,13 @@ export const useLiquidityStatus = () => {
   const dexFactoryContract = useDEXFactoryContract();
 
   // Token in
-  const [tokenIn, setTokenIn] = useState();
+  const [tokenIn, setTokenIn] = useState("0x0000000000000000000000000000000000000000");
   const tokenInContract = useTokenContract(tokenIn);
 
   const [tokenInBalance, setTokenInBalance] = useState();
   useEffect(async () => {
     try {
+      console.log('tokenIn', tokenIn)
       if (tokenIn == '0x0000000000000000000000000000000000000000') {
         let balance = await library.getBalance(account);
         setTokenInBalance(formatEther(balance));
@@ -745,10 +746,10 @@ export const useLiquidityStatus = () => {
     } catch (error) {
       console.error('Error fetching token balance:', error);
     }
-  }, [tokenInContract, tokenIn]);
+  }, [tokenInContract, tokenIn, account, library]);
 
   // Token out
-  const [tokenOut, setTokenOut] = useState();
+  const [tokenOut, setTokenOut] = useState("0x0000000000000000000000000000000000000000");
   const tokenOutContract = useTokenContract(tokenOut);
   const [tokenOutBalance, setTokenOutBalance] = useState();
   useEffect(async () => {
@@ -763,17 +764,20 @@ export const useLiquidityStatus = () => {
     } catch (error) {
       console.error('Error fetching token balance:', error);
     }
-  }, [tokenOutContract, tokenOut]);
+  }, [tokenOutContract, tokenOut, account, library]);
 
 
-  const [tokenAmountIn, setTokenAmountIn] = useState();
+  const [tokenAmountIn, setTokenAmountIn] = useState(0);
   const [tokenAmountOut, setTokenAmountOut] = useState();
 
   const [pairAddress, setPairAddress] = useState('0x0000000000000000000000000000000000000000');
   useEffect(async () => {
     if (tokenIn && tokenOut) {
       try {
-        const pairAddress = await dexFactoryContract.getPair(tokenIn, tokenOut);
+        let caltokenIn = tokenIn == '0x0000000000000000000000000000000000000000' ? WETH_TOKEN_ADDRESS[network] : tokenIn;
+        let caltokenOut = tokenOut == '0x0000000000000000000000000000000000000000' ? WETH_TOKEN_ADDRESS[network] : tokenOut;
+
+        const pairAddress = await dexFactoryContract.getPair(caltokenIn, caltokenOut);
         setPairAddress(pairAddress)
       } catch (error) {
         console.error('Error pair:', error);
@@ -949,8 +953,15 @@ export const useLiquidityStatus = () => {
     await tx.wait();
   }
 
+  //Calculate exchange rate
+  const [exchangeRate, setExchangeRate] = useState('');
+  useEffect(async () => {
+    let rate = Number(Number(tokenAmountOut) / Number(tokenAmountIn))
+    setExchangeRate(rate)
+  }, [tokenAmountIn, tokenAmountOut])
+
   return {
-    tokenAmountIn, setTokenAmountIn, tokenAmountOut, setTokenAmountOut,
+    tokenAmountIn, setTokenAmountIn, tokenAmountOut, setTokenAmountOut, exchangeRate,
     tokenInBalance, tokenOutBalance,
     tokenIn, tokenOut, setTokenIn, setTokenOut,
     pairAddress, sharepercent,
