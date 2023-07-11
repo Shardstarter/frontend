@@ -1,20 +1,21 @@
 import { useEffect, useState, useMemo } from "react";
 import { ethers } from "ethers";
 import useActiveWeb3React from "./useActiveWeb3React";
-import { DEX_ROUTERV2_ADDRESS, TIER_LEVEL, TIER_STAKING_AMOUNT } from "config/constants";
+import {
+  DEX_ROUTERV2_ADDRESS, TIER_LEVEL, TIER_STAKING_AMOUNT, TIER_DEPOSIT_PERCENT,
+  LIQUID_STAKING_CONTRACT_ADDRESS, PROJECT_MAIN_TOKEN_ADDRESS,
+  WETH_TOKEN_ADDRESS, DEX_COINS, DEX_COINS_LIST
+} from "config/constants";
 import {
   useTokenContract, useMainStakingContract, useProjectMainTokenContract, useIDOContract,
   usePoolContract, useLiquidStakingContract, useLiquidStakingTokenContract,
   useDEXRouterContract,
   useDEXFactoryContract, usePairContract
 } from "./useContract";
-import { LIQUID_STAKING_CONTRACT_ADDRESS, PROJECT_MAIN_TOKEN_ADDRESS } from "config/constants";
 import { useSelector } from "react-redux";
 
 import { formatUnits, parseUnits, formatEther, parseEther } from '@ethersproject/units';
-import { TIER_DEPOSIT_PERCENT } from "config/constants";
 import apis from "services";
-import { WETH_TOKEN_ADDRESS } from "config/constants";
 
 export const useMainStakingStatus = () => {
   const [tier, setTier] = useState(TIER_LEVEL.none_0);
@@ -623,9 +624,21 @@ export const useSwapStatus = () => {
     let caltokenOut = tokenOut == '0x0000000000000000000000000000000000000000' ? WETH_TOKEN_ADDRESS[network] : tokenOut;
 
     let amountIn = parseEther(String(tokenAmountIn))
-    const amountsOut = await dexRouterContract.getAmountsOut(amountIn, [caltokenIn, caltokenOut]);
-    setTokenAmountOut(Number(formatEther((amountsOut[1]))));
+    try {
+      const amountsOut = await dexRouterContract.getAmountsOut(amountIn, [caltokenIn, caltokenOut]);
+      setTokenAmountOut(Number(formatEther((amountsOut[1]))));
+    } catch (e) {
+      setTokenAmountOut(0);
+    }
+
   }, [tokenIn, tokenOut, tokenAmountIn, dexRouterContract])
+
+  //Calculate exchange rate
+  const [exchangeRate, setExchangeRate] = useState('');
+  useEffect(async () => {
+    let rate = Number(Number(tokenAmountOut) / Number(tokenAmountIn))
+    setExchangeRate(rate)
+  }, [tokenAmountIn, tokenAmountOut])
 
   const funcSwap = async () => {
     let caltokenIn = tokenIn == '0x0000000000000000000000000000000000000000' ? WETH_TOKEN_ADDRESS[network] : tokenIn;
@@ -696,7 +709,7 @@ export const useSwapStatus = () => {
 
   return {
     tokenIn, tokenOut, setTokenIn, setTokenOut,
-    tokenAmountIn, setTokenAmountIn, tokenAmountOut, setTokenAmountOut,
+    tokenAmountIn, setTokenAmountIn, tokenAmountOut, setTokenAmountOut, exchangeRate,
     tokenInBalance, tokenOutBalance,
     funcSwap
   };
